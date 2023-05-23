@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.somplace.dao.mybatis.mapper.MemberMapper">
+	<cache/>
+
+	<select resultType="com.somplace.domain.Member" id="getMember"> 
+		SELECT ID as memberId, PW, NAME, STUDENTNUMBER, MAJOR, PHONE, GOOD, BAD, BIRTH
+		FROM MEMBER
+		WHERE ID = #{memberId}
+	</select>
+
+</mapper>
