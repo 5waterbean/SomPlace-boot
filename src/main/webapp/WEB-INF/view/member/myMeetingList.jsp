@@ -4,24 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>main</title>
+<title>myMeetingList</title>
 <style>
-/* * {
-            box-sizing: border-box;
-        }
-
-        html {
-            height: 100%;
-        }
-
-        body {
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        } */
 .container {
 	width: 65%;
 	border: 1px solid black;
@@ -39,7 +23,6 @@
 
 .container td {
 	text-align: center;
-	/* border: 1px solid red; */
 }
 
 .container td>div {
@@ -64,7 +47,6 @@
 .container td div>div:nth-child(3) {
 	font-weight: bold;
 	font-size: small;
-	/* padding: 10px; */
 }
 
 .container td div>div:nth-child(4) {
@@ -94,24 +76,10 @@
 	cursor: pointer;
 }
 </style>
-
-<script>
-	function addLike(like) {
-		const heartLabel = like.nextElementSibling;
-
-		console.log(heartLabel)
-		if (like.checked) {
-			heartLabel.innerHTML = "❤️";
-		} else {
-			heartLabel.innerHTML = "🤍";
-		}
-	}
-</script>
 </head>
 
 <body>
 <jsp:include page="/WEB-INF/view/leftTopBar.jsp" />
-<jsp:include page="/WEB-INF/view/searchBox.jsp" />
 <jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	<div class="container">
 		<table>
