@@ -106,7 +106,7 @@
 				<td>
 					<div>
 						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
+						<img src="../img/english-breakfast.png" alt="">
 						<div>같이 밥 먹을 사람~!</div>
 						<div>식사</div>
 						<div>일식</div>
@@ -119,7 +119,7 @@
 				<td>
 					<div>
 						<div>1/9</div>
-						<img src="./img/lifestyle.png" alt="">
+						<img src="../img/lifestyle.png" alt="">
 						<div>그림 같이 그리실 분</div>
 						<div>취미</div>
 						<div>예술</div>
@@ -132,7 +132,7 @@
 				<td>
 					<div>
 						<div>6/8</div>
-						<img src="./img/read.png" alt="">
+						<img src="../img/read.png" alt="">
 						<div>자격증 같이 공부해요</div>
 						<div>스터디</div>
 						<div>자격증</div>
@@ -145,7 +145,7 @@
 				<td>
 					<div>
 						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
+						<img src="../img/english-breakfast.png" alt="">
 						<div>같이 밥 먹을 사람~!</div>
 						<div>식사</div>
 						<div>일식</div>
@@ -158,7 +158,7 @@
 				<td>
 					<div>
 						<div>1/9</div>
-						<img src="./img/lifestyle.png" alt="">
+						<img src="../img/lifestyle.png" alt="">
 						<div>그림 같이 그리실 분</div>
 						<div>취미</div>
 						<div>예술</div>
@@ -173,7 +173,7 @@
 				<td>
 					<div>
 						<div>6/8</div>
-						<img src="./img/read.png" alt="">
+						<img src="../img/read.png" alt="">
 						<div>자격증 같이 공부해요</div>
 						<div>스터디</div>
 						<div>자격증</div>
@@ -186,7 +186,7 @@
 				<td>
 					<div>
 						<div>1/9</div>
-						<img src="./img/lifestyle.png" alt="">
+						<img src="../img/lifestyle.png" alt="">
 						<div>그림 같이 그리실 분</div>
 						<div>취미</div>
 						<div>예술</div>
@@ -199,7 +199,7 @@
 				<td>
 					<div>
 						<div>6/8</div>
-						<img src="./img/read.png" alt="">
+						<img src="../img/read.png" alt="">
 						<div>자격증 같이 공부해요</div>
 						<div>스터디</div>
 						<div>자격증</div>
@@ -212,7 +212,7 @@
 				<td>
 					<div>
 						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
+						<img src="../img/english-breakfast.png" alt="">
 						<div>같이 밥 먹을 사람~!</div>
 						<div>식사</div>
 						<div>일식</div>
@@ -225,7 +225,7 @@
 				<td>
 					<div>
 						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
+						<img src="../img/english-breakfast.png" alt="">
 						<div>같이 밥 먹을 사람~!</div>
 						<div>식사</div>
 						<div>일식</div>
@@ -240,7 +240,7 @@
 				<td>
 					<div>
 						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
+						<img src="../img/english-breakfast.png" alt="">
 						<div>같이 밥 먹을 사람~!</div>
 						<div>식사</div>
 						<div>일식</div>
@@ -253,7 +253,7 @@
 				<td>
 					<div>
 						<div>1/9</div>
-						<img src="./img/lifestyle.png" alt="">
+						<img src="../img/lifestyle.png" alt="">
 						<div>그림 같이 그리실 분</div>
 						<div>취미</div>
 						<div>예술</div>
@@ -266,7 +266,7 @@
 				<td>
 					<div>
 						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
+						<img src="../img/english-breakfast.png" alt="">
 						<div>같이 밥 먹을 사람~!</div>
 						<div>식사</div>
 						<div>일식</div>
@@ -279,7 +279,7 @@
 				<td>
 					<div>
 						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
+						<img src="../img/english-breakfast.png" alt="">
 						<div>같이 밥 먹을 사람~!</div>
 						<div>식사</div>
 						<div>일식</div>
@@ -292,7 +292,7 @@
 				<td>
 					<div>
 						<div>1/9</div>
-						<img src="./img/lifestyle.png" alt="">
+						<img src="../img/lifestyle.png" alt="">
 						<div>그림 같이 그리실 분</div>
 						<div>취미</div>
 						<div>예술</div>

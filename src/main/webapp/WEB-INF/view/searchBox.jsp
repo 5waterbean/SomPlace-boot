@@ -71,7 +71,7 @@
         <div class="middle_first">
             <input type="text" placeholder=" 검색하고 싶은 키워드를 입력해주세요">
             <div>
-                <img src="./img/search.png" alt="" class="">
+                <img src="../img/search.png" alt="" class="">
             </div>
         </div>
 
