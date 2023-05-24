@@ -6,22 +6,6 @@
 <meta charset="UTF-8">
 <title>main</title>
 <style>
-/* * {
-            box-sizing: border-box;
-        }
-
-        html {
-            height: 100%;
-        }
-
-        body {
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        } */
 .container {
 	width: 65%;
 	border: 1px solid black;
@@ -110,9 +94,10 @@
 </head>
 
 <body>
-<jsp:include page="/WEB-INF/view/leftTopBar.jsp" />
-<jsp:include page="/WEB-INF/view/searchBox.jsp" />
-<jsp:include page="/WEB-INF/view/rightBar.jsp" />
+	<jsp:include page="/WEB-INF/view/leftTopBar.jsp" />
+	<jsp:include page="/WEB-INF/view/searchBox.jsp" />
+	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
+	
 	<div class="container">
 		<table>
 			<tr>

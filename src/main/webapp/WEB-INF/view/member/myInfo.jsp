@@ -68,6 +68,10 @@ select {
 	width: 20%;
 }
 
+.container form input:disabled {
+	background-color: rgb(244, 243, 243);
+}
+
 input[type="submit"] {
 	width: 100%;
 	border: none;

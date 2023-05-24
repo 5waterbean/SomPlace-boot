@@ -86,7 +86,6 @@ input[type="submit"]:hover {
 
 .star-rating label {
 	-webkit-text-fill-color: transparent;
-	/* Will override color (regardless of order) */
 	-webkit-text-stroke-width: 2.3px;
 	-webkit-text-stroke-color: #2b2a29;
 	cursor: pointer;
@@ -103,6 +102,10 @@ input[type="submit"]:hover {
 </head>
 
 <body>
+	<jsp:include page="/WEB-INF/view/leftTopBar.jsp" />
+	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
+	<jsp:include page="/WEB-INF/view/reviewList.jsp" />
+	
 	<div class="container">
 		<h2>&lt;후기 작성하기&gt;</h2>
 		<table>

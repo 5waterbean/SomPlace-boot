@@ -8,7 +8,7 @@
 <style>
 .right_review {
 	width: 15%;
-	position: absolute;
+	position: fixed;
 	top: 400px;
 	right: 0;
 	padding: 10px;
