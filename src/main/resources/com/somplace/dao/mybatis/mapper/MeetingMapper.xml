@@ -12,5 +12,19 @@
 	<select resultType="Meeting" id="getMeetingList"> 
 		<include refid="selectMeeting_fragment" />
 	</select>
+	
+	<!-- 모임 아이디 조회 -->
+	<select resultType="_int" id="getMeetingId" parameterType="com.somplace.domain.command.MeetingCommand">
+		SELECT meetingid
+		FROM meeting
+		WHERE meetingTitle=#{meetingCommand.meetingTitle} AND maxpeople=#{meetingCommand.maxPeople} AND meetingplace=#{meetingCommand.meetingPlace} AND memo=#{meetingCommand.memo} AND meetinginfo=#{meetingCommand.meetingInfo} AND
+    		meetinginfodetail=#{meetingCommand.meetingInfoDetail} AND creatorid=#{meetingCommand.creatorId}
+	</select>
+	
+	<!-- 모임 생성 -->
+	<insert id="createMeeting" parameterType="com.somplace.domain.command.MeetingCommand"> 
+		INSERT INTO meeting VALUES 
+		(meetingid_seq.nextval, #{meetingCommand.meetingTitle}, #{meetingCommand.numOfPeople}, #{meetingCommand.maxPeople}, #{meetingCommand.meetingPlace}, #{meetingCommand.memo}, #{meetingCommand.meetingInfo}, #{meetingCommand.meetingInfoDetail}, #{meetingCommand.creatorId}, 0, 0})
+	</insert>	
 
 </mapper>

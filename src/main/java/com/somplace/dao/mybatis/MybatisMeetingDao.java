@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.somplace.dao.MeetingDao;
 import com.somplace.dao.mybatis.mapper.MeetingMapper;
 import com.somplace.domain.Meeting;
+import com.somplace.domain.command.MeetingCommand;
 
 @Repository
 public class MybatisMeetingDao implements MeetingDao {
@@ -19,6 +20,17 @@ public class MybatisMeetingDao implements MeetingDao {
 	public List<Meeting> getMeetingList() throws DataAccessException {
 		return MeetingMapper.getMeetingList();
 	}
+	
+	// 모임 아이디 조회
+	public int getMeetingId(MeetingCommand meetingCommand) {
+		return MeetingMapper.getMeetingId(meetingCommand);
+	}
+	
+	// 모임 생성
+	public void createMeeting(MeetingCommand meetingCommand) {
+		MeetingMapper.createMeeting(meetingCommand);
+	}
+	
 	// 모임 검색
 	
 	// 모임 정렬
