@@ -6,8 +6,7 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 @SuppressWarnings("serial")
 public class Member implements Serializable {
 	private String memberId;
