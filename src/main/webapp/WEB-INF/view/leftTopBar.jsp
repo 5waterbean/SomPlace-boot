@@ -143,24 +143,24 @@ body {
 	<div class="left">
 		<div class="profile">
 			<img src="../img/somsom.png" class="face"> <br>
-			<div>이지수</div>
+			<div>${memberSession.name}</div>
 			<br>
-			<div>20190998</div>
+			<div>${memberSession.studentNumber}</div>
 			<br>
 			<div class="like">
 				<div>
 					<img src="../img/좋아요.png" class="estimate"> &nbsp;
-					<div>4</div>
+					<div>${memberSession.good}</div>
 				</div>
 				<div>
 					<img src="../img/싫어요.png" class="estimate"> &nbsp;
-					<div>1</div>
+					<div>${memberSession.bad}</div>
 				</div>
 			</div>
 			<br>
 			<div class="profile_btn">
 				<div>내 정보</div>
-				<div>로그아웃</div>
+				<div onClick="location.href='logout'">로그아웃</div>
 			</div>
 		</div>
 

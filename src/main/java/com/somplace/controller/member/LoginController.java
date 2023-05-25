@@ -1,4 +1,4 @@
-package com.somplace.controller;
+package com.somplace.controller.member;
 
 import javax.servlet.http.HttpSession;
 
