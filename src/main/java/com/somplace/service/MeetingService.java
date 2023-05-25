@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.somplace.dao.mybatis.MybatisMeetingDao;
 import com.somplace.domain.Meeting;
+import com.somplace.domain.command.MeetingCommand;
 
 @Service
 @Transactional
@@ -18,5 +19,13 @@ public class MeetingService {
 	
 	public List<Meeting> getMeetingList(){
 		return meetingDao.getMeetingList();
+	}
+	
+	public int getMeetingId(MeetingCommand meetingCommand) {
+		return meetingDao.getMeetingId(meetingCommand);
+	}
+	
+	public void createMeeting(MeetingCommand meetingCommand) {
+		meetingDao.createMeeting(meetingCommand);
 	}
 }

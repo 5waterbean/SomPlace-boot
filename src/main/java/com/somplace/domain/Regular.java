@@ -1,9 +1,10 @@
 package com.somplace.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @SuppressWarnings("serial")
-public class Regular extends Meeting {
+public class Regular extends Meeting implements Serializable {
 	private String meetingName;
 	private String meetingDay;
 	private String meetingTime;

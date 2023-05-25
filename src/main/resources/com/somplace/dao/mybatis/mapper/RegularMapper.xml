@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.somplace.dao.mybatis.mapper.RegularMapper">
+	<cache/>
+
+	<insert id="createRegular" parameterType="map"> 
+		INSERT INTO meeting VALUES 
+		(meetingid_seq.nextval, #{regular.meetingTitle}, #{regular.numOfPeople}, #{regular.maxPeople}, #{regular.meetingPlace}, #{regular.memo}, #{regular.meetingInfo}, #{regular.meetingInfoDetail}, #{regular.creatorId}, #{regular.close}, #{regular.cancel})
+		
+		INSERT INTO regularmeeting VALUES 
+		(#{regular.meetingName}, #{regular.meetingDay}, #{regular.meetingId}, #{regular.startDay}, #{regular.meetingTime});
+	</insert>
+
+	
+	
+</mapper>
