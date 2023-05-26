@@ -59,7 +59,7 @@
 
 <body>
 	<div class="right">
-		<div class="create_btn">모임 만들기</div>
+		<div class="create_btn" onClick="location.href='/meeting/irregular/create/form';">모임 만들기</div>
 
 		<br>
 
