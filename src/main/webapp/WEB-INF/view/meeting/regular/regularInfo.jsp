@@ -9,23 +9,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>regularInfo</title>
 <style>
-* {
-	box-sizing: border-box;
-}
-
-html {
-	height: 100%;
-}
-
-body {
-	margin: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-}
-
 .container {
 	width: 65%;
 	border-radius: 20px;
@@ -66,8 +49,8 @@ h3, h4 {
 .container form input[type="text"] {
 	width: 80%;
 	border-radius: 20px;
-	padding: 5px;
-	border: 2px solid black;
+	padding: 7px;
+	border: 1px solid black;
 }
 
 .container form textarea {
@@ -120,11 +103,15 @@ h3, h4 {
 .regular_dayTime {
 	border: 1px solid gray;
 	border-radius: 20px;
+	padding: 15px;
 }
 
 .member_list_td {
 	border: 1px solid gray;
 	border-radius: 20px;
+	height: 150px;
+	overflow-y: scroll;
+	resize: none;
 }
 
 .member_list_td img {
@@ -145,14 +132,14 @@ h3, h4 {
 }
 
 .member_good, .member_bad {
-	border: 1px solid gray;
+	border: 1px solid black;
+	background-color: white;
 	border-radius: 20px;
-	padding: 5px;
+	padding: 5px 15px 5px 15px;
+	margin: 5px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: 5px;
-	padding: 5px 15px 5px 15px;
 }
 
 .member_good_btn, .member_bad_btn {
@@ -173,6 +160,11 @@ h3, h4 {
 	margin: 5px;
 	border-radius: 20px;
 	text-align: center;
+}
+
+.container form table tr:nth-child(9)>td:nth-child(3), .container form table tr:nth-child(9)>td:nth-child(4)
+	{
+	width: 20%;
 }
 
 .regular_update_btn, .regular_delete_btn, .regular_close_btn,
@@ -229,22 +221,22 @@ h3, h4 {
 				<tr>
 					<th>제목</th>
 					<td colspan="3"><input type="text" name="regular_title"
-						size="120" value="컴과솜 모여랏" disabled></td>
+						size="120" value="컴과솜 모여랏" disabled required></td>
 				</tr>
 
 				<tr>
 					<th>모임 이름</th>
 					<td><input type="text" name="regular_name" size="70"
-						value="컴과솜솜" disabled></td>
+						value="컴과솜솜" disabled required></td>
 					<td style="text-align: right;"><strong>현재 인원/모집 인원</strong></td>
 					<td><input type="text" name="regular_num" size="10"
-						value="2 / 8" disabled> <strong>명</strong></td>
+						value="2 / 8" disabled required> <strong>명</strong></td>
 				</tr>
 
 				<tr>
 					<th>모임 장소</th>
 					<td colspan="3"><input type="text" name="regular_place"
-						size="70" value="동덕여자대학교 인문관B303" disabled></td>
+						size="70" value="동덕여자대학교 인문관B303" disabled required></td>
 				</tr>
 
 				<tr>
@@ -316,20 +308,20 @@ h3, h4 {
 					<td>
 						<div class="meeting_info_detail_td">
 							<div>
-								<input type="checkbox" id="meetingInfoDetail" disabled>
-								스포츠
+								<input type="checkbox" id="sports" disabled> <label
+									for="sports"></label>스포츠
 							</div>
 							<div>
-								<input type="checkbox" id="meetingInfoDetail" disabled>
-								예술
+								<input type="checkbox" id="art" disabled> <label
+									for="art">예술</label>
 							</div>
 							<div>
-								<input type="checkbox" id="meetingInfoDetail" disabled checked>
-								IT
+								<input type="checkbox" id="it" disabled checked> <label
+									for="it">IT</label>
 							</div>
 							<div>
-								<input type="checkbox" id="meetingInfoDetail" disabled>
-								<label><input type="text" id="etc"
+								<input type="checkbox" id="etc" disabled> <label
+									for="etc"><input type="text" id="etc"
 									placeholder="기타항목을 입력하세요." disabled></label>
 							</div>
 						</div>
@@ -340,17 +332,18 @@ h3, h4 {
 				</tr>
 
 				<!-- 회원들만
-                <tr>
-                    <th><h3>모임장 정보</h3></th>
-                    <td class="member_list_td" colspan="6">
-                        <div class="member_list">
-                            <div class="member">이현아 / 20191003 / 컴퓨터학과 / 010-7***-9***</div>
-                            <div class="member_good_btn"><img src="./img/좋아요.png" class="estimate"></div>
-                            <div class="member_bad_btn"><img src="./img/싫어요.png" class="estimate"></div>
+                <tr> 
+                    <th>모임장 정보</th>
+                    <td colspan="3">
+                        <div class="member_list_td">
+                            <div>
+                                <div class="member">이현아 / 20191003 / 컴퓨터학과 / 010-7***-9***</div>
+                                <div class="member_good_btn"><img src="../../img/좋아요.png"></div>
+                                <div class="member_bad_btn"><img src="../../img/싫어요.png"></div>
+                            </div>
                         </div>
                     </td> 
-                </tr>
-                -->
+                </tr>  -->
 
 				<tr>
 					<!--생성자만-->
@@ -361,30 +354,30 @@ h3, h4 {
 							<div>
 								<div class="member">이현아 / 20191003 / 컴퓨터학과 / 010-7***-9***</div>
 								<div class="member_good_btn">
-									<img src="./img/좋아요.png" class="estimate">
+									<img src="../../img/좋아요.png">
 								</div>
 								<div class="member_bad_btn">
-									<img src="./img/싫어요.png" class="estimate">
+									<img src="../../img/싫어요.png">
 								</div>
 								<!--<div class="member_out_btn">내보내기</div>-->
 							</div>
 							<div>
 								<div class="member">오수빈 / 20200985 / 컴퓨터학과 / 010-7***-9***</div>
 								<div class="member_good_btn">
-									<img src="./img/좋아요.png" class="estimate">
+									<img src="../../img/좋아요.png">
 								</div>
 								<div class="member_bad_btn">
-									<img src="./img/싫어요.png" class="estimate">
+									<img src="../../img/싫어요.png">
 								</div>
 								<!--<div class="member_out_btn">내보내기</div>-->
 							</div>
 							<div>
 								<div class="member">장현수 / 20191011 / 컴퓨터학과 / 010-7***-9***</div>
 								<div class="member_good_btn">
-									<img src="./img/좋아요.png" class="estimate">
+									<img src="../../img/좋아요.png">
 								</div>
 								<div class="member_bad_btn">
-									<img src="./img/싫어요.png" class="estimate">
+									<img src="../../img/싫어요.png">
 								</div>
 								<!--<div class="member_out_btn">내보내기</div>-->
 							</div>
@@ -399,10 +392,10 @@ h3, h4 {
 							<div>
 								<div class="member">김동덕 / 20190000 / 컴퓨터학과 / 010-7***-9***</div>
 								<div class="member_good">
-									<img src="./img/좋아요.png" class="estimate">&nbsp;4
+									<img src="../../img/좋아요.png">&nbsp;4
 								</div>
 								<div class="member_bad">
-									<img src="./img/싫어요.png" class="estimate">&nbsp;1
+									<img src="../../img/싫어요.png">&nbsp;1
 								</div>
 								<div class="member_in_btn">수락하기</div>
 							</div>
@@ -416,7 +409,6 @@ h3, h4 {
 					<td>
 						<div class="regular_delete_btn">모임 삭제하기</div> <!--생성자만-->
 					</td>
-
 					<td>
 						<div class="regular_close_btn">모집 마감하기</div> <!--생성자만-->
 					</td>
