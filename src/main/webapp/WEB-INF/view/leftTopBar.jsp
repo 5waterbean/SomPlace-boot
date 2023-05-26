@@ -142,18 +142,18 @@ body {
 
 	<div class="left">
 		<div class="profile">
-			<img src="../img/somsom.png" class="face"> <br>
+			<img src="../../../img/somsom.png" class="face"> <br>
 			<div>${memberSession.name}</div>
 			<br>
 			<div>${memberSession.studentNumber}</div>
 			<br>
 			<div class="like">
 				<div>
-					<img src="../img/좋아요.png" class="estimate"> &nbsp;
+					<img src="../../../img/좋아요.png" class="estimate"> &nbsp;
 					<div>${memberSession.good}</div>
 				</div>
 				<div>
-					<img src="../img/싫어요.png" class="estimate"> &nbsp;
+					<img src="../../../img/싫어요.png" class="estimate"> &nbsp;
 					<div>${memberSession.bad}</div>
 				</div>
 			</div>

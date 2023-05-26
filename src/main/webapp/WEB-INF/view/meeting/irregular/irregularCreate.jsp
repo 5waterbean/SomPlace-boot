@@ -153,14 +153,14 @@ h3, h4 {
 				<div>
 					<input type="radio" id="irregularRadio" name="sort" checked>
 					<label for="irregularRadio">일시적</label> <input type="radio"
-						id="regularRadio" name="sort" disabled> <label
+						id="regularRadio" name="sort"> <label
 						for="regularRadio">정기적</label>
 				</div>
 
 				<div class="creator">
 					<h3>모임장</h3>
 					<input type="text" id="creatorId" name="creatorId"
-						value="컴퓨터학과/20191011">
+						value="컴퓨터학과/20191011" readonly>
 				</div>
 			</div>
 
@@ -200,7 +200,7 @@ h3, h4 {
 					<td><input type="radio" id="meal" name="meetingInfo">
 						<label for="meal">식사</label> <input type="radio" id="study"
 						name="meetingInfo"> <label for="study">스터디</label> <input
-						type="radio" id="hobby" name="meetingInfo"> <label
+						type="radio" id="hobby" name="meetingInfo" checked> <label
 						for="hobby">취미</label></td>
 				</tr>
 
@@ -281,7 +281,7 @@ h3, h4 {
 					<td colspan="3">
 						<div class="meeting_info_detail_td">
 							<div>
-								<input type="checkbox" id="sports" name="meetingInfoDetail">
+								<input type="checkbox" id="sports" name="meetingInfoDetail" checked>
 								<label for="sports">스포츠</label>
 							</div>
 							<div>
@@ -308,7 +308,7 @@ h3, h4 {
 						<div class="irregular_create_btn">생성하기</div>
 					</td>
 					<td>
-						<div class="irregular_back_btn">취소하기</div>
+						<div class="irregular_back_btn" onclick="location.href='/member/login';">취소하기</div>
 					</td>
 				</tr>
 			</table>

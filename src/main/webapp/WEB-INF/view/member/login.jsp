@@ -106,7 +106,7 @@
     <h1>솜솜이 놀이터</h1>
 
     <div class="container">
-        <img src="../img/somsom.png" alt="" width="200px" height="200px">
+        <img src="../../../img/somsom.png" alt="" width="200px" height="200px">
         <form:form name="loginFrm" action="/member/login" method="post">
             <table>
                 <tr>
