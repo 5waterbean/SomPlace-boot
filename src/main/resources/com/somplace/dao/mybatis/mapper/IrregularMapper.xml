@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.somplace.dao.mybatis.mapper.IrregularMapper">
+	<cache/>
+	
+	<!-- 일시적모임 생성 -->
+	<insert id="createIrregular" parameterType="irregular">
+		INSERT INTO IRREGULARMEETING
+		VALUES (#{irregular.meetingDay}, #{irregular.meetingId});
+	</insert>
+	<!-- 일시적모임 수정 -->
+	<update id="updateIrregular" parameterType="irregular">
+		UPDATE IRREGULARMEETING
+		SET meetingDay = #{irregular.meetingDay}
+		WHERE meetingId = #{irregular.meetingId};
+	</update>
+	
+	<!-- 일시적모임 가져오기 -->
+	<select id="getIrregularById" parameterType="int" resultType="irregular">
+		SELECT meetingId, meetingTitle, meetingDay, numOfPeople, maxPeople, meetingPlace, memo, 
+			meetingInfo, meetingInfoDetail, creatorId, close, cancel
+		FROM irregularmeeting_view
+		WHERE meetingId = #{meetingId};
+	</select>
+	
+	<!-- 일시적모임(키워드) 검색 -->
+	<select id="searchIrregularByKey" parameterType="String" resultType="irregular">
+		SELECT meetingId, meetingTitle, meetingDay, numOfPeople, maxPeople, meetingPlace, memo, 
+			meetingInfo, meetingInfoDetail, creatorId, close, cancel
+		FROM irregularmeeting_view
+		WHERE (meetingTitle LIKE #{key} OR memo LIKE #{key}) and close = 0 and meetingInfo=#{category};
+	</select>
+	
+	<!-- 일시적모임 인기순 정렬 -->
+	<select id="sortIrregularByHeart" parameterType="String" resultType="irregular">
+		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
+			vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingday, vi.close, vi.cancel, count(case when mm.heart = 1 then 1 end) AS heart
+		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
+		GROUP BY vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
+				vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingday, vi.close, vi.cancel
+		ORDER BY count(mm.heart) DESC;
+	</select>
+	<!-- 일시적모임 최신순 정렬 -->
+	<select id="sortIrregularByOrder" parameterType="String" resultType="irregular">
+		SELECT meetingId, meetingTitle, meetingDay, numOfPeople, maxPeople, meetingPlace, memo, 
+			meetingInfo, meetingInfoDetail, creatorId, close, cancel
+		FROM irregularmeeting_view
+		ORDER BY meetingId DESC;
+	</select> 
+</mapper>
