@@ -122,7 +122,7 @@ h3, h4 {
 	width: 20%;
 }
 
-.irregular_create_btn, .irregular_back_btn {
+button, .irregular_back_btn {
 	border: 1px solid black;
 	background-color: rgb(226, 240, 217);
 	padding: 5px 15px 5px 15px;
@@ -130,7 +130,7 @@ h3, h4 {
 	text-align: center;
 }
 
-.irregular_create_btn:hover, .irregular_back_btn:hover {
+button:hover, .irregular_back_btn:hover {
 	background-color: rgb(174, 220, 175);
 	cursor: pointer;
 }
@@ -142,7 +142,7 @@ h3, h4 {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	
 	<div class="container">
-		<form action="" method="post">
+		<form action="/meeting/irregular/create" method="post">
 			<div>
 				<h2>일시적 모임 만들기</h2>
 			</div>
@@ -160,7 +160,7 @@ h3, h4 {
 				<div class="creator">
 					<h3>모임장</h3>
 					<input type="text" id="creatorId" name="creatorId"
-						value="컴퓨터학과/20191011" readonly>
+						value="20191011" readonly>
 				</div>
 			</div>
 
@@ -169,13 +169,13 @@ h3, h4 {
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" id="title" name="title"
+					<td colspan="3"><input type="text" id="title" name="meetingTitle"
 						size="90" required></td>
 				</tr>
 
 				<tr>
 					<th>모집인원</th>
-					<td colspan="3"><input type="text" id="numOfPeople"
+					<td colspan="3"><input type="text" id="maxPeople"
 						name="numOfPeople" size="3" required> <strong>명</strong></td>
 				</tr>
 				<tr>
@@ -186,12 +186,12 @@ h3, h4 {
 				<tr>
 					<th>모임 날짜/시간</th>
 					<td colspan="3"><input type="date" id="meetingDate"
-						name="meetingDate" required> <input type="time"
-						id="meetingTime" name="meetingTime" required></td>
+						name="irregularMeetingDate" required> <input type="time"
+						id="meetingTime" name="irregularMeetingTime" required></td>
 				</tr>
 				<tr>
 					<th>모임 메모</th>
-					<td colspan="3"><textarea class="regular_memo"
+					<td colspan="3"><textarea class="regular_memo" name="memo"
 							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요."></textarea></td>
 				</tr>
 				<tr>
@@ -305,7 +305,8 @@ h3, h4 {
 					<td></td>
 					<td></td>
 					<td>
-						<div class="irregular_create_btn">생성하기</div>
+						<!--  <div class="irregular_create_btn" onclick="location.href='/meeting/irregular/create'">생성하기</div>-->
+						<button type="submit">생성하기</button>
 					</td>
 					<td>
 						<div class="irregular_back_btn" onclick="location.href='/member/login';">취소하기</div>

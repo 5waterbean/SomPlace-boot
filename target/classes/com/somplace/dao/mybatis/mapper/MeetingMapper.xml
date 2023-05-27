@@ -24,7 +24,7 @@
 	<!-- 모임 생성 -->
 	<insert id="createMeeting" parameterType="com.somplace.domain.command.MeetingCommand"> 
 		INSERT INTO meeting VALUES 
-		(meetingid_seq.nextval, #{meetingCommand.meetingTitle}, #{meetingCommand.numOfPeople}, #{meetingCommand.maxPeople}, #{meetingCommand.meetingPlace}, #{meetingCommand.memo}, #{meetingCommand.meetingInfo}, #{meetingCommand.meetingInfoDetail}, #{meetingCommand.creatorId}, 0, 0})
+		(meetingid_seq.nextval, #{meetingTitle}, 1, 3, #{meetingPlace}, #{memo}, #{meetingInfo}, #{meetingInfoDetail}, #{creatorId}, 0, 0)
 	</insert>	
 
 </mapper>

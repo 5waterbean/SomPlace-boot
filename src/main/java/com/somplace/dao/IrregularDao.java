@@ -1,14 +1,16 @@
 package com.somplace.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.somplace.domain.Irregular;
 import com.somplace.domain.Meeting;
+import com.somplace.domain.command.MeetingCommand;
 
 
 public interface IrregularDao {
 	// 일시적모임 생성
-	public void createIrregular(Irregular irregular);
+	public void createIrregular(MeetingCommand command);
 	// 일시적모임 수정
 	public void updateIrregular(Irregular irregular);
 	
