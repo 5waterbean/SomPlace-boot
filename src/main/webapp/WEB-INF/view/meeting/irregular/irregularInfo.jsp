@@ -203,7 +203,7 @@ h3, h4 {
 		<form action="" method="post">
 			<div>
 				<h2>(모임 이름) 상세정보</h2>
-				<div class="irregular_update_btn">모임 수정하기</div>
+				<div class="irregular_update_btn"  onClick="location.href='/meeting/irregular/update/form';">모임 수정하기</div>
 			</div>
 
 			<hr>
@@ -372,8 +372,8 @@ h3, h4 {
                         <div class="member_list_td">
                             <div>
                                 <div class="member">이현아 / 20191003 / 컴퓨터학과 / 010-7***-9***</div>
-                                <div class="member_good_btn"><img src="../../img/좋아요.png"></div>
-                                <div class="member_bad_btn"><img src="../../img/싫어요.png"></div>
+                                <div class="member_good_btn"><img src="../../../img/좋아요.png"></div>
+                                <div class="member_bad_btn"><img src="../../../img/싫어요.png"></div>
                             </div>
                         </div>
                     </td> 
@@ -387,30 +387,30 @@ h3, h4 {
 							<div>
 								<div class="member">이현아 / 20191003 / 컴퓨터학과 / 010-7***-9***</div>
 								<div class="member_good_btn">
-									<img src="../../img/좋아요.png">
+									<img src="../../../img/좋아요.png">
 								</div>
 								<div class="member_bad_btn">
-									<img src="../../img/싫어요.png">
+									<img src="../../../img/싫어요.png">
 								</div>
 								<div class="member_out_btn">내보내기</div>
 							</div>
 							<div>
 								<div class="member">오수빈 / 20200985 / 컴퓨터학과 / 010-7***-9***</div>
 								<div class="member_good_btn">
-									<img src="../../img/좋아요.png">
+									<img src="../../../img/좋아요.png">
 								</div>
 								<div class="member_bad_btn">
-									<img src="../../img/싫어요.png">
+									<img src="../../../img/싫어요.png">
 								</div>
 								<div class="member_out_btn">내보내기</div>
 							</div>
 							<div>
 								<div class="member">장현수 / 20191011 / 컴퓨터학과 / 010-7***-9***</div>
 								<div class="member_good_btn">
-									<img src="../../img/좋아요.png">
+									<img src="../../../img/좋아요.png">
 								</div>
 								<div class="member_bad_btn">
-									<img src="../../img/싫어요.png">
+									<img src="../../../img/싫어요.png">
 								</div>
 								<div class="member_out_btn">내보내기</div>
 							</div>
@@ -426,10 +426,10 @@ h3, h4 {
 							<div>
 								<div class="member">김동덕 / 20190000 / 컴퓨터학과 / 010-7***-9***</div>
 								<div class="member_good">
-									<img src="../../img/좋아요.png">&nbsp;4
+									<img src="../../../img/좋아요.png">&nbsp;4
 								</div>
 								<div class="member_bad">
-									<img src="../../img/싫어요.png">&nbsp;1
+									<img src="../../../img/싫어요.png">&nbsp;1
 								</div>
 								<div class="member_in_btn">수락하기</div>
 							</div>

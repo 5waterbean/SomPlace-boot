@@ -1,5 +1,6 @@
 package com.somplace.dao.mybatis;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.somplace.dao.IrregularDao;
 import com.somplace.dao.mybatis.mapper.IrregularMapper;
 import com.somplace.domain.Irregular;
 import com.somplace.domain.Meeting;
+import com.somplace.domain.command.MeetingCommand;
 
 @Repository
 public class MybatisIrregularDao implements IrregularDao {
@@ -16,8 +18,8 @@ public class MybatisIrregularDao implements IrregularDao {
 	private IrregularMapper irregularMapper;
 	
 	// 일시적모임 생성
-	public void createIrregular(Irregular irregular) {
-		irregularMapper.createIrregular(irregular);
+	public void createIrregular(MeetingCommand command) {
+		irregularMapper.createIrregular(command);
 	}
 	// 일시적모임 수정
 	public void updateIrregular(Irregular irregular) {

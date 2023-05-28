@@ -4,15 +4,15 @@
 	<cache/>
 	
 	<!-- 일시적모임 생성 -->
-	<insert id="createIrregular" parameterType="irregular">
+	<insert id="createIrregular" parameterType="com.somplace.domain.command.MeetingCommand">
 		INSERT INTO IRREGULARMEETING
-		VALUES (#{irregular.meetingDay}, #{irregular.meetingId});
+		VALUES (#{irregularMeetingDay}, 9);
 	</insert>
 	<!-- 일시적모임 수정 -->
-	<update id="updateIrregular" parameterType="irregular">
+	<update id="updateIrregular" parameterType="com.somplace.domain.command.MeetingCommand">
 		UPDATE IRREGULARMEETING
-		SET meetingDay = #{irregular.meetingDay}
-		WHERE meetingId = #{irregular.meetingId};
+		SET meetingDay = #{irregularUpdate.meetingDay}
+		WHERE meetingId = #{irregularUpdate.meetingId};
 	</update>
 	
 	<!-- 일시적모임 가져오기 -->

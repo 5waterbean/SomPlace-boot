@@ -1,5 +1,6 @@
 package com.somplace.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.somplace.dao.mybatis.MybatisIrregularDao;
 import com.somplace.domain.Irregular;
 import com.somplace.domain.Meeting;
+import com.somplace.domain.command.MeetingCommand;
 
 @Service
 @Transactional
@@ -17,8 +19,8 @@ public class IrregularService {
 	private MybatisIrregularDao irregularDao;
 	
 	//일시적모임 생성
-	public void createIrregular(Irregular irregular) {
-		irregularDao.createIrregular(irregular);
+	public void createIrregular(MeetingCommand meetingCommand) {
+		irregularDao.createIrregular(meetingCommand);
 	}
 	//일시적모임 수정
 	public void updateIrregular(Irregular irregular) {

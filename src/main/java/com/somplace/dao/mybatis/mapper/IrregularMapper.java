@@ -1,16 +1,18 @@
 package com.somplace.dao.mybatis.mapper;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.somplace.domain.Irregular;
 import com.somplace.domain.Meeting;
+import com.somplace.domain.command.MeetingCommand;
 
 @Mapper
 public interface IrregularMapper {
 	//일시적모임 생성
-	void createIrregular(Irregular irregular);
+	void createIrregular(MeetingCommand command);
 	//일시적모임 수정
 	void updateIrregular(Irregular irregular);
 	

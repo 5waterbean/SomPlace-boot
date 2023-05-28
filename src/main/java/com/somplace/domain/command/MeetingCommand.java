@@ -1,20 +1,20 @@
 package com.somplace.domain.command;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 public class MeetingCommand {
 	private String meetingTitle;
 	private int maxPeople;
-	private String meetingplace;
+	private String meetingPlace;
 	private String memo;
 	private String meetingInfo;
 	private String meetingInfoDetail;
-	private String creatorid;
+	private String creatorId;
 	
 	// regular
 	private String meetingName;
@@ -24,4 +24,7 @@ public class MeetingCommand {
 	
 	// irregular
 	private Date irregularMeetingDay;
+	private String irregularMeetingDate;
+	private String irregularMeetingTime;
+	
 }
