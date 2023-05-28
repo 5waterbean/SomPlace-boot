@@ -8,8 +8,10 @@ import lombok.Data;
 
 @Data
 public class MeetingCommand {
+	private int meetingId;
 	private String meetingTitle;
 	private int maxPeople;
+	private int numOfPeople;
 	private String meetingPlace;
 	private String memo;
 	private String meetingInfo;
