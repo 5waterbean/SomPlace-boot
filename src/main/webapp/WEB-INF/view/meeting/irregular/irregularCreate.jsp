@@ -152,9 +152,10 @@ button:hover, .irregular_back_btn:hover {
 			<div class="irregular_create_first">
 				<div>
 					<input type="radio" id="irregularRadio" name="sort" checked>
-					<label for="irregularRadio">일시적</label> <input type="radio"
-						id="regularRadio" name="sort"> <label
-						for="regularRadio">정기적</label>
+					<label for="irregularRadio">일시적</label> 
+					<input type="radio" id="regularRadio" name="sort" value="regularRadio" 
+						onclick="location.href='/meeting/regular/create/form';"> 
+					<label for="regularRadio">정기적</label>
 				</div>
 
 				<div class="creator">
