@@ -22,8 +22,7 @@ public class ViewMyMeetingListController {
 	
 	@RequestMapping("/made")
 	public ModelAndView getMadeMeetingList(@ModelAttribute("memberSession") Member loginMember) {
-//		List<Meeting> madeMeetingList = meetingService.getMadeMeetingList(loginMember.getMemberId());
-		List<Meeting> madeMeetingList = meetingService.getMeetingList();
+		List<Meeting> madeMeetingList = meetingService.getMadeMeetingList(loginMember.getMemberId());
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("meetingListType", "made");
