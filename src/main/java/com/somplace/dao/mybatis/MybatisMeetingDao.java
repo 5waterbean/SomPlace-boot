@@ -21,6 +21,15 @@ public class MybatisMeetingDao implements MeetingDao {
 		return MeetingMapper.getMeetingList();
 	}
 	
+	// 전체 인기순 정렬
+	public List<Meeting> sortAllByHeart() throws DataAccessException {
+		return MeetingMapper.sortAllByHeart();
+	}
+	// 전체 최신순 정렬
+	public List<Meeting> sortAllByOrder() throws DataAccessException {
+		return MeetingMapper.sortAllByOrder();
+	}
+	
 	// 모임 아이디 조회
 	public int getMeetingId(MeetingCommand meetingCommand) {
 		return MeetingMapper.getMeetingId(meetingCommand);

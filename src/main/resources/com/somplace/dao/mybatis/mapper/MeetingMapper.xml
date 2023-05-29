@@ -13,6 +13,22 @@
 		<include refid="selectMeeting_fragment" />
 	</select>
 	
+	<!-- 전체 인기순 정렬 -->
+	<select resultType="Meeting" id="sortAllByHeart" >
+		SELECT m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, m.creatorid, m.close, m.cancel, count(case when mm.heart = 1 then 1 end) AS heart
+		FROM meeting m LEFT OUTER JOIN member_meeting mm ON m.meetingid = mm.meetingid
+		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, m.creatorid, m.close, m.cancel
+		ORDER BY count(mm.heart) DESC
+	</select>
+	
+	<!-- 전체 최신순 정렬 -->
+	<select resultType="Meeting" id="sortAllByOrder" >
+		SELECT MEETINGID, MEETINGTITLE, NUMOFPEOPLE, MAXPEOPLE, MEETINGPLACE, 
+			MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL, CREATORID
+		FROM MEETING
+		ORDER BY MEETINGID DESC
+	</select>
+	
 	<!-- 모임 아이디 조회 -->
 	<select resultType="_int" id="getMeetingId" parameterType="com.somplace.domain.command.MeetingCommand">
 		SELECT meetingId

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,11 +86,14 @@
                 <input type="radio" name="sort" checked>
                 <label for="">전체</label>
             </div>
-
-            <select>
-                <option value="">최신순</option>
-                <option value="">인기순</option>
-            </select>
+			<form:form action="/meeting/sort/all">
+            	<select name="sortWith" style="width: 80px; height: 37px;" onchange="this.form.submit()">
+                	<option value="order" 
+                		<c:if test="${checkedOrder}">selected</c:if>>최신순</option>
+                	<option value="heart"
+                		<c:if test="${checkedHeart}">selected</c:if>>인기순</option>
+            	</select>
+            </form:form>
         </div>
     </div>
 </body>

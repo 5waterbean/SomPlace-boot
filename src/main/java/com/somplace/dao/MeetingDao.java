@@ -10,9 +10,17 @@ import com.somplace.domain.command.MeetingCommand;
 public interface MeetingDao {
 	public List<Meeting> getMeetingList() throws DataAccessException;
 	
-	public int getMeetingId(MeetingCommand meetingCommand);
+	// 전체 인기순 정렬
+	public List<Meeting> sortAllByHeart() throws DataAccessException;
+	// 전체 최신순 정렬
+	public List<Meeting> sortAllByOrder() throws DataAccessException;
 	
-	public void createMeeting(MeetingCommand meetingCommand);
-
+	// 모임 아이디 조회
+	public int getMeetingId(MeetingCommand meetingCommand) throws DataAccessException;
+	
+	// 모임 생성
+	public void createMeeting(MeetingCommand meetingCommand) throws DataAccessException;
+	
+	// 내가 생성한 모임 조회
 	public List<Meeting> getMadeMeetingList(String creatorId) throws DataAccessException;
 }
