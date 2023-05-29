@@ -8,6 +8,14 @@
 		FROM MEETING
 	</sql>
 	
+	<sql id="selectJoin_fragment">
+		SELECT m.meetingid AS MEETINGID, m.meetingtitle AS MEETINGTITLE, m.numofpeople AS NUMOFPEOPLE, 
+			m.maxpeople AS MAXPEOPLE, m.meetingplace AS MEETINGPLACE, m.memo AS MEMO, m.meetinginfo AS MEETINGINFO, 
+			m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS CLOSE, m.cancel AS CANCEL, m.creatorid AS CREATORID, 
+			count(case when mm.heart = 1 then 1 end) AS heart
+		FROM meeting m LEFT OUTER JOIN member_meeting mm ON m.meetingid = mm.meetingid
+	</sql>
+	
 	<!-- 모임 조회 -->
 	<select resultType="Meeting" id="getMeetingList"> 
 		<include refid="selectMeeting_fragment" />
@@ -15,17 +23,29 @@
 	
 	<!-- 전체 인기순 정렬 -->
 	<select resultType="Meeting" id="sortAllByHeart" >
-		SELECT m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, m.creatorid, m.close, m.cancel, count(case when mm.heart = 1 then 1 end) AS heart
-		FROM meeting m LEFT OUTER JOIN member_meeting mm ON m.meetingid = mm.meetingid
+		<include refid="selectJoin_fragment" />
 		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, m.creatorid, m.close, m.cancel
 		ORDER BY count(mm.heart) DESC
 	</select>
 	
 	<!-- 전체 최신순 정렬 -->
 	<select resultType="Meeting" id="sortAllByOrder" >
-		SELECT MEETINGID, MEETINGTITLE, NUMOFPEOPLE, MAXPEOPLE, MEETINGPLACE, 
-			MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL, CREATORID
-		FROM MEETING
+		<include refid="selectMeeting_fragment" />
+		ORDER BY MEETINGID DESC
+	</select>
+	
+	<!-- 카테고리별 인기순 정렬 -->
+	<select resultType="Meeting" id="sortCategoryByHeart" >
+		<include refid="selectJoin_fragment" />
+		WHERE meetingInfo = #{category}
+		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, m.creatorid, m.close, m.cancel
+		ORDER BY count(mm.heart) DESC
+	</select>
+	
+	<!-- 카테고리별 최신순 정렬 -->
+	<select resultType="Meeting" id="sortCategoryByOrder" >
+		<include refid="selectMeeting_fragment" />
+		WHERE meetingInfo = #{category}
 		ORDER BY MEETINGID DESC
 	</select>
 	
