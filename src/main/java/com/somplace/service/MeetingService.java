@@ -28,4 +28,8 @@ public class MeetingService {
 	public void createMeeting(MeetingCommand meetingCommand) {
 		meetingDao.createMeeting(meetingCommand);
 	}
+	
+	public List<Meeting> getMadeMeetingList(String creatorId) {
+		return meetingDao.getMadeMeetingList(creatorId);
+	}
 }

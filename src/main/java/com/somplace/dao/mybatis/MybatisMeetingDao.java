@@ -36,4 +36,9 @@ public class MybatisMeetingDao implements MeetingDao {
 	// 모임 정렬
 	
 	// 모임 삭제
+
+	// 내가 생성한 모임 리스트 조회
+	public List<Meeting> getMadeMeetingList(String creatorId) {
+		return MeetingMapper.getMadeMeetingList(creatorId);
+	}
 }

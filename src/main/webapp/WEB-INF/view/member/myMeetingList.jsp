@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -115,217 +116,59 @@
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 
 	<div class="title">
-		<h2>내가 생성한 모임</h2>
-		<!-- 
-		<h2>내가 속한 모임</h2>
-		<h2>내가 찜한 모임</h2>
-		<h2>내가 신청한 모임</h2>
-		 -->
+		<h2>
+		<c:choose>
+			<c:when test="${meetingListType eq 'made'}">
+				내가 생성한 모임
+			</c:when>
+			<c:when test="${meetingListType eq 'joinIrregular'}">
+				내가 속한 일시적 모임
+			</c:when>
+			<c:when test="${meetingListType eq 'joinRegular'}">
+				내가 속한 정기적 모임
+			</c:when>
+			<c:when test="${meetingListType eq 'like'}">
+				내가 찜한 모임
+			</c:when>
+			<c:otherwise>
+				내가 신청한 모임
+			</c:otherwise>
+		</c:choose>
+		</h2>
 	</div>
-
+	
 	<div class="container">
 		<table>
 			<tr>
+			<c:set var="study" value="../../img/read.png" />
+			<c:set var="meal" value="../../img/english-breakfast.png" />
+			<c:set var="hobby" value="../../img/lifestyle.png" />
+			<c:forEach var="meeting" items="${myMeetingList}">
 				<td>
 					<div>
-						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
-						<div>같이 밥 먹을 사람~!</div>
-						<div>식사</div>
-						<div>일식</div>
+						<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>
+						<c:choose>
+							<c:when test="${meeting.meetingInfo eq '식사'}">
+								<img src='<c:out value="${meal}"/>' alt="">
+							</c:when>
+							<c:when test="${meeting.meetingInfo eq '스터디'}">
+								<img src='<c:out value="${study}"/>' alt="">
+							</c:when>
+							<c:otherwise>
+								<img src='<c:out value="${hobby}"/>' alt="">
+							</c:otherwise>
+						</c:choose>
+						<div>${meeting.meetingTitle}</div>
+						<div>${meeting.meetingInfo}</div>
+						<div>${meeting.meetingInfoDetail}</div>
 						<div>
 							<input type="checkbox" id="heart1" oninput="addLike(this)">
 							<label for="heart1">🤍</label>
 						</div>
 					</div>
 				</td>
-				<td>
-					<div>
-						<div>1/9</div>
-						<img src="./img/lifestyle.png" alt="">
-						<div>그림 같이 그리실 분</div>
-						<div>취미</div>
-						<div>예술</div>
-						<div>
-							<input type="checkbox" id="heart2" oninput="addLike(this)">
-							<label for="heart2">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>6/8</div>
-						<img src="./img/read.png" alt="">
-						<div>자격증 같이 공부해요</div>
-						<div>스터디</div>
-						<div>자격증</div>
-						<div>
-							<input type="checkbox" id="heart3" oninput="addLike(this)">
-							<label for="heart3">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
-						<div>같이 밥 먹을 사람~!</div>
-						<div>식사</div>
-						<div>일식</div>
-						<div>
-							<input type="checkbox" id="heart4" oninput="addLike(this)">
-							<label for="heart4">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>1/9</div>
-						<img src="./img/lifestyle.png" alt="">
-						<div>그림 같이 그리실 분</div>
-						<div>취미</div>
-						<div>예술</div>
-						<div>
-							<input type="checkbox" id="heart5" oninput="addLike(this)">
-							<label for="heart5">🤍</label>
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div>
-						<div>6/8</div>
-						<img src="./img/read.png" alt="">
-						<div>자격증 같이 공부해요</div>
-						<div>스터디</div>
-						<div>자격증</div>
-						<div>
-							<input type="checkbox" id="heart6" oninput="addLike(this)">
-							<label for="heart6">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>1/9</div>
-						<img src="./img/lifestyle.png" alt="">
-						<div>그림 같이 그리실 분</div>
-						<div>취미</div>
-						<div>예술</div>
-						<div>
-							<input type="checkbox" id="heart7" oninput="addLike(this)">
-							<label for="heart7">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>6/8</div>
-						<img src="./img/read.png" alt="">
-						<div>자격증 같이 공부해요</div>
-						<div>스터디</div>
-						<div>자격증</div>
-						<div>
-							<input type="checkbox" id="heart8" oninput="addLike(this)">
-							<label for="heart8">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
-						<div>같이 밥 먹을 사람~!</div>
-						<div>식사</div>
-						<div>일식</div>
-						<div>
-							<input type="checkbox" id="heart9" oninput="addLike(this)">
-							<label for="heart9">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
-						<div>같이 밥 먹을 사람~!</div>
-						<div>식사</div>
-						<div>일식</div>
-						<div>
-							<input type="checkbox" id="heart10" oninput="addLike(this)">
-							<label for="heart10">🤍</label>
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div>
-						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
-						<div>같이 밥 먹을 사람~!</div>
-						<div>식사</div>
-						<div>일식</div>
-						<div>
-							<input type="checkbox" id="heart11" oninput="addLike(this)">
-							<label for="heart11">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>1/9</div>
-						<img src="./img/lifestyle.png" alt="">
-						<div>그림 같이 그리실 분</div>
-						<div>취미</div>
-						<div>예술</div>
-						<div>
-							<input type="checkbox" id="heart12" oninput="addLike(this)">
-							<label for="heart12">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
-						<div>같이 밥 먹을 사람~!</div>
-						<div>식사</div>
-						<div>일식</div>
-						<div>
-							<input type="checkbox" id="heart13" oninput="addLike(this)">
-							<label for="heart13">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>2/3</div>
-						<img src="./img/english-breakfast.png" alt="">
-						<div>같이 밥 먹을 사람~!</div>
-						<div>식사</div>
-						<div>일식</div>
-						<div>
-							<input type="checkbox" id="heart14" oninput="addLike(this)">
-							<label for="heart14">🤍</label>
-						</div>
-					</div>
-				</td>
-				<td>
-					<div>
-						<div>1/9</div>
-						<img src="./img/lifestyle.png" alt="">
-						<div>그림 같이 그리실 분</div>
-						<div>취미</div>
-						<div>예술</div>
-						<div>
-							<input type="checkbox" id="heart15" oninput="addLike(this)">
-							<label for="heart15">🤍</label>
-						</div>
-					</div>
-				</td>
-			</tr>
+		    </c:forEach>
+		    </tr>
 		</table>
 	</div>
 </body>
