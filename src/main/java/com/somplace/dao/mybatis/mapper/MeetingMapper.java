@@ -10,6 +10,10 @@ import com.somplace.domain.command.MeetingCommand;
 @Mapper
 public interface MeetingMapper {
 	List<Meeting> getMeetingList();
+	
 	int getMeetingId(MeetingCommand meetingCommand);
-	public void createMeeting(MeetingCommand meetingCommand);
+	
+	void createMeeting(MeetingCommand meetingCommand);
+	
+	List<Meeting> getMadeMeetingList(String creatorId);
 }

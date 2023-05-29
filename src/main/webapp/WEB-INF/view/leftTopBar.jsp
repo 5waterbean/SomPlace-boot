@@ -114,7 +114,7 @@ body {
 	border-top-right-radius: 20px;
 }
 
-.list>div:nth-child(4) {
+.list>div:nth-child(5) {
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
 }
@@ -160,15 +160,16 @@ body {
 			<br>
 			<div class="profile_btn">
 				<div>내 정보</div>
-				<div onClick="location.href='logout'">로그아웃</div>
+				<div onClick="location.href='/member/logout'">로그아웃</div>
 			</div>
 		</div>
 
 		<br>
 
 		<div class="list">
-			<div>내가 생성한 모임</div>
-			<div>내가 속한 모임</div>
+			<div onClick="location.href='/member/myMeeting/made'">내가 생성한 모임</div>
+			<div>내가 속한 일시적 모임</div>
+			<div>내가 속한 정기적 모임</div>
 			<div>내가 찜한 모임</div>
 			<div>내가 신청한 모임</div>
 		</div>
