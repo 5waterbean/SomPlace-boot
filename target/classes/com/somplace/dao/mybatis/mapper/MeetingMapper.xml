@@ -17,9 +17,9 @@
 	<select resultType="_int" id="getMeetingId" parameterType="com.somplace.domain.command.MeetingCommand">
 		SELECT meetingId
 		FROM meeting
-		WHERE meetingTitle=#{meetingCommand.meetingTitle} AND maxPeople=#{meetingCommand.maxPeople} AND 
-			meetingPlace=#{meetingCommand.meetingPlace} AND memo=#{meetingCommand.memo} AND meetingInfo=#{meetingCommand.meetingInfo} AND
-    		meetingInfoDetail=#{meetingCommand.meetingInfoDetail} AND creatorId=#{meetingCommand.creatorId}
+		WHERE meetingTitle=#{meetingTitle} AND maxPeople=#{maxPeople} AND 
+			meetingPlace=#{meetingPlace} AND memo=#{memo} AND meetingInfo=#{meetingInfo} AND
+    		meetingInfoDetail=#{meetingInfoDetail} AND creatorId=#{creatorId}
 	</select>
 	
 	<!-- 모임 생성 -->
