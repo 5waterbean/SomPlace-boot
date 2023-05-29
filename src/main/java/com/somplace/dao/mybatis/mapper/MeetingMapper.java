@@ -17,6 +17,11 @@ public interface MeetingMapper {
 	// 전체 최신순 정렬
 	List<Meeting> sortAllByOrder();
 	
+	// 카테고리 인기순 정렬
+	List<Meeting> sortCategoryByHeart(String category);
+	// 카테고리 최신순 정렬
+	List<Meeting> sortCategoryByOrder(String category);
+	
 	// 모임 아이디 조회
 	int getMeetingId(MeetingCommand meetingCommand);
 	

@@ -32,14 +32,14 @@ public class MeetingService {
 		}
 	}
 	
-	// 전체 인기순 정렬
-//		public List<Meeting> sortAllByHeart() throws DataAccessException {
-//			return meetingDao.sortAllByHeart();
-//		}
-//		// 전체 최신순 정렬
-//		public List<Meeting> sortAllByOrder() throws DataAccessException {
-//			return meetingDao.sortAllByOrder();
-//		}
+	// 카테고리 정렬
+	public List<Meeting> sortCategory(String category, String sortWith) {
+		if (sortWith.equals("order")) {
+			return meetingDao.sortCategoryByOrder(category);
+		} else {
+			return meetingDao.sortCategoryByHeart(category);
+		}
+	}
 	
 	// 모임 아이디 조회
 	public int getMeetingId(MeetingCommand meetingCommand) {

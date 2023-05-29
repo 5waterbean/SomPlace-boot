@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -131,15 +132,30 @@ body {
 	cursor: pointer;
 }
 </style>
+<script>
+	function setCategory(categoryId) {
+	    if (categoryId == 'meal') {
+	        document.querySelector('input[type="hidden"]').value = "식사";
+	    } else if (categoryId == 'study') {
+	        document.querySelector('input[type="hidden"]').value = "스터디";
+	    } else {
+	        document.querySelector('input[type="hidden"]').value = "취미";
+	    }
+	    
+	    categoryForm.submit();
+	}
+</script>
 </head>
 
 <body>
 	<div class="top">
-		<div>식사</div>
-		<div>스터디</div>
-		<div>취미</div>
+		<div id="meal" onclick="setCategory(this.id)">식사</div>
+		<div id="study" onclick="setCategory(this.id)">스터디</div>
+		<div id="hobby" onclick="setCategory(this.id)">취미</div>
 	</div>
-
+	<form:form name="categoryForm" action="/meeting/sort/all">
+		<input type="hidden" id="hiddenId" name="category"></input>
+	</form:form>
 	<div class="left">
 		<div class="profile">
 			<img src="../../../img/somsom.png" class="face"> <br>
