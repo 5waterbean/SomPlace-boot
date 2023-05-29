@@ -1,8 +1,12 @@
 package com.somplace.domain.command;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+//import java.sql.Date;
+//import java.sql.Time;
+//import java.time.LocalDate;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -25,7 +29,7 @@ public class MeetingCommand {
 	private String meetingTime;
 	
 	// irregular
-	private Date irregularMeetingDay;
+	private Timestamp irregularMeetingDay;
 	private String irregularMeetingDate;
 	private String irregularMeetingTime;
 	

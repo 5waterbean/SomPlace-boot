@@ -36,7 +36,7 @@ public class LoginController {
 		}
 		else {
 			session.setAttribute("memberSession", member);
-			return new ModelAndView("main");
+			return new ModelAndView("redirect:/meeting/sort/all");
 		}
 		
 		model.addAttribute("url", "/");
