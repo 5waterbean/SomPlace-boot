@@ -49,15 +49,33 @@
 		ORDER BY MEETINGID DESC
 	</select>
 	
+	<!-- 전체(키워드) 검색, 인기순 정렬 -->
+	<select resultType="Meeting" id="sortAllByKeyHeart">
+		<include refid="selectJoin_fragment" />
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, m.creatorid, m.close, m.cancel
+		ORDER BY count(mm.heart) DESC
+	</select>
+	
+	<!-- 카테고리별(키워드) 검색, 인기순 정렬 -->
+	<select resultType="Meeting" id="sortCategoryByKeyHeart" parameterType="map">
+		<include refid="selectJoin_fragment" />
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
+		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, m.creatorid, m.close, m.cancel
+		ORDER BY count(mm.heart) DESC
+	</select>
+	
 	<!-- 전체(키워드) 검색 -->
 	<select resultType="Meeting" id="searchAllByKey"> 
 		<include refid="selectMeeting_fragment" />
 			WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+			ORDER BY meetingId DESC
 	</select>
 	<!-- 카테고리(키워드) 검색 -->
 	<select resultType="Meeting" id="searchCategoryByKey" parameterType="map"> 
 		<include refid="selectMeeting_fragment" />
-			WHERE meetingInfo=#{category} and (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0  
+			WHERE meetingInfo=#{category} and (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+			ORDER BY meetingId DESC  
 	</select>
 	
 	<!-- 모임 아이디 조회 -->

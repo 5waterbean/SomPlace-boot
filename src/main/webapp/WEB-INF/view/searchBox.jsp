@@ -16,7 +16,7 @@
             margin: 0 auto;
             padding: 10px;
             position: absolute;
-            top: 60px;
+            top: 70px;
             left: 0;
             right: 0;
         }
@@ -73,7 +73,7 @@
         <div class="middle_first">
         	<form name="searchForm" action="/meeting/search">
         		<input type="hidden" name="category" value="${checkedCategory}"></input>
-            	<input type="text" id="key" name="key" placeholder=" 검색하고 싶은 키워드를 입력해주세요" value="${key}">
+            	<input type="text" id="key" name="key" placeholder=" 검색하고 싶은 키워드를 입력해주세요" value="${checkedKey}">
             	<div>
                 	<img src="../../../img/search.png" onclick="searchForm.submit()">
             	</div>
@@ -91,7 +91,7 @@
             </div>
 			<form:form action="/meeting/sort/all">
 				<input type="hidden" name="category" value="${checkedCategory}"></input>
-				<input type="hidden" name="key" value="${key}"></input>
+				<input type="hidden" name="key" value="${checkedKey}"></input>
             	<select name="sortWith" style="width: 80px; height: 37px;" onchange="this.form.submit()">
                 	<option value="order" 
                 		<c:if test="${checkedOrder}">selected</c:if>>최신순</option>
