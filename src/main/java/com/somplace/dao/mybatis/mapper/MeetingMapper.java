@@ -3,6 +3,7 @@ package com.somplace.dao.mybatis.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
 
 import com.somplace.domain.Meeting;
@@ -21,6 +22,11 @@ public interface MeetingMapper {
 	List<Meeting> sortCategoryByHeart(String category);
 	// 카테고리 최신순 정렬
 	List<Meeting> sortCategoryByOrder(String category);
+	
+	// 전체(키워드) 검색
+	List<Meeting> searchAllByKey(String key);
+	// 카테고리(키워드) 검색
+	List<Meeting> searchCategoryByKey(@Param("key")String key, @Param("category")String category);
 	
 	// 모임 아이디 조회
 	int getMeetingId(MeetingCommand meetingCommand);

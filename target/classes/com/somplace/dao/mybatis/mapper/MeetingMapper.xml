@@ -49,6 +49,17 @@
 		ORDER BY MEETINGID DESC
 	</select>
 	
+	<!-- 전체(키워드) 검색 -->
+	<select resultType="Meeting" id="searchAllByKey"> 
+		<include refid="selectMeeting_fragment" />
+			WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+	</select>
+	<!-- 카테고리(키워드) 검색 -->
+	<select resultType="Meeting" id="searchCategoryByKey" parameterType="map"> 
+		<include refid="selectMeeting_fragment" />
+			WHERE meetingInfo=#{category} and (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0  
+	</select>
+	
 	<!-- 모임 아이디 조회 -->
 	<select resultType="Integer" id="getMeetingId" parameterType="com.somplace.domain.command.MeetingCommand">
 		SELECT meetingId

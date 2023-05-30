@@ -32,9 +32,9 @@ public class SortMeetingController {
 		mav.addObject("checkedCategory", category);
 		
 		if (category.equals("all")) {
-			mav.addObject("sortList", sortAllList);
+			mav.addObject("meetingList", sortAllList);
 		} else {
-			mav.addObject("sortList", sortCategoryList);
+			mav.addObject("meetingList", sortCategoryList);
 		}
 		
 		if (sortWith.equals("order")) { // 최신순 정렬

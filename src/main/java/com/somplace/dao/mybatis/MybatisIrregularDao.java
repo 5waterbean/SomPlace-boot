@@ -18,8 +18,8 @@ public class MybatisIrregularDao implements IrregularDao {
 	private IrregularMapper irregularMapper;
 	
 	// 일시적모임 생성
-	public void createIrregular(MeetingCommand command) {
-		irregularMapper.createIrregular(command);
+	public void createIrregular(MeetingCommand meetingCommand) {
+		irregularMapper.createIrregular(meetingCommand);
 	}
 	// 일시적모임 수정
 	public void updateIrregular(Irregular irregular) {

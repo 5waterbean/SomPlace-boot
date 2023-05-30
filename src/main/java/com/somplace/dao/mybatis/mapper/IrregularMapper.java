@@ -12,7 +12,7 @@ import com.somplace.domain.command.MeetingCommand;
 @Mapper
 public interface IrregularMapper {
 	//일시적모임 생성
-	void createIrregular(MeetingCommand command);
+	void createIrregular(MeetingCommand meetingCommand);
 	//일시적모임 수정
 	void updateIrregular(Irregular irregular);
 	

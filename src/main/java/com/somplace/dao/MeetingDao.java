@@ -20,6 +20,11 @@ public interface MeetingDao {
 	// 카테고리 최신순 정렬
 	public List<Meeting> sortCategoryByOrder(String category) throws DataAccessException;
 	
+	// 전체(키워드) 검색
+	public List<Meeting> searchAllByKey(String key) throws DataAccessException;
+	// 카테고리(키워드) 검색
+	public List<Meeting> searchCategoryByKey(String key, String category) throws DataAccessException;
+	
 	// 모임 아이디 조회
 	public int getMeetingId(MeetingCommand meetingCommand) throws DataAccessException;
 	

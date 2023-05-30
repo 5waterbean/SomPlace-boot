@@ -30,6 +30,15 @@ public class MybatisMeetingDao implements MeetingDao {
 		return MeetingMapper.sortAllByOrder();
 	}
 	
+	// 전체(키워드) 검색
+	public List<Meeting> searchAllByKey(String key) throws DataAccessException {
+		return MeetingMapper.searchAllByKey(key);
+	}
+	// 카테고리(키워드) 검색
+	public List<Meeting> searchCategoryByKey(String key, String category) throws DataAccessException {
+		return MeetingMapper.searchCategoryByKey(key, category);
+	}
+	
 	// 카테고리 인기순 정렬
 	public List<Meeting> sortCategoryByHeart(String category) throws DataAccessException {
 		return MeetingMapper.sortCategoryByHeart(category);
@@ -48,10 +57,6 @@ public class MybatisMeetingDao implements MeetingDao {
 	public void createMeeting(MeetingCommand meetingCommand) {
 		MeetingMapper.createMeeting(meetingCommand);
 	}
-	
-	// 모임 검색
-	
-	// 모임 정렬
 	
 	// 모임 삭제
 
