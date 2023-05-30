@@ -150,44 +150,6 @@ div.active {
 	cursor: pointer;
 }
 </style>
-<script>
-	let hidden = document.querySelector('input[type="hidden"]');
-	let mealDiv = document.querySelector('div#meal');
-	let studyDiv = document.querySelector('div#study');
-	let hobbyDiv = document.querySelector('div#hobby');
-
-	init();
-
-	function init() {
-		if (hidden.value != "") {
-			mealDiv.classList.value = '';
-			studyDiv.classList.value = '';
-			hobbyDiv.classList.value = '';
-
-			if (hidden.value == '식사') {
-				mealDiv.classList.value = 'active';
-			} else if (hidden.value == '스터디') {
-				studyDiv.classList.value = 'active';
-			} else if (hidden.value == '취미') {
-				hobbyDiv.classList.value = 'active';
-			}
-		}
-	}
-
-	function setCategory(categoryId) {
-		if (categoryId == 'meal') {
-			document.querySelector('input[type="hidden"]').value = "식사";
-		} else if (categoryId == 'study') {
-			document.querySelector('input[type="hidden"]').value = "스터디";
-		} else {
-			document.querySelector('input[type="hidden"]').value = "취미";
-		}
-
-		init();
-
-		categoryForm.submit();
-	}
-</script>
 </head>
 
 <body>
@@ -239,6 +201,44 @@ div.active {
 			<div>내가 신청한 모임</div>
 		</div>
 	</div>
+	<script>
+		let hidden = document.querySelector('input[type="hidden"]');
+		let mealDiv = document.querySelector('div#meal');
+		let studyDiv = document.querySelector('div#study');
+		let hobbyDiv = document.querySelector('div#hobby');
+	
+		init();
+	
+		function init() {
+			if (hidden.value != "") {
+				mealDiv.classList.value = '';
+				studyDiv.classList.value = '';
+				hobbyDiv.classList.value = '';
+	
+				if (hidden.value == '식사') {
+					mealDiv.classList.value = 'active';
+				} else if (hidden.value == '스터디') {
+					studyDiv.classList.value = 'active';
+				} else if (hidden.value == '취미') {
+					hobbyDiv.classList.value = 'active';
+				}
+			}
+		}
+	
+		function setCategory(categoryId) {
+			if (categoryId == 'meal') {
+				hidden.value = "식사";
+			} else if (categoryId == 'study') {
+				hidden.value = "스터디";
+			} else {
+				hidden.value = "취미";
+			}
+	
+			init();
+	
+			categoryForm.submit();
+		}
+</script>
 </body>
 
 </html>
