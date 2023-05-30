@@ -38,11 +38,17 @@
 }
 
 .container table {
-	width: 100%;
+    width: 100%;
+}
+
+.container tr {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .container td {
-	text-align: center;
+    text-align: center;
+    width: 20%;
 }
 
 .container td>div {
