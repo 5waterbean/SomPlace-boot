@@ -58,19 +58,19 @@ public class MybatisMeetingDao implements MeetingDao {
 	}
 	
 	// 모임 아이디 조회
-	public int getMeetingId(MeetingCommand meetingCommand) {
+	public int getMeetingId(MeetingCommand meetingCommand) throws DataAccessException {
 		return MeetingMapper.getMeetingId(meetingCommand);
 	}
 	
 	// 모임 생성
-	public void createMeeting(MeetingCommand meetingCommand) {
+	public void createMeeting(MeetingCommand meetingCommand) throws DataAccessException {
 		MeetingMapper.createMeeting(meetingCommand);
 	}
 	
 	// 모임 삭제
 
 	// 내가 생성한 모임 리스트 조회
-	public List<Meeting> getMadeMeetingList(String creatorId) {
+	public List<Meeting> getMadeMeetingList(String creatorId) throws DataAccessException {
 		return MeetingMapper.getMadeMeetingList(creatorId);
 	}
 }

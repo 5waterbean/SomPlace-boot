@@ -65,7 +65,6 @@ public class CreateIrregularController {
 		meetingService.createMeeting(meetingCommand);
 		int meetingId = meetingService.getMeetingId(meetingCommand);
 		meetingCommand.setMeetingId(meetingId);
-		System.out.println(meetingCommand.getMeetingId());
 		irregularService.createIrregular(meetingCommand);
 		
 		return mav;
