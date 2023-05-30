@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.somplace.dao.mybatis.MybatisRegularDao;
 import com.somplace.domain.Meeting;
 import com.somplace.domain.Regular;
+import com.somplace.domain.command.MeetingCommand;
 
 @Service
 @Transactional
@@ -16,8 +17,8 @@ public class RegularService {
 	@Autowired
 	private MybatisRegularDao regularDao;
 	
-	public void createRegular(Regular regular) {
-		regularDao.createRegular(regular);
+	public void createRegular(MeetingCommand meetingCommand) {
+		regularDao.createRegular(meetingCommand);
 	}
 	
 	public void updateRegular(Regular regular) {

@@ -9,6 +9,7 @@ import com.somplace.dao.RegularDao;
 import com.somplace.dao.mybatis.mapper.RegularMapper;
 import com.somplace.domain.Meeting;
 import com.somplace.domain.Regular;
+import com.somplace.domain.command.MeetingCommand;
 
 @Repository
 public class MybatisRegularDao implements RegularDao {
@@ -16,8 +17,8 @@ public class MybatisRegularDao implements RegularDao {
 	private RegularMapper regularMapper;
 	
 	// 정기적 모임 생성
-	public void createRegular(Regular regular) {
-		regularMapper.createRegular(regular);
+	public void createRegular(MeetingCommand meetingCommand) {
+		regularMapper.createRegular(meetingCommand);
 	}
 	
 	// 정기적 모임 수정

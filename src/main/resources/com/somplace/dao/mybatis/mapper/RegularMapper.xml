@@ -3,12 +3,9 @@
 <mapper namespace="com.somplace.dao.mybatis.mapper.RegularMapper">
 	<cache/>
 
-	<insert id="createRegular" parameterType="map"> 
-		INSERT INTO meeting VALUES 
-		(meetingid_seq.nextval, #{regular.meetingTitle}, #{regular.numOfPeople}, #{regular.maxPeople}, #{regular.meetingPlace}, #{regular.memo}, #{regular.meetingInfo}, #{regular.meetingInfoDetail}, #{regular.creatorId}, #{regular.close}, #{regular.cancel})
-		
-		INSERT INTO regularmeeting VALUES 
-		(#{regular.meetingName}, #{regular.meetingDay}, #{regular.meetingId}, #{regular.startDay}, #{regular.meetingTime});
+	<insert id="createRegular" parameterType="com.somplace.domain.command.MeetingCommand">
+		INSERT INTO regularMeeting VALUES 
+		(#{meetingName}, #{regularMeetingDay, jdbcType=VARCHAR}, #{meetingId}, #{startDay}, #{meetingTime})
 	</insert>
 
 	
