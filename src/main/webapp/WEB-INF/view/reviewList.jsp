@@ -12,7 +12,7 @@
 .right_review {
 	width: 15%;
 	position: fixed;
-	top: 400px;
+	top: 450px;
 	right: 0;
 	padding: 10px;
 	margin: 10px;

@@ -29,27 +29,45 @@ body {
 
 .top {
 	background-color: rgb(254, 251, 191);
-	height: 50px;
+	height: 60px;
 	position: fixed;
 	top: 0;
 	right: 0;
 	left: 0;
 	display: flex;
-	justify-content: space-evenly;
 	align-items: center;
 	font-weight: bold;
 	z-index: 10;
 }
 
-.top>div:hover {
-	color: gray;
+.top>img {
+	width: 15%;
+	height: 90px;
+}
+
+.top>div {
+	border: 1px solid blu;
+	width: 70%;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	font-size: large;
+            font-weight: bolder;
+}
+
+div.active {
+	color: rgb(122, 205, 103);
+	font-size: x-large;
+}
+
+.top>div>div:hover {
 	cursor: pointer;
 }
 
 .left {
 	width: 15%;
 	position: fixed;
-	top: 50px;
+	top: 60px;
 	left: 0;
 	padding: 10px;
 }
@@ -133,29 +151,60 @@ body {
 }
 </style>
 <script>
+	let hidden = document.querySelector('input[type="hidden"]');
+	let mealDiv = document.querySelector('div#meal');
+	let studyDiv = document.querySelector('div#study');
+	let hobbyDiv = document.querySelector('div#hobby');
+
+	init();
+
+	function init() {
+		if (hidden.value != "") {
+			mealDiv.classList.value = '';
+			studyDiv.classList.value = '';
+			hobbyDiv.classList.value = '';
+
+			if (hidden.value == '식사') {
+				mealDiv.classList.value = 'active';
+			} else if (hidden.value == '스터디') {
+				studyDiv.classList.value = 'active';
+			} else if (hidden.value == '취미') {
+				hobbyDiv.classList.value = 'active';
+			}
+		}
+	}
+
 	function setCategory(categoryId) {
-	    if (categoryId == 'meal') {
-	        document.querySelector('input[type="hidden"]').value = "식사";
-	    } else if (categoryId == 'study') {
-	        document.querySelector('input[type="hidden"]').value = "스터디";
-	    } else {
-	        document.querySelector('input[type="hidden"]').value = "취미";
-	    }
-	    
-	    categoryForm.submit();
+		if (categoryId == 'meal') {
+			document.querySelector('input[type="hidden"]').value = "식사";
+		} else if (categoryId == 'study') {
+			document.querySelector('input[type="hidden"]').value = "스터디";
+		} else {
+			document.querySelector('input[type="hidden"]').value = "취미";
+		}
+
+		init();
+
+		categoryForm.submit();
 	}
 </script>
 </head>
 
 <body>
 	<div class="top">
-		<div id="meal" onclick="setCategory(this.id)">식사</div>
-		<div id="study" onclick="setCategory(this.id)">스터디</div>
-		<div id="hobby" onclick="setCategory(this.id)">취미</div>
+		<img src="../../../img/logo.png">
+
+		<div>
+			<div id="meal" onclick="setCategory(this.id)">식사</div>
+			<div id="study" onclick="setCategory(this.id)">스터디</div>
+			<div id="hobby" onclick="setCategory(this.id)">취미</div>
+		</div>
 	</div>
+
 	<form:form name="categoryForm" action="/meeting/sort/all">
 		<input type="hidden" id="hiddenId" name="category"></input>
 	</form:form>
+
 	<div class="left">
 		<div class="profile">
 			<img src="../../../img/somsom.png" class="face"> <br>
