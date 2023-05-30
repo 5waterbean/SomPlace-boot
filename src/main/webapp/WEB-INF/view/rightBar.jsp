@@ -12,7 +12,7 @@
 .right {
 	width: 15%;
 	position: fixed;
-	top: 50px;
+	top: 60px;
 	right: 0;
 	text-align: center;
 	padding: 10px;
