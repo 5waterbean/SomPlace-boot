@@ -10,7 +10,7 @@ import com.somplace.domain.command.MeetingCommand;
 
 public interface IrregularDao {
 	// 일시적모임 생성
-	public void createIrregular(MeetingCommand command);
+	public void createIrregular(MeetingCommand meetingCommand);
 	// 일시적모임 수정
 	public void updateIrregular(Irregular irregular);
 	

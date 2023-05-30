@@ -5,22 +5,22 @@
 	
 	<!-- 일시적모임 생성 -->
 	<insert id="createIrregular" parameterType="com.somplace.domain.command.MeetingCommand">
-		INSERT INTO IRREGULARMEETING
-		VALUES (#{irregularMeetingDay}, 9);
+		INSERT INTO irregularMeeting
+		VALUES (#{irregularMeetingDay}, #{meetingId})
 	</insert>
 	<!-- 일시적모임 수정 -->
 	<update id="updateIrregular" parameterType="com.somplace.domain.command.MeetingCommand">
-		UPDATE IRREGULARMEETING
-		SET meetingDay = #{irregularUpdate.meetingDay}
-		WHERE meetingId = #{irregularUpdate.meetingId};
+		UPDATE irregularMeeting
+		SET meetingDay = #{meetingDay}
+		WHERE meetingId = #{meetingId}
 	</update>
 	
 	<!-- 일시적모임 가져오기 -->
-	<select id="getIrregularById" parameterType="int" resultType="irregular">
+	<select resultType="com.somplace.domain.Irregular" id="getIrregularById" parameterType="_int">
 		SELECT meetingId, meetingTitle, meetingDay, numOfPeople, maxPeople, meetingPlace, memo, 
 			meetingInfo, meetingInfoDetail, creatorId, close, cancel
 		FROM irregularmeeting_view
-		WHERE meetingId = #{meetingId};
+		WHERE meetingId = #{meetingId}
 	</select>
 	
 	<!-- 일시적모임(키워드) 검색 -->
@@ -28,7 +28,7 @@
 		SELECT meetingId, meetingTitle, meetingDay, numOfPeople, maxPeople, meetingPlace, memo, 
 			meetingInfo, meetingInfoDetail, creatorId, close, cancel
 		FROM irregularmeeting_view
-		WHERE (meetingTitle LIKE #{key} OR memo LIKE #{key}) and close = 0 and meetingInfo=#{category};
+		WHERE (meetingTitle LIKE #{key} OR memo LIKE #{key}) and close = 0 and meetingInfo=#{category}
 	</select>
 	
 	<!-- 일시적모임 인기순 정렬 -->
@@ -38,13 +38,13 @@
 		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
 		GROUP BY vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
 				vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingday, vi.close, vi.cancel
-		ORDER BY count(mm.heart) DESC;
+		ORDER BY count(mm.heart) DESC
 	</select>
 	<!-- 일시적모임 최신순 정렬 -->
 	<select id="sortIrregularByOrder" parameterType="String" resultType="irregular">
 		SELECT meetingId, meetingTitle, meetingDay, numOfPeople, maxPeople, meetingPlace, memo, 
 			meetingInfo, meetingInfoDetail, creatorId, close, cancel
 		FROM irregularmeeting_view
-		ORDER BY meetingId DESC;
+		ORDER BY meetingId DESC
 	</select> 
 </mapper>

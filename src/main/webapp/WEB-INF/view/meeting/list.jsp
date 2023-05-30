@@ -22,12 +22,17 @@
 }
 
 .container table {
-	width: 100%;
+    width: 100%;
+}
+
+.container tr {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .container td {
-	text-align: center;
-	/* border: 1px solid red; */
+    text-align: center;
+    width: 20%;
 }
 
 .container td>div {
@@ -107,7 +112,7 @@
 			<c:set var="study" value="../../img/read.png" />
 			<c:set var="meal" value="../../img/english-breakfast.png" />
 			<c:set var="hobby" value="../../img/lifestyle.png" />
-			<c:forEach var="meeting" items="${sortList}">
+			<c:forEach var="meeting" items="${meetingList}">
 				<td>
 					<div>
 						<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>

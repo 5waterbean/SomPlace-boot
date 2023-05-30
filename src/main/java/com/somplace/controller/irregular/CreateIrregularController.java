@@ -1,10 +1,9 @@
 package com.somplace.controller.irregular;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-//import java.util.Date;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +13,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.somplace.domain.Member;
 import com.somplace.domain.command.MeetingCommand;
 import com.somplace.service.IrregularService;
 import com.somplace.service.MeetingService;
 
 @Controller
 @RequestMapping("/meeting/irregular/create")
+@SessionAttributes("memberSession")
 public class CreateIrregularController {
 	@Autowired
 	private MeetingService meetingService;
@@ -37,32 +38,34 @@ public class CreateIrregularController {
 	}
 	
 	// 모임 만들기 클릭 -> 일시적 모임 생성 폼 이동 (GET)
-	
-//	@RequestMapping(method = RequestMethod.GET)
 	@GetMapping("/form")
 	public String form() {
 		return "meeting/irregular/irregularCreate";
 	}
 	
 	// 정기적 모임 생성 폼 제출 (POST)
-	
-//	@RequestMapping(method = RequestMethod.POST)
-	@PostMapping("")
+	@PostMapping
 	public ModelAndView createIrregular(@ModelAttribute("meetingCommand") MeetingCommand meetingCommand,
-									BindResult bindingResult) {
+									BindResult bindingResult, @ModelAttribute("memberSession") Member member) {
 		ModelAndView mav = new ModelAndView("meeting/irregular/irregularInfo");
+		meetingCommand.setCreatorId(member.getMemberId());
+		
 		String meetingDate = meetingCommand.getIrregularMeetingDate();
 		StringTokenizer itr = new StringTokenizer(meetingDate, "-");
 		meetingDate = itr.nextToken().trim() + "/" + itr.nextToken().trim() + "/" + itr.nextToken().trim();
-		String meetingTime = meetingCommand.getIrregularMeetingTime().toString();
-		
+		String meetingTime = meetingCommand.getIrregularMeetingTime();
 		String meetingDay = meetingDate + " " + meetingTime;
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm", Locale.US);
-//		LocalDate date = LocalDate.parse(meetingDate, formatter);
-//		meetingCommand.setIrregularMeetingDay(meetingDay);
-//		meetingService = new MeetingService();
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+		LocalDateTime localDateTime = LocalDateTime.parse(meetingDay, formatter);
+		Timestamp ts = Timestamp.valueOf(localDateTime);
+		Date date = Timestamp.valueOf(localDateTime);
+		meetingCommand.setIrregularMeetingDay(ts);
+
 		meetingService.createMeeting(meetingCommand);
-//		irregularService = new IrregularService();
+		int meetingId = meetingService.getMeetingId(meetingCommand);
+		meetingCommand.setMeetingId(meetingId);
+		System.out.println(meetingCommand.getMeetingId());
 		irregularService.createIrregular(meetingCommand);
 		
 		return mav;
