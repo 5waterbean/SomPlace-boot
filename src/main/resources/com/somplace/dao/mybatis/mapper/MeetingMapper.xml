@@ -83,7 +83,7 @@
 		SELECT meetingId
 		FROM meeting
 		WHERE meetingTitle=#{meetingTitle} AND maxPeople=#{maxPeople} AND 
-			meetingPlace=#{meetingPlace} AND memo=#{memo} AND meetingInfo=#{meetingInfo} AND
+			meetingPlace=#{meetingPlace} AND (memo=#{memo} OR memo is null) AND meetingInfo=#{meetingInfo} AND
     		meetingInfoDetail=#{meetingInfoDetail} AND creatorId=#{creatorId}
 	</select>
 	

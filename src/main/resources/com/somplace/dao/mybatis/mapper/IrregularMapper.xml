@@ -16,7 +16,7 @@
 	</update>
 	
 	<!-- 일시적모임 가져오기 -->
-	<select resultType="com.somplace.domain.Irregular" id="getIrregularById" parameterType="_int">
+	<select resultType="Irregular" id="getIrregularById">
 		SELECT meetingId, meetingTitle, meetingDay, numOfPeople, maxPeople, meetingPlace, memo, 
 			meetingInfo, meetingInfoDetail, creatorId, close, cancel
 		FROM irregularmeeting_view
@@ -47,4 +47,5 @@
 		FROM irregularmeeting_view
 		ORDER BY meetingId DESC
 	</select> 
+	
 </mapper>

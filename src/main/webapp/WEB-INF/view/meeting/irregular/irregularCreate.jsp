@@ -207,7 +207,7 @@ button {
 				</tr>
 				<tr>
 					<th>모임 메모</th>
-					<td colspan="3"><textarea class="regular_memo" name="memo"
+					<td colspan="3"><textarea class="regular_memo" id="memo" name="memo"
 							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요."></textarea></td>
 				</tr>
 				<tr>
