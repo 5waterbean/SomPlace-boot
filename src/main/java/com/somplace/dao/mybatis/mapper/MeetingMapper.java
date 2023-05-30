@@ -23,6 +23,11 @@ public interface MeetingMapper {
 	// 카테고리 최신순 정렬
 	List<Meeting> sortCategoryByOrder(String category);
 	
+	//전체(키워드) 검색, 인기순 정렬
+	List<Meeting> sortAllByKeyHeart(String key);
+	//카테고리별(키워드) 검색, 인기순 정렬
+	List<Meeting> sortCategoryByKeyHeart(@Param("key")String key, @Param("category")String category);
+	
 	// 전체(키워드) 검색
 	List<Meeting> searchAllByKey(String key);
 	// 카테고리(키워드) 검색

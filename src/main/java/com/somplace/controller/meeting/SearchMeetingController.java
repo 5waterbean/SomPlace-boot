@@ -29,19 +29,19 @@ public class SearchMeetingController {
 			List<Meeting> searchAllList = meetingService.searchAllByKey(key);
 			mav.addObject("meetingList", searchAllList);
 		} 
-		
 		else {
 			List<Meeting> searchCategoryList = meetingService.searchCategoryByKey(key, category);
 			mav.addObject("meetingList", searchCategoryList);
 		}
 		
-		if (sortWith.equals("order")) { // 최신순 정렬
+		if (sortWith.equals("order")) { // 최신순 정렬 표시
 			mav.addObject("checkedOrder", true);
 		}
-		else { // 인기순 정렬
+		else { // 인기순 정렬 표시
 			mav.addObject("checkedHeart", true);
 		}
-		mav.addObject("key", key);
+
+		mav.addObject("checkedKey", key);
 		
 		return mav;
 	}

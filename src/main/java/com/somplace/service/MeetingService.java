@@ -41,6 +41,15 @@ public class MeetingService {
 		}
 	}
 	
+	//전체(키워드) 검색, 인기순 정렬
+	public List<Meeting> sortAllByKeyHeart(String key) throws DataAccessException {
+		return meetingDao.sortAllByKeyHeart(key);
+	}
+	//카테고리별(키워드) 검색, 인기순 정렬
+	public List<Meeting> sortCategoryByKeyHeart(String key, String category) throws DataAccessException {
+		return meetingDao.sortCategoryByKeyHeart(key, category);
+	}
+	
 	// 전체(키워드) 검색
 	public List<Meeting> searchAllByKey(String key) {
 		return meetingDao.searchAllByKey(key);
