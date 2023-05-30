@@ -6,10 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.somplace.domain.Meeting;
 import com.somplace.domain.Regular;
+import com.somplace.domain.command.MeetingCommand;
 
 @Mapper
 public interface RegularMapper {
-	void createRegular(Regular regular);
+	void createRegular(MeetingCommand meetingCommand);
 	void updateRegular(Regular regular);
 	List<Meeting> searchRegularByKey(String key, String category);
 	List<Meeting> sortRegularByHeart(String category);

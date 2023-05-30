@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>regularCreate</title>
+<title>regular create</title>
 <style>
 .container {
 	width: 65%;
@@ -56,6 +56,13 @@ h3, h4 {
 	border: 1px solid black;
 }
 
+.container form input[type="number"] {
+	width: 40%;
+	border-radius: 20px;
+	padding: 7px;
+	border: 1px solid black;
+}
+
 .container form input[type="date"] {
 	width: 40%;
 	border-radius: 20px;
@@ -95,7 +102,7 @@ h3, h4 {
 	resize: none;
 }
 
-.meeting_info_detail_td {
+.meeting_info_detail_td, button {
 	border: 1px solid black;
 	border-radius: 20px;
 	padding: 20px;
@@ -117,23 +124,35 @@ h3, h4 {
 	width: 20%;
 }
 
-.regular_create_btn, .regular_back_btn {
+button, .regular_back_btn {
 	border: 1px solid black;
 	background-color: rgb(226, 240, 217);
 	padding: 5px 15px 5px 15px;
 	border-radius: 20px;
 	text-align: center;
+	font-size:16px;
+	height:33px;
 }
 
-.regular_create_btn:hover, .regular_back_btn:hover {
+button:hover, .regular_back_btn:hover {
 	background-color: rgb(174, 220, 175);
 	cursor: pointer;
+}
+
+button {
+	font-size:16px;
+	height:33px;
 }
 
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
 	$(document).ready(function() {
+		document.querySelector('input[type="date"]').value = new Date()
+        	.toISOString().substring(0, 10);
+  		document.querySelector('input[type="date"]').min = new Date()
+        	.toISOString().substring(0, 10);
+		
 		document.getElementById("studyDetail").style.display = "none";
 		document.getElementById("hobbyDetail").style.display = "none";
 	});
@@ -161,11 +180,6 @@ h3, h4 {
 			$('#etc').attr('value', etcText);
 		}
 	}
-	
-	function submit() {
-		// form submit
-		regularCreateForm.submit();
-	}
 </script>
 </head>
 
@@ -174,7 +188,7 @@ h3, h4 {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 
 	<div class="container">
-		<form:form name="regularCreateForm" action="/meeting/regular/create" method="post">
+		<form:form name="regularCreateForm" action="/meeting/regular/create" method="post" modelAttribute="meetingCommand">
 			<div>
 				<h2>정기적 모임 만들기</h2>
 			</div>
@@ -194,7 +208,7 @@ h3, h4 {
 				<div class="creator">
 					<h3>모임장</h3>
 					<div class="creator_info">&nbsp; ${memberSession.major} / ${memberSession.studentNumber} &nbsp;</div>
-					<input type="hidden" name="creatorId" value="${memberSession.studentNumber}">
+					<input type="hidden" name="creatorId" value="${memberSession.memberId}">
 				</div>
 			</div>
 
@@ -203,22 +217,22 @@ h3, h4 {
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" name="meetingTitle"
+					<td colspan="3"><input type="text" id="title" name="meetingTitle" value="${meetingCommand.meetingTitle}"
 						size="120" required></td>
 				</tr>
 
 				<tr>
 					<th>모임 이름</th>
-					<td><input type="text" name="meetingName" size="70">
+					<td><input type="text" name="meetingName" size="70" value="${meetingCommand.meetingName}" required>
 					</td>
 					<td style="text-align: right;"><strong>모집 인원</strong></td>
-					<td><input type="text" name="maxPeople"
+					<td><input type="number" name="maxPeople" min="2" max="10" value="${meetingCommand.maxPeople}"
 						required> <strong>명</strong></td>
 				</tr>
 
 				<tr>
 					<th>모임 장소</th>
-					<td colspan="3"><input type="text" name="meetingPlace"
+					<td colspan="3"><input type="text" name="meetingPlace" value="${meetingCommand.meetingPlace}"
 						size="70" required></td>
 				</tr>
 
@@ -228,6 +242,7 @@ h3, h4 {
 						<div class="regular_dayTime">
 							<div>
 								<h4>- 매주</h4>
+								<font color="red" size="2"><form:errors path="regularMeetingDay" /></font>
 							</div>
 
 							<div>
@@ -244,6 +259,7 @@ h3, h4 {
 
 							<div>
 								<h4>- 시간대</h4>
+								<font color="red" size="2"><form:errors path="meetingTime" /></font>
 							</div>
 
 							<div>
@@ -251,6 +267,7 @@ h3, h4 {
 								<input id="regularTime" type="checkbox" name="meetingTime" value="12-18">12-18&nbsp;&nbsp;
 								<input id="regularTime" type="checkbox" name="meetingTime" value="18-24">18-24&nbsp;&nbsp;
 								<input id="regularTime" type="checkbox" name="meetingTime" value="00-06">00-06&nbsp;&nbsp;
+								
 							</div>
 
 							<br>
@@ -260,7 +277,7 @@ h3, h4 {
 							</div>
 
 							<div class="start_day">
-								<input type="date" name="startDay">
+								<input type="date" name="startDay" value="${meetingCommand.startDay}">
 							</div>
 
 							<br>
@@ -287,6 +304,7 @@ h3, h4 {
 				<tr>
 					<td></td>
 					<td>
+					<font color="red" size="2"><form:errors path="meetingInfoDetail" /></font>
 						<!-- 취미선택시 -->
 						<div class="meeting_info_detail_td" id="hobbyDetail">
 							<div>
@@ -371,7 +389,7 @@ h3, h4 {
                         </div>
                         
 					</td>
-					<td colspan="2"><textarea class="regular_memo" name="memo"
+					<td colspan="2"><textarea class="regular_memo" name="memo" value="${meetingCommand.memo}"
 							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요."></textarea></td>
 				
 				</tr>
@@ -380,10 +398,10 @@ h3, h4 {
 					<td></td>
 					<td></td>
 					<td>
-						<input type="button" class="regular_create_btn" onclick="submit()" value="생성하기">
+						<button type="submit">생성하기</button>
 					</td>
 					<td>
-						<div class="regular_back_btn">취소하기</div>
+						<div class="regular_back_btn" onclick="location.href='/meeting/sort/all'">취소하기</div>
 					</td>
 				</tr>
 			</table>

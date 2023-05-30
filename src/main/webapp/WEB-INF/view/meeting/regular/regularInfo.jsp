@@ -193,7 +193,7 @@ h3, h4 {
 	<div class="container">
 		<form action="" method="post">
 			<div>
-				<h2>(모임 이름) 상세정보</h2>
+				<h2>${meetingCommand.meetingTitle} 상세정보</h2>
 
 				<div class="regular_update_btn">모임 수정하기</div>
 			</div>
@@ -211,7 +211,7 @@ h3, h4 {
 
 				<div class="creator">
 					<h3>모임장</h3>
-					<div class="creator_info">컴퓨터학과 / 20191003</div>
+					<div class="creator_info">&nbsp; ${memberSession.major} / ${memberSession.studentNumber} &nbsp;</div>
 				</div>
 			</div>
 
@@ -220,23 +220,23 @@ h3, h4 {
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" name="regular_title"
-						size="120" value="컴과솜 모여랏" disabled required></td>
+					<td colspan="3"><input type="text" name="meetingTitle"
+						size="120" value="${meetingCommand.meetingTitle}" disabled required></td>
 				</tr>
 
 				<tr>
 					<th>모임 이름</th>
-					<td><input type="text" name="regular_name" size="70"
-						value="컴과솜솜" disabled required></td>
+					<td><input type="text" name="meetingName" size="70"
+						value="${meetingCommand.meetingName}" disabled required></td>
 					<td style="text-align: right;"><strong>현재 인원/모집 인원</strong></td>
-					<td><input type="text" name="regular_num" size="10"
-						value="2 / 8" disabled required> <strong>명</strong></td>
+					<td><input type="text" name="numOfPeople" size="10"
+						value="${meetingCommand.numOfPeople} / ${meetingCommand.maxPeople}" disabled required> <strong>명</strong></td>
 				</tr>
 
 				<tr>
 					<th>모임 장소</th>
-					<td colspan="3"><input type="text" name="regular_place"
-						size="70" value="동덕여자대학교 인문관B303" disabled required></td>
+					<td colspan="3"><input type="text" name="regularMeetingDay"
+						size="70" value="${meetingCommand.meetingPlace}" disabled required></td>
 				</tr>
 
 				<tr>
@@ -280,7 +280,7 @@ h3, h4 {
 								<h4>- 시작 날짜</h4>
 							</div>
 
-							<div class="start_day">&nbsp;2023년 6월 30일</div>
+							<div class="start_day">&nbsp;${meetingCommand.startDay}</div>
 
 							<br>
 						</div>
@@ -291,11 +291,11 @@ h3, h4 {
 					<th>카테고리</th>
 					<td>
 						<div>
-							<input type="radio" id="meal" name="meeting_info" disabled>
+							<input type="radio" id="meal" name="meetingInfo" disabled>
 							<label for="meal">식사</label> <input type="radio" id="study"
-								name="meeting_info" disabled> <label for="study">스터디</label>
+								name="meetingInfo" disabled> <label for="study">스터디</label>
 
-							<input type="radio" id="hobby" name="meeting_info" disabled
+							<input type="radio" id="hobby" name="meetingInfo" disabled
 								checked> <label for="hobby">취미</label>
 						</div>
 					</td>
@@ -327,7 +327,7 @@ h3, h4 {
 						</div>
 					</td>
 
-					<td colspan="2"><textarea class="regular_memo" disabled>같이 모여서 코딩해요! &#10;월,수,금 3시간씩 오후 1시에 모여요 &#10;늦으면 벌금 3천원!!!!!</textarea>
+					<td colspan="2"><textarea class="regular_memo" disabled>${meetingCommand.memo}</textarea>
 					</td>
 				</tr>
 
