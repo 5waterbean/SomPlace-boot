@@ -1,12 +1,7 @@
 package com.somplace.domain.command;
 
 import java.sql.Timestamp;
-//import java.sql.Date;
-//import java.sql.Time;
-//import java.time.LocalDate;
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import java.sql.Date;
 
 import lombok.Data;
 
