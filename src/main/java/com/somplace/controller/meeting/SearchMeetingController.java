@@ -10,8 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.Irregular;
 import com.somplace.domain.Meeting;
+import com.somplace.domain.Regular;
 import com.somplace.service.IrregularService;
 import com.somplace.service.MeetingService;
+import com.somplace.service.RegularService;
 
 @Controller
 public class SearchMeetingController {
@@ -19,6 +21,8 @@ public class SearchMeetingController {
 	private MeetingService meetingService;
 	@Autowired
 	private IrregularService irregularService;
+	@Autowired
+	private RegularService regularService;
 	
 	@RequestMapping("/meeting/search")
 	public ModelAndView sortAll(@RequestParam(value="sortWith", defaultValue="order") String sortWith,
@@ -36,32 +40,33 @@ public class SearchMeetingController {
 			if (category.equals("all")) {
 				List<Meeting> searchAllList = meetingService.searchAllByKey(key);
 				mav.addObject("meetingList", searchAllList);
-			} 
-			else {
+			} else {
 				List<Meeting> searchCategoryList = meetingService.searchCategoryByKey(key, category);
 				mav.addObject("meetingList", searchCategoryList);
 			}
-		}
-		else if (meetingType.equals("irregular")) { //일시적 눌렀을때
+		} else if (meetingType.equals("irregular")) { //일시적 눌렀을때
 			mav.addObject("checkedIrregular", true);
 			if (category.equals("all")) {
 				List<Irregular> searchIrregularByKeyOrderList = irregularService.searchIrregularByKeyOrder(key);
 				mav.addObject("meetingList", searchIrregularByKeyOrderList);
-			} 
-			else {
+			} else {
 				List<Irregular> searchIrregularCategoryByKeyOrderList = irregularService.searchIrregularCategoryByKeyOrder(key, category);
 				mav.addObject("meetingList", searchIrregularCategoryByKeyOrderList);
 			}
+		} else { //정기적 눌렀을때
+			mav.addObject("checkedRegular", true);
+			if (category.equals("all")) {
+				List<Regular> searchRegularByKeyOrderList = regularService.searchRegularByKeyOrder(key);
+				mav.addObject("meetingList", searchRegularByKeyOrderList);
+			} else {
+				List<Regular> searchRegularCategoryByKeyOrderList = regularService.searchRegularCategoryByKeyOrder(key, category);
+				mav.addObject("meetingList", searchRegularCategoryByKeyOrderList);
+			}
 		}
-		else { //정기적 눌렀을때
-			mav.addObject("checkedReuglar", true);
-		}
-		
 		
 		if (sortWith.equals("order")) { // 최신순 정렬 표시
 			mav.addObject("checkedOrder", true);
-		}
-		else { // 인기순 정렬 표시
+		} else { // 인기순 정렬 표시
 			mav.addObject("checkedHeart", true);
 		}
 

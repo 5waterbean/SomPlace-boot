@@ -10,8 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.Irregular;
 import com.somplace.domain.Meeting;
+import com.somplace.domain.Regular;
 import com.somplace.service.IrregularService;
 import com.somplace.service.MeetingService;
+import com.somplace.service.RegularService;
 
 @Controller
 public class SortMeetingController {
@@ -19,6 +21,8 @@ public class SortMeetingController {
 	private MeetingService meetingService;
 	@Autowired
 	private IrregularService irregularService;
+	@Autowired
+	private RegularService regularService;
 	
 	@RequestMapping("/meeting/sort/all")
 	public ModelAndView sortAll(@RequestParam(value="sortWith", defaultValue="order") String sortWith,
@@ -41,32 +45,26 @@ public class SortMeetingController {
 					List<Meeting> sortCategoryList = meetingService.sortCategory(category, sortWith);
 					mav.addObject("meetingList", sortCategoryList);
 				}
-			}
-			else { //key가 있을때(검색 했을때)
+			} else { //key가 있을때(검색 했을때)
 				if (category.equals("all")) { 
 					if (sortWith.equals("order")) {//전체(키워드) 검색, 최신순
 						List<Meeting> searchAllList = meetingService.searchAllByKey(key);
 						mav.addObject("meetingList", searchAllList);
-					}
-					else {//전체(키워드) 검색, 인기순
+					} else { //전체(키워드) 검색, 인기순
 						List<Meeting> sortAllByKeyHeartList = meetingService.sortAllByKeyHeart(key);
 						mav.addObject("meetingList", sortAllByKeyHeartList);
 					}
-					
-				}
-				else { 
-					if (sortWith.equals("order")) {//카테고리별(키워드) 검색, 최신순
+				} else { 
+					if (sortWith.equals("order")) { //카테고리별(키워드) 검색, 최신순
 						List<Meeting> searchCategoryList = meetingService.searchCategoryByKey(key, category);
 						mav.addObject("meetingList", searchCategoryList);
-					}
-					else {//카테고리별(키워드) 검색, 인기순
+					} else { //카테고리별(키워드) 검색, 인기순
 						List<Meeting> sortCategoryByKeyHeartList = meetingService.sortCategoryByKeyHeart(key, category);
 						mav.addObject("meetingList", sortCategoryByKeyHeartList);
 					}
 				}
 			}
-		}
-		else if (meetingType.equals("irregular")) { //일시적 눌렀을때
+		} else if (meetingType.equals("irregular")) { //일시적 눌렀을때
 			mav.addObject("checkedIrregular", true);
 			if (key.equals("")) { //key가 없을때(검색어가 없을때)
 				if (category.equals("all")) {
@@ -76,41 +74,61 @@ public class SortMeetingController {
 					List<Irregular> sortIrregularCategoryList = irregularService.sortIrregularCategory(category, sortWith); //일시적모임 카테고리별 정렬
 					mav.addObject("meetingList", sortIrregularCategoryList);
 				}
-			}
-			else { //key가 있을때(검색 했을때)
+			} else { //key가 있을때(검색 했을때)
 				if (category.equals("all")) { 
-					if (sortWith.equals("order")) {//일시적모임(키워드) 검색, 최신순
+					if (sortWith.equals("order")) { //일시적모임(키워드) 검색, 최신순
 						List<Irregular> sortIrregularByKeyOrderList = irregularService.searchIrregularByKeyOrder(key);
 						mav.addObject("meetingList", sortIrregularByKeyOrderList);
-					}
-					else {//일시적모임(키워드) 검색, 인기순
+					} else { //일시적모임(키워드) 검색, 인기순
 						List<Irregular> searchIrregularByKeyHeartList = irregularService.sortIrregularByKeyHeart(key);
 						mav.addObject("meetingList", searchIrregularByKeyHeartList);
 					}
 					
-				}
-				else { 
-					if (sortWith.equals("order")) {//일시적모임 카테고리별(키워드) 검색, 최신순
+				} else { 
+					if (sortWith.equals("order")) { //일시적모임 카테고리별(키워드) 검색, 최신순
 						List<Irregular> sortIrregularCategoryByOrderList = irregularService.searchIrregularCategoryByKeyOrder(key, category);
 						mav.addObject("meetingList", sortIrregularCategoryByOrderList);
-					}
-					else {//일시적모임 카테고리별(키워드) 검색, 인기순
+					} else { //일시적모임 카테고리별(키워드) 검색, 인기순
 						List<Irregular> searchIrregularCategoryByHeartList = irregularService.sortIrregularCategoryByKeyHeart(key, category);
 						mav.addObject("meetingList", searchIrregularCategoryByHeartList);
 					}
 				}
 			}
-			
-		}
-		else { //정기적 눌렀을때
+		} else { // 정기적 눌렀을때
 			mav.addObject("checkedRegular", true);
+			if (key.equals("")) { //key가 없을때(검색어가 없을때)
+				if (category.equals("all")) {
+					List<Regular> sortIrregularList = regularService.sortRegular(sortWith); // 정기적적모임 정렬
+					mav.addObject("meetingList", sortIrregularList);
+				} else {
+					List<Regular> sortIrregularCategoryList = regularService.sortRegularCategory(category, sortWith); // 정기적적모임 카테고리별 정렬
+					mav.addObject("meetingList", sortIrregularCategoryList);
+				}
+			} else { //key가 있을때(검색 했을때)
+				if (category.equals("all")) { 
+					if (sortWith.equals("order")) { // 정기적적모임(키워드) 검색, 최신순
+						List<Regular> sortIrregularByKeyOrderList = regularService.searchRegularByKeyOrder(key);
+						mav.addObject("meetingList", sortIrregularByKeyOrderList);
+					} else { // 정기적적모임(키워드) 검색, 인기순
+						List<Regular> searchIrregularByKeyHeartList = regularService.sortRegularByKeyHeart(key);
+						mav.addObject("meetingList", searchIrregularByKeyHeartList);
+					}
+					
+				} else { 
+					if (sortWith.equals("order")) { // 정기적적모임 카테고리별(키워드) 검색, 최신순
+						List<Regular> sortIrregularCategoryByOrderList = regularService.searchRegularCategoryByKeyOrder(key, category);
+						mav.addObject("meetingList", sortIrregularCategoryByOrderList);
+					} else { // 정기적적모임 카테고리별(키워드) 검색, 인기순
+						List<Regular> searchIrregularCategoryByHeartList = regularService.sortRegularCategoryByKeyHeart(key, category);
+						mav.addObject("meetingList", searchIrregularCategoryByHeartList);
+					}
+				}
+			} 
 		}
-		
 		
 		if (sortWith.equals("order")) { // 최신순 정렬 표시
 			mav.addObject("checkedOrder", true);
-		}
-		else { // 인기순 정렬 표시
+		} else { // 인기순 정렬 표시
 			mav.addObject("checkedHeart", true);
 		}
 		

@@ -55,8 +55,7 @@ public class CreateRegualrController {
 			
 			// regularMeeting 생성
 			regularService.createRegular(meetingCommand);			
-		}
-					
+		}					
 		
 		return mav;
 	}

@@ -145,42 +145,7 @@ button {
 }
 
 </style>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script>
-	$(document).ready(function() {
-		document.querySelector('input[type="date"]').value = new Date()
-        	.toISOString().substring(0, 10);
-  		document.querySelector('input[type="date"]').min = new Date()
-        	.toISOString().substring(0, 10);
-		
-		document.getElementById("studyDetail").style.display = "none";
-		document.getElementById("hobbyDetail").style.display = "none";
-	});
-	
-	function showDetail(infoId) {
-		if (infoId == "meal") {
-			document.getElementById("mealDetail").style.display = "";
-			document.getElementById("studyDetail").style.display = "none";
-			document.getElementById("hobbyDetail").style.display = "none";
-		} else if (infoId == "study") {
-			document.getElementById("mealDetail").style.display = "none";
-			document.getElementById("studyDetail").style.display = "";
-			document.getElementById("hobbyDetail").style.display = "none";
-		} else {
-			document.getElementById("mealDetail").style.display = "none";
-			document.getElementById("studyDetail").style.display = "none";
-			document.getElementById("hobbyDetail").style.display = "";
-		}
-	}
-	
-	function etcVal(etc) {
-		var etcText = regularCreateForm.etcTextDetail.value;
-		alert(etcText);
-		if (etc.checked) {
-			$('#etc').attr('value', etcText);
-		}
-	}
-</script>
+
 </head>
 
 <body>
@@ -188,7 +153,7 @@ button {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 
 	<div class="container">
-		<form:form name="regularCreateForm" action="/meeting/regular/create" method="post" modelAttribute="meetingCommand">
+		<form:form action="/meeting/regular/create" method="post" modelAttribute="meetingCommand">
 			<div>
 				<h2>정기적 모임 만들기</h2>
 			</div>
@@ -305,56 +270,7 @@ button {
 					<td></td>
 					<td>
 					<font color="red" size="2"><form:errors path="meetingInfoDetail" /></font>
-						<!-- 취미선택시 -->
-						<div class="meeting_info_detail_td" id="hobbyDetail">
-							<div>
-								<input type="checkbox" id="sports" name="meetingInfoDetail" value="스포츠"> 
-								<label for="sports">스포츠</label>
-							</div>
-							<div>
-								<input type="checkbox" id="art" name="meetingInfoDetail" value="예술"> 
-								<label for="art">예술</label>
-							</div>
-							<div>
-								<input type="checkbox" id="it" name="meetingInfoDetail" value="IT"> 
-								<label for="it">IT</label>
-							</div>
-							<div>
-								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"> 
-								<label for="etc">
-									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요.">
-								</label>
-							</div>
-						</div>
-						
-						<!-- 스터디선택시 -->
-						<div class="meeting_info_detail_td" id="studyDetail">
-                            <div>
-                                <input type="checkbox" id="task" name="meetingInfoDetail" value="과제">
-                                <label for="task">과제</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험">
-                                <label for="exam">학교 시험</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비">
-                                <label for="prepare_employment">취업준비</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="license" name="meetingInfoDetail" value="자격증">
-                                <label for="license">자격증</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
-                                <label for="etc">
-                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
-                                    >
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <!-- 식사선택시 -->
+						<!-- 식사선택시 -->
                         <div class="meeting_info_detail_td" id="mealDetail">
                            <div>
                                <input type="checkbox" id="western" name="meetingInfoDetail" value="양식">
@@ -387,10 +303,58 @@ button {
                                </label>
                            </div>
                         </div>
-                        
+
+                        <!-- 스터디선택시 -->
+						<div class="meeting_info_detail_td" id="studyDetail">
+                            <div>
+                                <input type="checkbox" id="task" name="meetingInfoDetail" value="과제">
+                                <label for="task">과제</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험">
+                                <label for="exam">학교 시험</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비">
+                                <label for="prepare_employment">취업준비</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="license" name="meetingInfoDetail" value="자격증">
+                                <label for="license">자격증</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
+                                <label for="etc">
+                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
+                                    >
+                                </label>
+                            </div>
+                        </div>
+                    
+						<!-- 취미선택시 -->
+						<div class="meeting_info_detail_td" id="hobbyDetail">
+							<div>
+								<input type="checkbox" id="sports" name="meetingInfoDetail" value="스포츠"> 
+								<label for="sports">스포츠</label>
+							</div>
+							<div>
+								<input type="checkbox" id="art" name="meetingInfoDetail" value="예술"> 
+								<label for="art">예술</label>
+							</div>
+							<div>
+								<input type="checkbox" id="it" name="meetingInfoDetail" value="IT"> 
+								<label for="it">IT</label>
+							</div>
+							<div>
+								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"> 
+								<label for="etc">
+									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요.">
+								</label>
+							</div>
+						</div>
 					</td>
-					<td colspan="2"><textarea class="regular_memo" name="memo" value="${meetingCommand.memo}"
-							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요."></textarea></td>
+					<td colspan="2"><textarea class="regular_memo" name="memo"
+							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요.">${meetingCommand.memo}</textarea></td>
 				
 				</tr>
 				
@@ -398,7 +362,7 @@ button {
 					<td></td>
 					<td></td>
 					<td>
-						<button type="submit">생성하기</button>
+						<button type="submit" onclick="create()">생성하기</button>
 					</td>
 					<td>
 						<div class="regular_back_btn" onclick="location.href='/meeting/sort/all'">취소하기</div>
@@ -407,6 +371,54 @@ button {
 			</table>
 		</form:form>
 	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script>
+		document.querySelector('input[type="date"]').value = new Date()
+			.toISOString().substring(0, 10);
+		document.querySelector('input[type="date"]').min = new Date()
+			.toISOString().substring(0, 10);
+
+		let etc = document.querySelector("#etc");
+	    let etcTextDetail = document.querySelector('#etcTextDetail');
+	
+	    function create() {
+	        if (etc.checked) {
+	            if (etc.value != "") {
+	                etc.value = etcTextDetail.value;
+	            }
+	        }
+	    }
+	
+	    $(document).ready(function() {
+			document.getElementById("studyDetail").style.display = "none";
+			document.getElementById("hobbyDetail").style.display = "none";
+		});
+		
+		function showDetail(infoId) {
+			if (infoId == "meal") {
+				document.getElementById("mealDetail").style.display = "";
+				document.getElementById("studyDetail").style.display = "none";
+				document.getElementById("hobbyDetail").style.display = "none";
+			} else if (infoId == "study") {
+				document.getElementById("mealDetail").style.display = "none";
+				document.getElementById("studyDetail").style.display = "";
+				document.getElementById("hobbyDetail").style.display = "none";
+			} else {
+				document.getElementById("mealDetail").style.display = "none";
+				document.getElementById("studyDetail").style.display = "none";
+				document.getElementById("hobbyDetail").style.display = "";
+			}
+		}
+		
+		function etcVal(etc) {
+			var etcText = regularCreateForm.etcTextDetail.value;
+			alert(etcText);
+			if (etc.checked) {
+				$('#etc').attr('value', etcText);
+			}
+		}
+	</script>
 </body>
 
 </html>
