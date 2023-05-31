@@ -39,6 +39,9 @@ public interface MeetingMapper {
 	// 모임 생성
 	void createMeeting(MeetingCommand meetingCommand);
 	
+	// 모임 수정
+	void updateMeeting(MeetingCommand meetingCommand);
+	
 	// 내가 생성한 모임 조회
 	List<Meeting> getMadeMeetingList(String creatorId);
 }

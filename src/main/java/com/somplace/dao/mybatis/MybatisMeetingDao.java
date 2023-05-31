@@ -67,6 +67,11 @@ public class MybatisMeetingDao implements MeetingDao {
 		MeetingMapper.createMeeting(meetingCommand);
 	}
 	
+	// 모임 수정
+	public void updateMeeting(MeetingCommand meetingCommand) throws DataAccessException {
+		MeetingMapper.updateMeeting(meetingCommand);
+	}
+	
 	// 모임 삭제
 
 	// 내가 생성한 모임 리스트 조회

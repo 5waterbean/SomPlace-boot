@@ -69,6 +69,11 @@ public class MeetingService {
 		meetingDao.createMeeting(meetingCommand);
 	}
 	
+	// 모임 수정
+	public void updateMeeting(MeetingCommand meetingCommand) {
+		meetingDao.updateMeeting(meetingCommand);
+	}
+	
 	// 내가 생성한 모임 조회
 	public List<Meeting> getMadeMeetingList(String creatorId) {
 		return meetingDao.getMadeMeetingList(creatorId);
