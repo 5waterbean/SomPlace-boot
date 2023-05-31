@@ -165,6 +165,7 @@ div.active {
 
 	<form:form name="categoryForm" action="/meeting/sort/all">
 		<input type="hidden" id="hiddenId" name="category"></input>
+		<input type="hidden" id="hiddenType" name="meetingType"></input>
 	</form:form>
 
 	<div class="left">
@@ -238,6 +239,7 @@ div.active {
 	
 			categoryForm.submit();
 		}
+		
 </script>
 </body>
 

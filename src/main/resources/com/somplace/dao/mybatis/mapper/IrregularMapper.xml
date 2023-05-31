@@ -2,6 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.somplace.dao.mybatis.mapper.IrregularMapper">
 	<cache/>
+	<resultMap id="irregularResultSet" type="com.somplace.domain.Irregular">
+		<result column="MEETINGID" property="meetingId"/>
+		<result column="MEETINGTITLE" property="meetingTitle"/>
+		<result column="MEETINGDATE" property="meetingDate"/>
+		<result column="NUMOFPEOPLE" property="numOfPeople"/>
+		<result column="MAXPEOPLE" property="maxPeople"/>
+		<result column="MEETINGPLACE" property="meetingPlace"/>
+		<result column="MEMO" property="memo"/>
+		<result column="MEETINGINFO" property="meetingInfo"/>
+		<result column="MEETINGINFODETAIL" property="meetingInfoDetail"/>
+		<result column="CREATORID" property="creatorId"/>
+		<result column="CLOSE" property="close"/>
+		<result column="CANCEL" property="cancel"/>
+	</resultMap>
+	
+	<sql id="selectIrregular_view_fragment">
+		SELECT meetingId, meetingTitle, meetingDate, numOfPeople, maxPeople, meetingPlace, memo, 
+			meetingInfo, meetingInfoDetail, creatorId, close, cancel
+		FROM irregularmeeting_view
+	</sql>
 	
 	<!-- 일시적모임 생성 -->
 	<insert id="createIrregular" parameterType="com.somplace.domain.command.MeetingCommand">
@@ -11,41 +31,76 @@
 	<!-- 일시적모임 수정 -->
 	<update id="updateIrregular" parameterType="com.somplace.domain.command.MeetingCommand">
 		UPDATE irregularMeeting
-		SET meetingDay = #{meetingDay}
+		SET meetingDate = #{meetingDate}
 		WHERE meetingId = #{meetingId}
 	</update>
 	
-	<!-- 일시적모임 가져오기 -->
-	<select resultType="Irregular" id="getIrregularById">
-		SELECT meetingId, meetingTitle, meetingDay, numOfPeople, maxPeople, meetingPlace, memo, 
-			meetingInfo, meetingInfoDetail, creatorId, close, cancel
-		FROM irregularmeeting_view
+	<!-- 일시적모임 조회 -->
+	<select resultMap="irregularResultSet" id="getIrregularById">
+		<include refid="selectIrregular_view_fragment" />
 		WHERE meetingId = #{meetingId}
 	</select>
 	
-	<!-- 일시적모임(키워드) 검색 -->
-	<select id="searchIrregularByKey" parameterType="String" resultType="irregular">
-		SELECT meetingId, meetingTitle, meetingDay, numOfPeople, maxPeople, meetingPlace, memo, 
-			meetingInfo, meetingInfoDetail, creatorId, close, cancel
-		FROM irregularmeeting_view
-		WHERE (meetingTitle LIKE #{key} OR memo LIKE #{key}) and close = 0 and meetingInfo=#{category}
-	</select>
-	
-	<!-- 일시적모임 인기순 정렬 -->
-	<select id="sortIrregularByHeart" parameterType="String" resultType="irregular">
-		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
-			vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingday, vi.close, vi.cancel, count(case when mm.heart = 1 then 1 end) AS heart
-		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
-		GROUP BY vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
-				vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingday, vi.close, vi.cancel
-		ORDER BY count(mm.heart) DESC
-	</select>
 	<!-- 일시적모임 최신순 정렬 -->
-	<select id="sortIrregularByOrder" parameterType="String" resultType="irregular">
-		SELECT meetingId, meetingTitle, meetingDay, numOfPeople, maxPeople, meetingPlace, memo, 
-			meetingInfo, meetingInfoDetail, creatorId, close, cancel
-		FROM irregularmeeting_view
+	<select resultMap="irregularResultSet" id="sortIrregularByOrder">
+		<include refid="selectIrregular_view_fragment" />
 		ORDER BY meetingId DESC
 	</select> 
+	<!-- 일시적모임 인기순 정렬 -->
+	<select resultMap="irregularResultSet" id="sortIrregularByHeart">
+		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
+			vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingdate, vi.close, vi.cancel
+		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
+		GROUP BY vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
+				vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingdate, vi.close, vi.cancel
+		ORDER BY count(mm.heart) DESC
+	</select>
 	
+	<!-- 일시적모임 카테고리별 최신순 정렬 -->
+	<select resultMap="irregularResultSet" id="sortIrregularCategoryByOrder" >
+		<include refid="selectIrregular_view_fragment" />
+		WHERE meetingInfo = #{category}
+		ORDER BY MEETINGID DESC
+	</select>
+	<!-- 일시적모임 카테고리별 인기순 정렬 -->
+	<select resultMap="irregularResultSet" id="sortIrregularCategoryByHeart" >
+		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
+			vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingdate, vi.close, vi.cancel
+		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
+		WHERE meetingInfo = #{category}
+		GROUP BY vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo, vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.close, vi.cancel
+		ORDER BY count(mm.heart) DESC
+	</select>
+	
+	<!-- 일시적모임(키워드) 검색, 최신순 정렬 -->
+	<select resultMap="irregularResultSet" id="searchIrregularByKeyOrder">
+		<include refid="selectIrregular_view_fragment" />
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+		ORDER BY meetingId DESC
+	</select>
+	<!-- 일시적모임(키워드) 검색, 인기순 정렬 -->
+	<select resultMap="irregularResultSet" id="sortIrregularByKeyHeart">
+		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
+			vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingdate, vi.close, vi.cancel
+		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+		GROUP BY vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo, vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.close, vi.cancel
+		ORDER BY count(mm.heart) DESC
+	</select>
+	
+	<!-- 일시적모임 카테고리별(키워드) 검색, 최신순 정렬 -->
+	<select resultMap="irregularResultSet" id="searchIrregularCategoryByKeyOrder" parameterType="map"> 
+		<include refid="selectIrregular_view_fragment" />
+			WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
+			ORDER BY meetingId DESC  
+	</select>
+	<!-- 일시적모임 카테고리별(키워드) 검색, 인기순 정렬 -->
+	<select resultMap="irregularResultSet" id="sortIrregularCategoryByKeyHeart" parameterType="map">
+		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
+			vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingdate, vi.close, vi.cancel
+		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
+		GROUP BY vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo, vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.close, vi.cancel
+		ORDER BY count(mm.heart) DESC
+	</select>
 </mapper>

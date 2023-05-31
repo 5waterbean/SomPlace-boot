@@ -34,7 +34,7 @@
             border-bottom-left-radius: 20px;
         }
 
-        form>div {
+        .middle_first>form>div {
             border-top-right-radius: 20px;
             border-bottom-right-radius: 20px;
             border: 1px solid black;
@@ -53,7 +53,7 @@
             background-color: rgb(193, 193, 193);
         }
 
-        .middle_second {
+        .middle_second>form {
             display: flex;
             justify-content: space-between;
             margin-top: 10px;
@@ -81,15 +81,18 @@
         </div>
 
         <div class="middle_second">
+        	<form:form name="selectForm" action="/meeting/sort/all">
             <div>
-                <input type="radio" name="sort">
+                <input type="radio" name="meetingType" value="irregular" 
+                	<c:if test="${checkedIrregular}">checked</c:if> onchange="this.form.submit()">
                 <label for="">일시적</label>
-                <input type="radio" name="sort">
+                <input type="radio" name="meetingType" value="regular" 
+                	<c:if test="${checkedRegular}">checked</c:if> onchange="this.form.submit()">
                 <label for="">정기적</label>
-                <input type="radio" name="sort" checked>
+                <input type="radio" name="meetingType" value="all" 
+                	<c:if test="${checkedAll}">checked</c:if> onchange="this.form.submit()">
                 <label for="">전체</label>
             </div>
-			<form:form action="/meeting/sort/all">
 				<input type="hidden" name="category" value="${checkedCategory}"></input>
 				<input type="hidden" name="key" value="${checkedKey}"></input>
             	<select name="sortWith" style="width: 80px; height: 37px;" onchange="this.form.submit()">
