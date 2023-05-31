@@ -165,7 +165,8 @@ div.active {
 
 	<form:form name="categoryForm" action="/meeting/sort/all">
 		<input type="hidden" id="hiddenId" name="category"></input>
-		<input type="hidden" id="hiddenType" name="meetingType"></input>
+		<input type="hidden" id="meetingType" name="meetingType" value="${meetingType}"></input>
+		<input type="hidden" id="key" name="key" value="${checkedKey}"></input>
 	</form:form>
 
 	<div class="left">

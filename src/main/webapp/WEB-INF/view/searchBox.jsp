@@ -73,6 +73,7 @@
         <div class="middle_first">
         	<form name="searchForm" action="/meeting/search">
         		<input type="hidden" name="category" value="${checkedCategory}"></input>
+        		<input type="hidden" id="meetingType" name="meetingType" value="${meetingType}"></input>
             	<input type="text" id="key" name="key" placeholder=" 검색하고 싶은 키워드를 입력해주세요" value="${checkedKey}">
             	<div>
                 	<img src="../../../img/search.png" onclick="searchForm.submit()">
