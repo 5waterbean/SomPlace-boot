@@ -99,6 +99,13 @@
 			}		
 			loginFrm.submit();
 		}
+		
+		window.onkeydown = (event) => {
+            console.log(event.key)
+            if(event.key == 'Enter') {
+                login();
+            }
+        }
 	</script>
 </head>
 
@@ -125,7 +132,7 @@
 
                 <tr>
                     <td></td>
-                    <td><input type="button" value="회원가입"></td>
+                    <td><input type="button" value="회원가입" onClick="location.href='member/join'"></td>
                     <td><input type="button" value="로그인" onClick="login()"></td>
                 </tr>
             </table>

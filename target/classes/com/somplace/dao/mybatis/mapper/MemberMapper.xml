@@ -3,10 +3,22 @@
 <mapper namespace="com.somplace.dao.mybatis.mapper.MemberMapper">
 	<cache/>
 
-	<select resultType="com.somplace.domain.Member" id="getMember"> 
+	<select id="getMember" resultType="Member"> 
 		SELECT ID as memberId, PW, NAME, STUDENTNUMBER, MAJOR, PHONE, GOOD, BAD, BIRTH
 		FROM MEMBER
 		WHERE ID = #{memberId}
 	</select>
+	
+	<select id="createMember" parameterType="com.somplace.domain.command.MemberCommand"> 
+		INSERT INTO MEMBER
+		VALUES (#{memberId}, #{pw}, #{name}, 
+				#{studentNumberIntType}, #{major}, #{phone}, 
+				#{birth}, 0, 0)
+	</select>
 
+	<select id="memberIdCheck" resultType="int"> 
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE ID = #{memberId}
+	</select>
 </mapper>
