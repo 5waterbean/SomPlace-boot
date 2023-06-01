@@ -99,6 +99,10 @@
 			heartLabel.innerHTML = "🤍";
 		}
 	}
+	
+	function findInfo() {
+		document.querySelector('form[name="findInfoForm"]').submit();
+	}
 </script>
 </head>
 
@@ -114,7 +118,10 @@
 			<c:set var="hobby" value="../../img/lifestyle.png" />
 			<c:forEach var="meeting" items="${meetingList}">
 				<td>
-					<div>
+					<form name="findInfoForm" action="/meeting/info" method="POST">
+						<input type="hidden" name="checkedById" value="${meeting.meetingId}">
+					</form>
+					<div onclick="findInfo()">
 						<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>
 						<c:choose>
 							<c:when test="${meeting.meetingInfo eq '식사'}">

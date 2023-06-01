@@ -154,7 +154,7 @@ div.active {
 
 <body>
 	<div class="top">
-		<img src="../../../img/logo.png">
+		<img src="../../../img/logo.png" onclick="location.href='/meeting/sort/all'">
 
 		<div>
 			<div id="meal" onclick="setCategory(this.id)">식사</div>
