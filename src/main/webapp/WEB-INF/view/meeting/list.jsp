@@ -100,8 +100,8 @@
 		}
 	}
 	
-	function findInfo() {
-		document.querySelector('form[name="findInfoForm"]').submit();
+	function findInfo(id) {
+		document.getElementById(id).submit();
 	}
 </script>
 </head>
@@ -118,10 +118,10 @@
 			<c:set var="hobby" value="../../img/lifestyle.png" />
 			<c:forEach var="meeting" items="${meetingList}">
 				<td>
-					<form name="findInfoForm" action="/meeting/info" method="POST">
+					<form id="${meeting.meetingId}" action="/meeting/info" method="POST">
 						<input type="hidden" name="checkedById" value="${meeting.meetingId}">
 					</form>
-					<div onclick="findInfo()">
+					<div onclick="findInfo(${meeting.meetingId})">
 						<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>
 						<c:choose>
 							<c:when test="${meeting.meetingInfo eq '식사'}">
@@ -138,8 +138,8 @@
 						<div>${meeting.meetingInfo}</div>
 						<div>${meeting.meetingInfoDetail}</div>
 						<div>
-							<input type="checkbox" id="heart1" oninput="addLike(this)">
-							<label for="heart1">🤍</label>
+							<input type="checkbox" id="${meeting.meetingId}" oninput="addLike(this)">
+							<label id="${meeting.meetingId}" for="${meeting.meetingId}">🤍</label>
 						</div>
 					</div>
 				</td>

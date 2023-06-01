@@ -1,5 +1,9 @@
 package com.somplace.controller.irregular;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +34,13 @@ public class InfoIrregularController {
 		ModelAndView mav = new ModelAndView("meeting/irregular/irregularInfo");
 		Irregular irregular = irregularService.getIrregularById(checkedById);
 		mav.addObject("irregular", irregular);
+		StringTokenizer itr = new StringTokenizer(irregular.getMeetingInfoDetail(), ",");
+		List<String> detailList = new ArrayList<String>();
+		while (itr.hasMoreTokens()) {
+			detailList.add(itr.nextToken().trim());
+		}
+		mav.addObject("detailList", detailList);
+		System.out.println(irregular.getMeetingInfo());
 		return mav;
 	}
 }
