@@ -98,7 +98,7 @@ h3, h4 {
 	width: 100%;
 }
 
-#numOfPeople {
+#maxPeople {
 	width: 15%;
 }
 
@@ -106,7 +106,7 @@ h3, h4 {
 	width: 50%;
 }
 
-.meeting_info_detail_td {
+.meeting_info_detail_td, button {
 	border: 1px solid black;
 	border-radius: 20px;
 	padding: 20px;
@@ -122,17 +122,24 @@ h3, h4 {
 	width: 20%;
 }
 
-.irregular_update_btn, .irregular_back_btn {
+button, .irregular_back_btn {
 	border: 1px solid black;
 	background-color: rgb(226, 240, 217);
 	padding: 5px 15px 5px 15px;
 	border-radius: 20px;
 	text-align: center;
+	font-size: 16px;
+	height: 33px;
 }
 
-.irregular_update_btn:hover, .irregular_back_btn:hover {
+button:hover, .irregular_back_btn:hover {
 	background-color: rgb(174, 220, 175);
 	cursor: pointer;
+}
+
+button {
+	font-size: 16px;
+	height: 33px;
 }
 </style>
 </head>
@@ -142,7 +149,7 @@ h3, h4 {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	
 	<div class="container">
-		<form action="" method="post">
+		<form action="/meeting/irregular/update" method="post">
 			<div>
 				<h2>일시적모임 수정하기</h2>
 			</div>
@@ -159,165 +166,159 @@ h3, h4 {
 
 				<div class="creator">
 					<h3>모임장</h3>
-					<input type="text" id="creatorId" name="creatorId"
-						value="컴퓨터학과/20191011">
+					<input type="text" id="creatorId"
+						value=" ${memberSession.major} / ${memberSession.studentNumber} " readonly>
 				</div>
 			</div>
 
 			<br>
-
+			<input type="hidden" id ="meetingId" name="meetingId" value="${irregular.meetingId}"></input>
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" id="title" name="title"
-						size="90" required value="학교 운동장에서 배드민턴 칠 사람~?"></td>
+					<td colspan="3"><input type="text" id="title" name="meetingTitle"
+						size="90" required value="${irregular.meetingTitle}"></td>
 				</tr>
 
 				<tr>
 					<th>모집인원</th>
-					<td colspan="3"><input type="text" id="numOfPeople"
-						name="numOfPeople" size="3" required value="4"> <strong>명</strong>
+					<td colspan="3"><input type="text" id="maxPeople"
+						name="maxPeople" size="3" required value="${irregular.maxPeople}"> <strong>명</strong>
 					</td>
 				</tr>
 
 				<tr>
 					<th>모임 장소</th>
 					<td colspan="3"><input type="text" id="meetingPlace"
-						name="meetingPlace" size="30" required value="학교 운동장"></td>
+						name="meetingPlace" size="30" required value="${irregular.meetingPlace}"></td>
 				</tr>
 
 				<tr>
 					<th>모임 날짜/시간</th>
 					<td colspan="3"><input type="date" id="meetingDate"
-						name="meetingDate" required> <input type="time"
-						id="meetingTime" name="meetingTime" required value="13:00:00">
+						name="irregularMeetingDate" required> <input type="time"
+						id="meetingTime" name="irregularMeetingTime" required>
 					</td>
 				</tr>
 
 				<tr>
 					<th>모임 메모</th>
-					<td colspan="3"><textarea class="regular_memo"
-							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요.">2시간 정도 치고 같이 저녁 먹어요!</textarea>
+					<td colspan="3"><textarea class="regular_memo" name="memo"
+							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요.">${irregular.memo}</textarea>
 					</td>
 				</tr>
 
 				<tr>
 					<th>카테고리</th>
-
-					<td><input type="radio" id="meal" name="meetingInfo" disabled>
-						<label for="meal">식사</label> <input type="radio" id="study"
-						name="meetingInfo" disabled> <label for="study">스터디</label>
-
-						<input type="radio" id="hobby" name="meetingInfo" checked disabled>
-						<label for="hobby">취미</label></td>
+					
+					<td>
+						<input type="radio" id="meal" name="meetingInfo" disabled
+							<c:if test="${irregular.meetingInfo} == '식사'">selected</c:if>>
+							<label for="meal">식사</label> 
+						<input type="radio" id="study" name="meetingInfo" disabled
+							<c:if test="${irregular.meetingInfo} == '스터디'">selected</c:if>> 
+							<label for="study">스터디</label>
+						<input type="radio" id="hobby" name="meetingInfo" disabled
+							<c:if test="${irregular.meetingInfo} == '취미'">selected</c:if>>
+							<label for="hobby">취미</label>
+					</td>
 				</tr>
 
-				<!-- 식사 선택시
-                <tr>
+				<tr>
                     <th></th>
                     <td colspan="3">
-                        <div class="meeting_info_detail_td">
-                            <div>
-                                <input type="checkbox" id="western" name="meetingInfoDetail">
-                                <label for="western">양식</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="japanese" name="meetingInfoDetail">
-                                <label for="japanese">일식</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="chinese" name="meetingInfoDetail">
-                                <label for="chinese">중식</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="korean" name="meetingInfoDetail">
-                                <label for="korean">한식</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="flour_based" name="meetingInfoDetail">
-                                <label for="flour_based">분식</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="alcohol" name="meetingInfoDetail">
-                                <label for="alcohol">술</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail">
+                        <!-- 식사선택시 -->
+                        <div class="meeting_info_detail_td" id="mealDetail">
+                           <div>
+                               <input type="checkbox" id="western" name="meetingInfoDetail" value="양식">
+                               <label for="western">양식</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="japanese" name="meetingInfoDetail" value="일식">
+                               <label for="japanese">일식</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="chinese" name="meetingInfoDetail" value="중식">
+                               <label for="chinese">중식</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="korean" name="meetingInfoDetail" value="한식">
+                               <label for="korean">한식</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="flour_based" name="meetingInfoDetail" value="분식">
+                               <label for="flour_based">분식</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="alcohol" name="meetingInfoDetail" value="술">
+                               <label for="alcohol">술</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
                                 <label for="etc">
-                                    <input type="text" id="etcText" name="etcText" size="15" placeholder="기타항목 입력">
-                                </label>
-                            </div>
+                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력">
+                               </label>
+                           </div>
                         </div>
-                    </td>
-                </tr> -->
 
-				<!-- 스터디 선택시
-                <tr>
-                    <th></th>
-                    <td colspan="3">
-                        <div class="meeting_info_detail_td">
+                        <!-- 스터디선택시 -->
+						<div class="meeting_info_detail_td" id="studyDetail">
                             <div>
-                                <input type="checkbox" id="task" name="meetingInfoDetail">
+                                <input type="checkbox" id="task" name="meetingInfoDetail" value="과제">
                                 <label for="task">과제</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="exam" name="meetingInfoDetail">
+                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험">
                                 <label for="exam">학교 시험</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="prepare_employment" name="meetingInfoDetail">
+                                <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비">
                                 <label for="prepare_employment">취업준비</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="license" name="meetingInfoDetail">
+                                <input type="checkbox" id="license" name="meetingInfoDetail" value="자격증">
                                 <label for="license">자격증</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail">
+                                <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
                                 <label for="etc">
-                                    <input type="text" id="etcText" name="etcText" size="15" placeholder="기타항목 입력">
+                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
+                                    >
                                 </label>
                             </div>
                         </div>
-                    </td>
-                </tr> -->
-
-				<!-- 취미선택시 -->
-				<tr>
-					<th></th>
-					<td colspan="3">
-						<div class="meeting_info_detail_td">
+                    
+						<!-- 취미선택시 -->
+						<div class="meeting_info_detail_td" id="hobbyDetail">
 							<div>
-								<input type="checkbox" id="sports" name="meetingInfoDetail"
-									checked disabled> <label for="sports">스포츠</label>
+								<input type="checkbox" id="sports" name="meetingInfoDetail" value="스포츠"> 
+								<label for="sports">스포츠</label>
 							</div>
 							<div>
-								<input type="checkbox" id="art" name="meetingInfoDetail"
-									disabled> <label for="art">예술</label>
+								<input type="checkbox" id="art" name="meetingInfoDetail" value="예술"> 
+								<label for="art">예술</label>
 							</div>
 							<div>
-								<input type="checkbox" id="it" name="meetingInfoDetail" disabled>
+								<input type="checkbox" id="it" name="meetingInfoDetail" value="IT"> 
 								<label for="it">IT</label>
 							</div>
 							<div>
-								<input type="checkbox" id="etc" name="meetingInfoDetail"
-									disabled> <label for="etc"> <input type="text"
-									id="etcText" name="etcText" size="15" placeholder="기타항목 입력"
-									disabled>
+								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"> 
+								<label for="etc">
+									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요.">
 								</label>
 							</div>
 						</div>
 					</td>
 				</tr>
-
 				<tr>
 					<td></td>
 					<td></td>
 					<td>
-						<div class="irregular_update_btn">수정하기</div>
+						<button type="submit" onclick="update()">수정하기</button>
 					</td>
 					<td>
-						<div class="irregular_back_btn">취소하기</div>
+						<div class="irregular_back_btn" onclick="location.href='/meeting/irregular/irregularInfo';">취소하기</div>
 					</td>
 				</tr>
 			</table>
@@ -329,6 +330,58 @@ h3, h4 {
 				.toISOString().substring(0, 10);
 		document.querySelector('input[type="date"]').min = new Date()
 				.toISOString().substring(0, 10);
+
+ 		let etc = document.querySelector("#etc");
+    	let etcTextDetail = document.querySelector('#etcTextDetail');
+    	
+    	let category = document.querySelector("#category");
+
+		function update() {
+    		if (etc.checked) {
+        		if (etc.value != "") {
+            		etc.value = etcTextDetail.value;
+        		}
+    		}
+		}
+
+    	$(document).ready(function() {
+    		if (category.equals("식사")) {
+    			document.getElementById("studyDetail").style.display = "none";
+    			document.getElementById("hobbyDetail").style.display = "none";
+    		}
+    		else if (category.equals("스터디")) {
+    			document.getElementById("mealDetail").style.display = "none";
+    			document.getElementById("hobbyDetail").style.display = "none";
+    		}
+    		else {
+    			document.getElementById("mealDetail").style.display = "none";
+    			document.getElementById("studyDetail").style.display = "none";
+    		}
+		});
+	
+		function showDetail(infoId) {
+			if (infoId == "meal") {
+				document.getElementById("mealDetail").style.display = "";
+				document.getElementById("studyDetail").style.display = "none";
+				document.getElementById("hobbyDetail").style.display = "none";
+			} else if (infoId == "study") {
+				document.getElementById("mealDetail").style.display = "none";
+				document.getElementById("studyDetail").style.display = "";
+				document.getElementById("hobbyDetail").style.display = "none";
+			} else {
+				document.getElementById("mealDetail").style.display = "none";
+				document.getElementById("studyDetail").style.display = "none";
+				document.getElementById("hobbyDetail").style.display = "";
+			}
+		}
+	
+		function etcVal(etc) {
+			var etcText = regularCreateForm.etcTextDetail.value;
+			alert(etcText);
+			if (etc.checked) {
+				$('#etc').attr('value', etcText);
+			}
+		}
 	</script>
 </body>
 

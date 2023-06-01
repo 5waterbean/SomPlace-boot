@@ -11,19 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.somplace.domain.Irregular;
-import com.somplace.domain.Member;
 import com.somplace.domain.command.MeetingCommand;
 import com.somplace.service.IrregularService;
 import com.somplace.service.MeetingService;
 
 @Controller
-@RequestMapping("/meeting/irregular/create")
-@SessionAttributes("memberSession")
-public class CreateIrregularController {
+@RequestMapping("/meeting/irregular/update")
+public class UpdateIrregularController {
 	@Autowired
 	private MeetingService meetingService;
 	@Autowired
@@ -36,19 +32,17 @@ public class CreateIrregularController {
 		this.irregularService = irregularService;
 	}
 	
-	// 모임 만들기 클릭 -> 일시적 모임 생성 폼 이동 (GET)
+	// 수정하기 버튼 클릭 -> 일시적 모임 수정페이지로 이동 (GET)
 	@GetMapping("/form")
 	public String form() {
-		return "meeting/irregular/irregularCreate";
+		return "meeting/irregular/irregularUpdate";
 	}
 	
-	// 정기적 모임 생성 폼 제출 (POST)
-	@PostMapping
-	public ModelAndView createIrregular(@ModelAttribute("meetingCommand") MeetingCommand meetingCommand,
-									 @ModelAttribute("memberSession") Member member) {
-		ModelAndView mav = new ModelAndView("meeting/irregular/irregularUpdate");
-		meetingCommand.setCreatorId(member.getMemberId());
-		
+	// 일시적 모임 수정 (POST)
+	@PostMapping()
+	public ModelAndView updateIrregular(@ModelAttribute("meetingCommand") MeetingCommand meetingCommand) {
+		ModelAndView mav = new ModelAndView("redirect:/meeting/sort/all");
+
 		String meetingDate = meetingCommand.getIrregularMeetingDate();
 		StringTokenizer itr = new StringTokenizer(meetingDate, "-");
 		meetingDate = itr.nextToken().trim() + "/" + itr.nextToken().trim() + "/" + itr.nextToken().trim();
@@ -59,16 +53,12 @@ public class CreateIrregularController {
 		LocalDateTime localDateTime = LocalDateTime.parse(meetingDay, formatter);
 		Timestamp ts = Timestamp.valueOf(localDateTime);
 		meetingCommand.setIrregularMeetingDay(ts);
-
-		meetingService.createMeeting(meetingCommand);
-		int meetingId = meetingService.getMeetingId(meetingCommand);
-		meetingCommand.setMeetingId(meetingId);
-		irregularService.createIrregular(meetingCommand);
 		
-		//test용
-		Irregular irregular = irregularService.getIrregularById(meetingId);
-		mav.addObject("irregular", irregular);
-		
+		meetingService.updateMeeting(meetingCommand);
+		irregularService.updateIrregular(meetingCommand);
 		return mav;
 	}
 }
+
+
+

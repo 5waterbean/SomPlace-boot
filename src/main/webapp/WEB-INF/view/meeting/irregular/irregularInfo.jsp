@@ -95,11 +95,11 @@ h3, h4 {
 	width: 100%;
 }
 
-#numOfPeople {
+#maxPeople {
 	width: 15%;
 }
 
-#meetingDateAndTime {
+#meetingDate {
 	width: 50%;
 }
 
@@ -218,8 +218,8 @@ h3, h4 {
 
 				<div class="creator">
 					<h3>모임장</h3>
-					<input type="text" id="creatorId" name="creatorId"
-						value="컴퓨터학과 / 20191011" disabled>
+					<input type="text" id="creatorId"
+						value=" ${memberSession.major} / ${memberSession.studentNumber} " disabled>
 				</div>
 			</div>
 
@@ -229,136 +229,126 @@ h3, h4 {
 				<tr>
 					<th>제목</th>
 					<td colspan="3"><input type="text" id="title" name="title"
-						size="90" value="학교 운동장에서 배드민턴 칠 사람~?" required disabled>
+						size="90" value="${irregular.meetingTitle}" required disabled>
 					</td>
 				</tr>
 
 				<tr>
 					<th>현재인원 / 모집인원</th>
-					<td colspan="3"><input type="text" id="numOfPeople"
-						name="numOfPeople" required size="3" value="3 / 4" disabled>
+					<td colspan="3"><input type="text" id="maxPeople"
+						name="maxPeople" required size="3" value="${irregular.numOfPeople} / ${irregular.maxPeople}" disabled>
 						<strong>명</strong></td>
 				</tr>
 				<tr>
 					<th>모임 장소</th>
 					<td colspan="3"><input type="text" id="meetingPlace"
-						name="meetingPlace" required size="30" value="학교 운동장" disabled>
+						name="meetingPlace" required size="30" value="${irregular.meetingPlace}" disabled>
 					</td>
 				</tr>
 				<tr>
 					<th>모임 날짜/시간</th>
-					<td colspan="3"><input type="text" id="meetingDateAndTime"
-						name="meetingDateAndTime" required value="2023/04/05 16시 00분"
+					<td colspan="3"><input type="text" id="meetingDate"
+						name="meetingDate" required value="${irregular.meetingDate}"
 						disabled></td>
 				</tr>
 				<tr>
 					<th>모임 메모</th>
-					<td colspan="3"><textarea class="regular_memo" disabled>2시간 정도 치고 같이 저녁 먹어요!</textarea>
+					<td colspan="3"><textarea class="regular_memo" disabled>${irregular.memo}</textarea>
 					</td>
 				</tr>
 				<tr>
 					<th>카테고리</th>
-
-					<td><input type="radio" id="meal" name="meetingInfo" disabled>
-						<label for="meal">식사</label> <input type="radio" id="study"
-						name="meetingInfo" disabled> <label for="study">스터디</label>
-
-						<input type="radio" id="hobby" name="meetingInfo" checked disabled>
-						<label for="hobby">취미</label></td>
+					<td>
+						<input type="radio" id="meal" name="meetingInfo" disabled>
+							<label for="meal">식사</label> 
+						<input type="radio" id="study" name="meetingInfo" disabled> 
+							<label for="study">스터디</label>
+						<input type="radio" id="hobby" name="meetingInfo" disabled>
+							<label for="hobby">취미</label>
+					</td>
 				</tr>
-
-				<!-- 식사 선택시
-                <tr>
+				<tr>
                     <th></th>
                     <td colspan="3">
-                        <div class="meeting_info_detail_td">
-                            <div>
-                                <input type="checkbox" id="western" name="meetingInfoDetail" disabled>
-                                <label for="western">양식</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="japanese" name="meetingInfoDetail" disabled>
-                                <label for="japanese">일식</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="chinese" name="meetingInfoDetail" disabled>
-                                <label for="chinese">중식</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="korean" name="meetingInfoDetail" disabled>
-                                <label for="korean">한식</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="flour_based" name="meetingInfoDetail" disabled>
-                                <label for="flour_based">분식</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="alcohol" name="meetingInfoDetail" disabled>
-                                <label for="alcohol">술</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail" disabled>
+                        <!-- 식사선택시 -->
+                        <div class="meeting_info_detail_td" id="mealDetail">
+                           <div>
+                               <input type="checkbox" id="western" name="meetingInfoDetail" value="양식">
+                               <label for="western">양식</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="japanese" name="meetingInfoDetail" value="일식">
+                               <label for="japanese">일식</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="chinese" name="meetingInfoDetail" value="중식">
+                               <label for="chinese">중식</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="korean" name="meetingInfoDetail" value="한식">
+                               <label for="korean">한식</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="flour_based" name="meetingInfoDetail" value="분식">
+                               <label for="flour_based">분식</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="alcohol" name="meetingInfoDetail" value="술">
+                               <label for="alcohol">술</label>
+                           </div>
+                           <div>
+                               <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
                                 <label for="etc">
-                                    <input type="text" id="etcText" name="etcText" size="15" placeholder="기타항목 입력" disabled>
-                                </label>
-                            </div>
+                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력">
+                               </label>
+                           </div>
                         </div>
-                    </td>
-                </tr> -->
 
-				<!-- 스터디 선택시
-                <tr>
-                    <th></th>
-                    <td colspan="3">
-                        <div class="meeting_info_detail_td">
+                        <!-- 스터디선택시 -->
+						<div class="meeting_info_detail_td" id="studyDetail">
                             <div>
-                                <input type="checkbox" id="task" name="meetingInfoDetail" disabled>
+                                <input type="checkbox" id="task" name="meetingInfoDetail" value="과제">
                                 <label for="task">과제</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="exam" name="meetingInfoDetail" disabled>
+                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험">
                                 <label for="exam">학교 시험</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" disabled>
+                                <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비">
                                 <label for="prepare_employment">취업준비</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="license" name="meetingInfoDetail" disabled>
+                                <input type="checkbox" id="license" name="meetingInfoDetail" value="자격증">
                                 <label for="license">자격증</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail" disabled>
+                                <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
                                 <label for="etc">
-                                    <input type="text" id="etcText" name="etcText" size="15" placeholder="기타항목 입력" disabled>
+                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
+                                    >
                                 </label>
                             </div>
                         </div>
-                    </td>
-                </tr> -->
-
-				<!-- 취미선택시 -->
-				<tr>
-					<th></th>
-					<td colspan="3">
-						<div class="meeting_info_detail_td">
+                    
+						<!-- 취미선택시 -->
+						<div class="meeting_info_detail_td" id="hobbyDetail">
 							<div>
-								<input type="checkbox" id="sports" name="meetingInfoDetail"
-									checked disabled> <label for="sports">스포츠</label>
+								<input type="checkbox" id="sports" name="meetingInfoDetail" value="스포츠"> 
+								<label for="sports">스포츠</label>
 							</div>
 							<div>
-								<input type="checkbox" id="art" name="meetingInfoDetail"
-									disabled> <label for="art">예술</label>
+								<input type="checkbox" id="art" name="meetingInfoDetail" value="예술"> 
+								<label for="art">예술</label>
 							</div>
 							<div>
-								<input type="checkbox" id="it" name="meetingInfoDetail" disabled>
+								<input type="checkbox" id="it" name="meetingInfoDetail" value="IT"> 
 								<label for="it">IT</label>
 							</div>
 							<div>
-								<input type="checkbox" id="etc" name="meetingInfoDetail"
-									disabled> <label for="etc"> <input type="text"
-									id="etcText" name="etcText" size="15" placeholder="기타항목 입력"
-									disabled>
+								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"> 
+								<label for="etc">
+									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요.">
 								</label>
 							</div>
 						</div>
@@ -454,11 +444,52 @@ h3, h4 {
 		</form>
 	</div>
 
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
 		document.querySelector('input[type="date"]').value = new Date()
 				.toISOString().substring(0, 10);
 		document.querySelector('input[type="date"]').min = new Date()
 				.toISOString().substring(0, 10);
+		
+		 let etc = document.querySelector("#etc");
+	        let etcTextDetail = document.querySelector('#etcTextDetail');
+
+	        function create() {
+	            if (etc.checked) {
+	                if (etc.value != "") {
+	                    etc.value = etcTextDetail.value;
+	                }
+	            }
+	        }
+
+	        $(document).ready(function() {
+	    		document.getElementById("studyDetail").style.display = "none";
+	    		document.getElementById("hobbyDetail").style.display = "none";
+	    	});
+	    	
+	    	function showDetail(infoId) {
+	    		if (infoId == "meal") {
+	    			document.getElementById("mealDetail").style.display = "";
+	    			document.getElementById("studyDetail").style.display = "none";
+	    			document.getElementById("hobbyDetail").style.display = "none";
+	    		} else if (infoId == "study") {
+	    			document.getElementById("mealDetail").style.display = "none";
+	    			document.getElementById("studyDetail").style.display = "";
+	    			document.getElementById("hobbyDetail").style.display = "none";
+	    		} else {
+	    			document.getElementById("mealDetail").style.display = "none";
+	    			document.getElementById("studyDetail").style.display = "none";
+	    			document.getElementById("hobbyDetail").style.display = "";
+	    		}
+	    	}
+	    	
+	    	function etcVal(etc) {
+	    		var etcText = regularCreateForm.etcTextDetail.value;
+	    		alert(etcText);
+	    		if (etc.checked) {
+	    			$('#etc').attr('value', etcText);
+	    		}
+	    	}
 	</script>
 </body>
 

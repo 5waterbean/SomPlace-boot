@@ -212,7 +212,6 @@ button {
 				</tr>
 				<tr>
 					<th>카테고리</th>
-
 					<td>
 						<input type="radio" id="meal" name="meetingInfo" value="식사" onclick="showDetail(this.id)" checked>
 							<label for="meal">식사</label> 
