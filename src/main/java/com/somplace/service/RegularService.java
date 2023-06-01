@@ -26,6 +26,11 @@ public class RegularService {
 	public void updateRegular(Regular regular) throws DataAccessException {
 		regularDao.updateRegular(regular);
 	}
+	
+	// 정기적 모임 조회
+	public Regular getRegularById(int meetingId) throws DataAccessException {
+		return regularDao.getRegularById(meetingId);
+	}
 		
 	// 정기적 정렬
 	public List<Regular> sortRegular(String sortWith) {

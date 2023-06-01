@@ -36,6 +36,12 @@
 		FROM regularmeeting_view m LEFT OUTER JOIN member_meeting mm ON m.meetingid = mm.meetingid
 	</sql>
 
+	<!-- 정기적모임 조회 -->
+	<select resultMap="regularResultSet" id="getRegularById">
+		<include refid="selectRegularView_fragment" />
+		WHERE meetingId = #{meetingId}
+	</select>
+
 	<insert id="createRegular" parameterType="com.somplace.domain.command.MeetingCommand">
 		INSERT INTO regularMeeting VALUES 
 		(#{meetingName}, #{regularMeetingDay, jdbcType=VARCHAR}, #{meetingId}, #{startDay}, #{meetingTime})

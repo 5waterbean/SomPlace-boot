@@ -14,6 +14,9 @@ public interface RegularDao {
 	// 정기적 모임 수정
 	public void updateRegular(Regular regular) throws DataAccessException;
 			
+	// 정기적 모임 조회
+	public Regular getRegularById(int meetingId) throws DataAccessException;
+	
 	// 정기적 최신순 정렬
 	public List<Regular> sortRegularByOrder() throws DataAccessException;
 			
