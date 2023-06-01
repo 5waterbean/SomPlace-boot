@@ -16,6 +16,9 @@ public interface RegularMapper {
 		
 	// 정기적 모임 수정
 	void updateRegular(Regular regular);
+	
+	// 정기적 모임 가져오기
+	Regular getRegularById(int meetingId);
 		
 	// 정기적 최신순 정렬
 	List<Regular> sortRegularByOrder() throws DataAccessException;
