@@ -31,7 +31,7 @@
 	<!-- 일시적모임 수정 -->
 	<update id="updateIrregular" parameterType="com.somplace.domain.command.MeetingCommand">
 		UPDATE irregularMeeting
-		SET meetingDate = #{meetingDate}
+		SET meetingDate = #{irregularMeetingDay}
 		WHERE meetingId = #{meetingId}
 	</update>
 	
