@@ -7,15 +7,15 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
 
 import com.somplace.domain.Regular;
-import com.somplace.domain.command.MeetingCommand;
+import com.somplace.domain.command.RegularCommand;
 
 @Mapper
 public interface RegularMapper {
 	// 정기적 모임 생성
-	void createRegular(MeetingCommand meetingCommand);
+	void createRegular(RegularCommand meetingCommand);
 		
 	// 정기적 모임 수정
-	void updateRegular(Regular regular);
+	void updateRegular(RegularCommand meetingCommand);
 	
 	// 정기적 모임 가져오기
 	Regular getRegularById(int meetingId);

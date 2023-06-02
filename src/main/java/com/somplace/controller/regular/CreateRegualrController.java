@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.somplace.domain.command.MeetingCommand;
+import com.somplace.domain.command.RegularCommand;
 import com.somplace.service.MeetingService;
 import com.somplace.service.RegularService;
 
@@ -39,7 +39,7 @@ public class CreateRegualrController {
 	
 	// 정기적 모임 생성 폼 제출 (POST)
 	@PostMapping
-	public ModelAndView createRegular(@Valid @ModelAttribute("meetingCommand") MeetingCommand meetingCommand, 
+	public ModelAndView createRegular(@Valid @ModelAttribute("meetingCommand") RegularCommand meetingCommand, 
 			BindingResult result) {
 		ModelAndView mav = new ModelAndView("redirect:/meeting/sort/all");
 		

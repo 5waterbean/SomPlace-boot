@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.somplace.dao.RegularDao;
 import com.somplace.dao.mybatis.mapper.RegularMapper;
 import com.somplace.domain.Regular;
-import com.somplace.domain.command.MeetingCommand;
+import com.somplace.domain.command.RegularCommand;
 
 @Repository
 public class MybatisRegularDao implements RegularDao {
@@ -17,13 +17,13 @@ public class MybatisRegularDao implements RegularDao {
 	private RegularMapper regularMapper;
 	
 	// 정기적 모임 생성
-	public void createRegular(MeetingCommand meetingCommand) throws DataAccessException {
+	public void createRegular(RegularCommand meetingCommand) throws DataAccessException {
 		regularMapper.createRegular(meetingCommand);
 	}
 	
 	// 정기적 모임 수정
-	public void updateRegular(Regular regular) throws DataAccessException {
-		regularMapper.updateRegular(regular);
+	public void updateRegular(RegularCommand meetingCommand) throws DataAccessException {
+		regularMapper.updateRegular(meetingCommand);
 	}
 	
 	// 정기적 모임 조회

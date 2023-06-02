@@ -42,10 +42,18 @@
 		WHERE meetingId = #{meetingId}
 	</select>
 
-	<insert id="createRegular" parameterType="com.somplace.domain.command.MeetingCommand">
+	<!-- 정기적모임 생성 -->
+	<insert id="createRegular" parameterType="com.somplace.domain.command.RegularCommand">
 		INSERT INTO regularMeeting VALUES 
 		(#{meetingName}, #{regularMeetingDay, jdbcType=VARCHAR}, #{meetingId}, #{startDay}, #{meetingTime})
 	</insert>
+	
+	<!-- 정기적모임 수정 -->
+	<update id="updateRegular" parameterType="com.somplace.domain.command.RegularCommand">
+		UPDATE regularMeeting
+		SET meetingName=#{meetingName}, meetingDay=#{regularMeetingDay}, startDay=#{startDay}, meetingTime=#{meetingTime}
+		WHERE meetingId = #{meetingId}
+	</update>
 	
 	<!-- 정기적 최신순 정렬 -->
 	<select resultMap="regularResultSet" id="sortRegularByOrder" >
