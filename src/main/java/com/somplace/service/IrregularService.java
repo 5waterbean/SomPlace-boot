@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.somplace.dao.mybatis.MybatisIrregularDao;
 import com.somplace.domain.Irregular;
-import com.somplace.domain.command.MeetingCommand;
+import com.somplace.domain.command.IrregularCommand;
 
 @Service
 @Transactional
@@ -17,11 +17,11 @@ public class IrregularService {
 	private MybatisIrregularDao irregularDao;
 	
 	//일시적모임 생성
-	public void createIrregular(MeetingCommand meetingCommand) {
+	public void createIrregular(IrregularCommand meetingCommand) {
 		irregularDao.createIrregular(meetingCommand);
 	}
 	//일시적모임 수정
-	public void updateIrregular(MeetingCommand meetingCommand) {
+	public void updateIrregular(IrregularCommand meetingCommand) {
 		irregularDao.updateIrregular(meetingCommand);
 	}
 	

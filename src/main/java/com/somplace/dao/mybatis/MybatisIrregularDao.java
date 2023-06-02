@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.somplace.dao.IrregularDao;
 import com.somplace.dao.mybatis.mapper.IrregularMapper;
 import com.somplace.domain.Irregular;
-import com.somplace.domain.command.MeetingCommand;
+import com.somplace.domain.command.IrregularCommand;
 
 @Repository
 public class MybatisIrregularDao implements IrregularDao {
@@ -17,11 +17,11 @@ public class MybatisIrregularDao implements IrregularDao {
 	private IrregularMapper irregularMapper;
 	
 	// 일시적모임 생성
-	public void createIrregular(MeetingCommand meetingCommand)  throws DataAccessException {
+	public void createIrregular(IrregularCommand meetingCommand)  throws DataAccessException {
 		irregularMapper.createIrregular(meetingCommand);
 	}
 	// 일시적모임 수정
-	public void updateIrregular(MeetingCommand meetingCommand)  throws DataAccessException {
+	public void updateIrregular(IrregularCommand meetingCommand)  throws DataAccessException {
 		irregularMapper.updateIrregular(meetingCommand);
 	}
 		
