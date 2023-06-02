@@ -24,12 +24,12 @@
 	</sql>
 	
 	<!-- 일시적모임 생성 -->
-	<insert id="createIrregular" parameterType="com.somplace.domain.command.MeetingCommand">
+	<insert id="createIrregular" parameterType="com.somplace.domain.command.IrregularCommand">
 		INSERT INTO irregularMeeting
 		VALUES (#{irregularMeetingDay}, #{meetingId})
 	</insert>
 	<!-- 일시적모임 수정 -->
-	<update id="updateIrregular" parameterType="com.somplace.domain.command.MeetingCommand">
+	<update id="updateIrregular" parameterType="com.somplace.domain.command.IrregularCommand">
 		UPDATE irregularMeeting
 		SET meetingDate = #{irregularMeetingDay}
 		WHERE meetingId = #{meetingId}

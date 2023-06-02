@@ -7,14 +7,14 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
 
 import com.somplace.domain.Irregular;
-import com.somplace.domain.command.MeetingCommand;
+import com.somplace.domain.command.IrregularCommand;
 
 @Mapper
 public interface IrregularMapper {
 	//일시적모임 생성
-	void createIrregular(MeetingCommand meetingCommand);
+	void createIrregular(IrregularCommand meetingCommand);
 	//일시적모임 수정
-	void updateIrregular(MeetingCommand meetingCommand);
+	void updateIrregular(IrregularCommand meetingCommand);
 	
 	//일시적모임 가져오기
 	Irregular getIrregularById(int meetingId);

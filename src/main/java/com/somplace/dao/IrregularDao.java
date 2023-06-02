@@ -5,14 +5,13 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import com.somplace.domain.Irregular;
-import com.somplace.domain.command.MeetingCommand;
-
+import com.somplace.domain.command.IrregularCommand;
 
 public interface IrregularDao {
 	// 일시적모임 생성
-	public void createIrregular(MeetingCommand meetingCommand) throws DataAccessException;
+	public void createIrregular(IrregularCommand meetingCommand) throws DataAccessException;
 	// 일시적모임 수정
-	public void updateIrregular(MeetingCommand meetingCommand) throws DataAccessException;
+	public void updateIrregular(IrregularCommand meetingCommand) throws DataAccessException;
 	
 	//일시적모임 조회
 	public Irregular getIrregularById(int meetingId) throws DataAccessException;

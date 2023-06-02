@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.somplace.domain.command.IrregularCommand;
 import com.somplace.domain.command.MeetingCommand;
 import com.somplace.service.IrregularService;
 import com.somplace.service.MeetingService;
@@ -40,7 +41,7 @@ public class UpdateIrregularController {
 	
 	// 일시적 모임 수정 (POST)
 	@PostMapping()
-	public ModelAndView updateIrregular(@ModelAttribute("meetingCommand") MeetingCommand meetingCommand) {
+	public ModelAndView updateIrregular(@ModelAttribute("meetingCommand") IrregularCommand meetingCommand) {
 		ModelAndView mav = new ModelAndView("redirect:/meeting/sort/all");
 
 		String meetingDate = meetingCommand.getIrregularMeetingDate();

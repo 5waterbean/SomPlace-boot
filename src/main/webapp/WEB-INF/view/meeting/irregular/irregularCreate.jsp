@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -154,7 +156,7 @@ button {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	
 	<div class="container">
-		<form action="/meeting/irregular/create" method="post">
+		<form:form action="/meeting/irregular/create" method="post" modelAttribute="meetingCommand">
 			<div>
 				<h2>일시적 모임 만들기</h2>
 			</div>
@@ -183,7 +185,7 @@ button {
 				<tr>
 					<th>제목</th>
 					<td colspan="3"><input type="text" id="title" name="meetingTitle"
-						size="90" value = "${meetingCommand.title}" required></td>
+						size="90" value = "${meetingCommand.meetingTitle}" required></td>
 				</tr>
 
 				<tr>
@@ -225,6 +227,7 @@ button {
                 <tr>
                     <th></th>
                     <td colspan="3">
+                    <font color="red" size="2"><form:errors path="meetingInfoDetail" /></font>
                         <!-- 식사선택시 -->
                         <div class="meeting_info_detail_td" id="mealDetail">
                            <div>
@@ -303,7 +306,7 @@ button {
 							<div>
 								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"> 
 								<label for="etc">
-									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요.">
+									<input type="text" id="etcTextDetail" name="etcText" placeholder="기타항목을 입력하세요.">
 								</label>
 							</div>
 						</div>
@@ -320,7 +323,7 @@ button {
 					</td>
 				</tr>
 			</table>
-		</form>
+		</form:form>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
@@ -362,7 +365,7 @@ button {
 	    	}
 	    	
 	    	function etcVal(etc) {
-	    		var etcText = regularCreateForm.etcTextDetail.value;
+	    		var etcText = irregularCreateForm.etcTextDetail.value;
 	    		alert(etcText);
 	    		if (etc.checked) {
 	    			$('#etc').attr('value', etcText);

@@ -5,8 +5,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.StringTokenizer;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.somplace.domain.Irregular;
-import com.somplace.domain.Member;
-import com.somplace.domain.command.MeetingCommand;
+import com.somplace.domain.command.IrregularCommand;
 import com.somplace.service.IrregularService;
 import com.somplace.service.MeetingService;
 
@@ -44,30 +45,32 @@ public class CreateIrregularController {
 	
 	// 정기적 모임 생성 폼 제출 (POST)
 	@PostMapping
-	public ModelAndView createIrregular(@ModelAttribute("meetingCommand") MeetingCommand meetingCommand,
-									 @ModelAttribute("memberSession") Member member) {
-		ModelAndView mav = new ModelAndView("meeting/irregular/irregularUpdate");
-		meetingCommand.setCreatorId(member.getMemberId());
-		
-		String meetingDate = meetingCommand.getIrregularMeetingDate();
-		StringTokenizer itr = new StringTokenizer(meetingDate, "-");
-		meetingDate = itr.nextToken().trim() + "/" + itr.nextToken().trim() + "/" + itr.nextToken().trim();
-		String meetingTime = meetingCommand.getIrregularMeetingTime();
-		String meetingDay = meetingDate + " " + meetingTime;
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
-		LocalDateTime localDateTime = LocalDateTime.parse(meetingDay, formatter);
-		Timestamp ts = Timestamp.valueOf(localDateTime);
-		meetingCommand.setIrregularMeetingDay(ts);
-
-		meetingService.createMeeting(meetingCommand);
-		int meetingId = meetingService.getMeetingId(meetingCommand);
-		meetingCommand.setMeetingId(meetingId);
-		irregularService.createIrregular(meetingCommand);
+	public ModelAndView createIrregular(@Valid @ModelAttribute("meetingCommand") IrregularCommand meetingCommand,
+									  BindingResult result) {
+		ModelAndView mav = new ModelAndView("redirect:/meeting/sort/all");
+		if (result.hasErrors()) {
+			mav = new ModelAndView("meeting/irregular/irregularCreate");
+		} else {
+			String meetingDate = meetingCommand.getIrregularMeetingDate();
+			StringTokenizer itr = new StringTokenizer(meetingDate, "-");
+			meetingDate = itr.nextToken().trim() + "/" + itr.nextToken().trim() + "/" + itr.nextToken().trim();
+			String meetingTime = meetingCommand.getIrregularMeetingTime();
+			String meetingDay = meetingDate + " " + meetingTime;
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+			LocalDateTime localDateTime = LocalDateTime.parse(meetingDay, formatter);
+			Timestamp ts = Timestamp.valueOf(localDateTime);
+			meetingCommand.setIrregularMeetingDay(ts);
+	
+			meetingService.createMeeting(meetingCommand);
+			int meetingId = meetingService.getMeetingId(meetingCommand);
+			meetingCommand.setMeetingId(meetingId);
+			irregularService.createIrregular(meetingCommand);
+		}
 		
 		//test용
-		Irregular irregular = irregularService.getIrregularById(meetingId);
-		mav.addObject("irregular", irregular);
+//		Irregular irregular = irregularService.getIrregularById(meetingId);
+//		mav.addObject("irregular", irregular);
 		
 		return mav;
 	}
