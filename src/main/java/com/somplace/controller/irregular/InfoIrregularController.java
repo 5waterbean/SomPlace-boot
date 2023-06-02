@@ -1,6 +1,7 @@
 package com.somplace.controller.irregular;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -25,6 +26,10 @@ public class InfoIrregularController {
 	@Autowired
 	private IrregularService irregularService;
 	
+	private List<String> mealList = Arrays.asList("한식", "일식", "양식", "중식", "술", "분식");
+	private List<String> studyList = Arrays.asList("과제", "학교시험", "취업준비", "자격증");
+	private List<String> hobbyList = Arrays.asList("스포츠", "예술", "IT");
+	
 	public void setIrregularService(IrregularService irregularService) {
 		this.irregularService = irregularService;
 	}
@@ -34,13 +39,40 @@ public class InfoIrregularController {
 		ModelAndView mav = new ModelAndView("meeting/irregular/irregularInfo");
 		Irregular irregular = irregularService.getIrregularById(checkedById);
 		mav.addObject("irregular", irregular);
-		StringTokenizer itr = new StringTokenizer(irregular.getMeetingInfoDetail(), ",");
+		
+		StringTokenizer itr;
+		itr = new StringTokenizer(irregular.getMeetingDate().toString(), " ");
+		String meetingDay = itr.nextToken();
+		mav.addObject("meetingDay", meetingDay);
+		
+		String meetingTime = itr.nextToken();
+		itr = new StringTokenizer(meetingTime, ":");
+		meetingTime = itr.nextToken() + ":" + itr.nextToken();
+		mav.addObject("meetingTime", meetingTime);
+		
+		itr = new StringTokenizer(irregular.getMeetingInfoDetail(), ",");
 		List<String> detailList = new ArrayList<String>();
 		while (itr.hasMoreTokens()) {
 			detailList.add(itr.nextToken().trim());
 		}
 		mav.addObject("detailList", detailList);
-		System.out.println(irregular.getMeetingInfo());
+		
+		if (irregular.getMeetingInfo().equals("식사")) {
+			if (!mealList.contains(detailList.get(detailList.size() - 1))) {
+				mav.addObject("detailValue", detailList.get(detailList.size() - 1));
+			}
+		}
+		else if (irregular.getMeetingInfo().equals("스터디")) {
+			if (!studyList.contains(detailList.get(detailList.size() - 1))) {
+				mav.addObject("detailValue", detailList.get(detailList.size() - 1));
+			}
+		}
+		else {
+			if (!hobbyList.contains(detailList.get(detailList.size() - 1))) {
+				mav.addObject("detailValue", detailList.get(detailList.size() - 1));
+			}
+		}
+		
 		return mav;
 	}
 }

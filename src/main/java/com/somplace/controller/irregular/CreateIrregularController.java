@@ -68,10 +68,6 @@ public class CreateIrregularController {
 			irregularService.createIrregular(meetingCommand);
 		}
 		
-		//test용
-//		Irregular irregular = irregularService.getIrregularById(meetingId);
-//		mav.addObject("irregular", irregular);
-		
 		return mav;
 	}
 }

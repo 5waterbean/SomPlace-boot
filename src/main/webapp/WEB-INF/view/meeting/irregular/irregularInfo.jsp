@@ -178,7 +178,7 @@ h3, h4 {
 }
 
 .irregular_delete_btn, .irregular_close_btn, .irregular_apply_btn,
-	.irregular_update_btn {
+	#irregular_update_btn {
 	border: 1px solid black;
 	background-color: rgb(226, 240, 217);
 	padding: 5px 15px 5px 15px;
@@ -189,7 +189,7 @@ h3, h4 {
 .member_out_btn:hover, .member_in_btn:hover, .member_good_btn:hover,
 	.member_bad_btn:hover, .irregular_delete_btn:hover,
 	.irregular_close_btn:hover, .irregular_apply_btn:hover,
-	.irregular_update_btn:hover {
+	#irregular_update_btn:hover {
 	background-color: rgb(174, 220, 175);
 	cursor: pointer;
 }
@@ -202,10 +202,13 @@ h3, h4 {
 	<jsp:include page="/WEB-INF/view/reviewList.jsp" />
 
 	<div class="container">
-		<form action="" method="post">
+		<form action="/meeting/irregular/update/form">
 			<div>
-				<h2>(모임 이름) 상세정보</h2>
-				<div class="irregular_update_btn"  onClick="location.href='/meeting/irregular/update/form';">모임 수정하기</div>
+				<h2>일시적모임 상세정보</h2>
+				<input type="hidden" name="checkedById" value="${irregular.meetingId}">
+				<c:if test="${irregular.creatorId eq memberSession.memberId}">
+					<button id="irregular_update_btn" type="submit" onclick="update()">모임 수정하기</button>
+				</c:if>
 			</div>
 
 			<hr>
@@ -230,7 +233,7 @@ h3, h4 {
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" id="title" name="title"
+					<td colspan="3"><input type="text" id="title" name="meetingTitle"
 						size="90" value="${irregular.meetingTitle}" required disabled>
 					</td>
 				</tr>
@@ -250,7 +253,7 @@ h3, h4 {
 				<tr>
 					<th>모임 날짜/시간</th>
 					<td colspan="3"><input type="text" id="meetingDate"
-						name="meetingDate" required value="${irregular.meetingDate}"
+						name="meetingDate" required value="${meetingDay}  ${meetingTime}"
 						disabled></td>
 				</tr>
 				<tr>
@@ -275,6 +278,7 @@ h3, h4 {
 				<tr>
                     <th></th>
                     <td colspan="3">
+                    	<input type="hidden" name="detailValue" value="${detailValue}">
                         <c:set var="detailList" value="${detailList}"/>
                         <c:choose>
                         
@@ -311,10 +315,11 @@ h3, h4 {
 	                               <label for="alcohol">술</label>
 	                           </div>
 	                           <div>
-	                               <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"  disabled>
+	                               <input type="checkbox" id="etc" name="meetingInfoDetail" disabled 
+	                               		<c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>>
 	                                <label for="etc">
 	                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
-	                                   	 disabled>
+	                                   	 disabled value="${detailValue}">
 	                               </label>
 	                           </div>
 	                        </div>
@@ -344,10 +349,10 @@ h3, h4 {
                                 <label for="license">자격증</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)" disabled>
+                                <input type="checkbox" id="etc" name="meetingInfoDetail" disabled <c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>>
                                 <label for="etc">
                                     <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
-                                     disabled>
+                                     disabled value="${detailValue}">
                                 </label>
                             </div>
                         </div>
@@ -371,9 +376,9 @@ h3, h4 {
 								<label for="it">IT</label>
 							</div>
 							<div>
-								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)" disabled> 
+								<input type="checkbox" id="etc" name="meetingInfoDetail" disabled <c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>> 
 								<label for="etc">
-									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요." disabled>
+									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요." disabled value="${detailValue}">
 								</label>
 							</div>
 						</div>
@@ -481,7 +486,7 @@ h3, h4 {
 		 let etc = document.querySelector("#etc");
 	        let etcTextDetail = document.querySelector('#etcTextDetail');
 
-	        function create() {
+	        function update() {
 	            if (etc.checked) {
 	                if (etc.value != "") {
 	                    etc.value = etcTextDetail.value;

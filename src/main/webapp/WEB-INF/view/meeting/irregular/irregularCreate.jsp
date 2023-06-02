@@ -185,27 +185,27 @@ button {
 				<tr>
 					<th>제목</th>
 					<td colspan="3"><input type="text" id="title" name="meetingTitle"
-						size="90" value = "${meetingCommand.meetingTitle}" required></td>
+						size="90" value ="${meetingCommand.meetingTitle}" required></td>
 				</tr>
 
 				<tr>
 					<th>모집인원</th>
 					<td colspan="3">
 					<input type="number" id="maxPeople"
-						name="maxPeople" size="3" min="2" max="10" required> 
+						name="maxPeople" size="3" min="2" max="10" value ="${meetingCommand.maxPeople}" required> 
 						<strong>명</strong>
 					</td>
 				</tr>
 				<tr>
 					<th>모임 장소</th>
 					<td colspan="3"><input type="text" id="meetingPlace"
-						name="meetingPlace" size="30" required></td>
+						name="meetingPlace" size="30" value ="${meetingCommand.meetingPlace}" required></td>
 				</tr>
 				<tr>
 					<th>모임 날짜/시간</th>
 					<td colspan="3"><input type="date" id="meetingDate"
-						name="irregularMeetingDate" required> <input type="time"
-						id="meetingTime" name="irregularMeetingTime" required></td>
+						name="irregularMeetingDate" value ="${meetingCommand.irregularMeetingDate}" required> <input type="time"
+						id="meetingTime" name="irregularMeetingTime" value ="${meetingCommand.irregularMeetingTime}" required></td>
 				</tr>
 				<tr>
 					<th>모임 메모</th>
@@ -270,7 +270,7 @@ button {
                             </div>
                             <div>
                                 <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험">
-                                <label for="exam">학교 시험</label>
+                                <label for="exam">학교시험</label>
                             </div>
                             <div>
                                 <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비">
@@ -327,8 +327,6 @@ button {
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
-		document.querySelector('input[type="date"]').value = new Date()
-				.toISOString().substring(0, 10);
 		document.querySelector('input[type="date"]').min = new Date()
 				.toISOString().substring(0, 10);
 		
@@ -339,6 +337,7 @@ button {
 	            if (etc.checked) {
 	                if (etc.value != "") {
 	                    etc.value = etcTextDetail.value;
+	                    detailValue.value = etcTextDetail.value;
 	                }
 	            }
 	        }
