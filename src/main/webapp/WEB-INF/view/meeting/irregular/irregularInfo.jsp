@@ -334,9 +334,9 @@ h3, h4 {
                                 <label for="task">과제</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험" disabled
-                                	<c:if test="${fn:contains(detailList, '학교 시험')}">checked</c:if>>
-                                <label for="exam">학교 시험</label>
+                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교시험" disabled
+                                	<c:if test="${fn:contains(detailList, '학교시험')}">checked</c:if>>
+                                <label for="exam">학교시험</label>
                             </div>
                             <div>
                                 <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비" disabled
@@ -478,11 +478,6 @@ h3, h4 {
 
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
-		document.querySelector('input[type="date"]').value = new Date()
-				.toISOString().substring(0, 10);
-		document.querySelector('input[type="date"]').min = new Date()
-				.toISOString().substring(0, 10);
-		
 		 let etc = document.querySelector("#etc");
 	        let etcTextDetail = document.querySelector('#etcTextDetail');
 
@@ -499,7 +494,7 @@ h3, h4 {
 	    		document.getElementById("hobbyDetail").style.display = "none";
 	    	});
 	    	
-	    	function showDetail(infoId) {
+	        function showDetail(infoId) {
 	    		if (infoId == "meal") {
 	    			document.getElementById("mealDetail").style.display = "";
 	    			document.getElementById("studyDetail").style.display = "none";
@@ -512,14 +507,6 @@ h3, h4 {
 	    			document.getElementById("mealDetail").style.display = "none";
 	    			document.getElementById("studyDetail").style.display = "none";
 	    			document.getElementById("hobbyDetail").style.display = "";
-	    		}
-	    	}
-	    	
-	    	function etcVal(etc) {
-	    		var etcText = regularCreateForm.etcTextDetail.value;
-	    		alert(etcText);
-	    		if (etc.checked) {
-	    			$('#etc').attr('value', etcText);
 	    		}
 	    	}
 	</script>

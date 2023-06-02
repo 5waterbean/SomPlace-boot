@@ -282,8 +282,8 @@ button {
                                 <label for="task">과제</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험" disabled
-                                	<c:if test="${fn:contains(detailList, '학교 시험')}">checked</c:if>>
+                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교시험" disabled
+                                	<c:if test="${fn:contains(detailList, '학교시험')}">checked</c:if>>
                                 <label for="exam">학교 시험</label>
                             </div>
                             <div>
