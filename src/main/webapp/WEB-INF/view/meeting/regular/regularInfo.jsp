@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -193,7 +195,7 @@ h3, h4 {
 	<div class="container">
 		<form action="" method="post">
 			<div>
-				<h2>${meetingCommand.meetingTitle} 상세정보</h2>
+				<h2>${regular.meetingTitle} 상세정보</h2>
 
 				<div class="regular_update_btn">모임 수정하기</div>
 			</div>
@@ -221,22 +223,22 @@ h3, h4 {
 				<tr>
 					<th>제목</th>
 					<td colspan="3"><input type="text" name="meetingTitle"
-						size="120" value="${meetingCommand.meetingTitle}" disabled required></td>
+						size="120" value="${regular.meetingTitle}" disabled required></td>
 				</tr>
 
 				<tr>
 					<th>모임 이름</th>
 					<td><input type="text" name="meetingName" size="70"
-						value="${meetingCommand.meetingName}" disabled required></td>
+						value="${regular.meetingName}" disabled required></td>
 					<td style="text-align: right;"><strong>현재 인원/모집 인원</strong></td>
 					<td><input type="text" name="numOfPeople" size="10"
-						value="${meetingCommand.numOfPeople} / ${meetingCommand.maxPeople}" disabled required> <strong>명</strong></td>
+						value="${regular.numOfPeople} / ${regular.maxPeople}" disabled required> <strong>명</strong></td>
 				</tr>
 
 				<tr>
 					<th>모임 장소</th>
 					<td colspan="3"><input type="text" name="regularMeetingDay"
-						size="70" value="${meetingCommand.meetingPlace}" disabled required></td>
+						size="70" value="${regular.meetingPlace}" disabled required></td>
 				</tr>
 
 				<tr>
@@ -280,7 +282,7 @@ h3, h4 {
 								<h4>- 시작 날짜</h4>
 							</div>
 
-							<div class="start_day">&nbsp;${meetingCommand.startDay}</div>
+							<div class="start_day">&nbsp;${regular.startDay}</div>
 
 							<br>
 						</div>
@@ -291,12 +293,15 @@ h3, h4 {
 					<th>카테고리</th>
 					<td>
 						<div>
-							<input type="radio" id="meal" name="meetingInfo" disabled>
-							<label for="meal">식사</label> <input type="radio" id="study"
-								name="meetingInfo" disabled> <label for="study">스터디</label>
-
-							<input type="radio" id="hobby" name="meetingInfo" disabled
-								checked> <label for="hobby">취미</label>
+							<input type="radio" id="meal" name="meetingInfo" value="식사" 
+								<c:if test="${regular.meetingInfo eq '식사'}" > checked</c:if> disabled> 
+							<label for="meal">식사</label> 
+							<input type="radio" id="study" name="meetingInfo" value="스터디" 
+								<c:if test="${regular.meetingInfo eq '스터디'}" > checked</c:if> disabled> 
+							<label for="study">스터디</label> 
+							<input type="radio" id="hobby" name="meetingInfo" value="취미" 
+							 	<c:if test="${regular.meetingInfo eq '취미'}" > checked</c:if> disabled> 
+							<label for="hobby">취미</label>
 						</div>
 					</td>
 					<td><strong>모임 메모</strong></td>
@@ -306,29 +311,112 @@ h3, h4 {
 				<tr>
 					<td></td>
 					<td>
-						<div class="meeting_info_detail_td">
-							<div>
-								<input type="checkbox" id="sports" disabled> <label
-									for="sports"></label>스포츠
+					<c:set var="detailList" value="${detailList}"/>
+					<c:choose>
+						
+						<c:when test="${regular.meetingInfo eq '식사'}">
+	                        <div class="meeting_info_detail_td" id="mealDetail">
+	                           <div>
+	                               <input type="checkbox" id="western" name="meetingInfoDetail" value="양식"
+	                               	 <c:if test="${fn:contains(detailList, '식사')}" > checked</c:if> disabled>
+	                               <label for="western">양식</label>
+	                           </div>
+	                           <div>
+	                               <input type="checkbox" id="japanese" name="meetingInfoDetail" value="일식"
+	                               	<c:if test="${fn:contains(detailList, '일식')}" > checked</c:if> disabled>
+	                               <label for="japanese">일식</label>
+	                           </div>
+	                           <div>
+	                               <input type="checkbox" id="chinese" name="meetingInfoDetail" value="중식"
+	                               <c:if test="${fn:contains(detailList, '중식')}" > checked</c:if> disabled>
+	                               <label for="chinese">중식</label>
+	                           </div>
+	                           <div>
+	                               <input type="checkbox" id="korean" name="meetingInfoDetail" value="한식"
+	                               <c:if test="${fn:contains(detailList, '한식')}" > checked</c:if> disabled>
+	                               <label for="korean">한식</label>
+	                           </div>
+	                           <div>
+	                               <input type="checkbox" id="flour_based" name="meetingInfoDetail" value="분식"
+	                               <c:if test="${fn:contains(detailList, '분식')}" > checked</c:if> disabled>
+	                               <label for="flour_based">분식</label>
+	                           </div>
+	                           <div>
+	                               <input type="checkbox" id="alcohol" name="meetingInfoDetail" value="술"
+	                               <c:if test="${fn:contains(detailList, '술')}" > checked</c:if> disabled>
+	                               <label for="alcohol">술</label>
+	                           </div>
+	                           <div>
+	                               <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
+	                                <label for="etc">
+	                                   <input type="text" id="etcTextDetail" name="etcText" size="15" disabled>
+	                               </label>
+	                           </div>
+	                        </div>
+	                       </c:when>
+	
+							<c:when test="${regular.meetingInfo eq '스터디'}">
+	                        
+							<div class="meeting_info_detail_td" id="studyDetail">
+	                            <div>
+	                                <input type="checkbox" id="task" name="meetingInfoDetail" value="과제"
+	                                	<c:if test="${fn:contains(detailList, '과제')}" > checked</c:if> disabled>
+	                                <label for="task">과제</label>
+	                            </div>
+	                            <div>
+	                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험"
+	                                	<c:if test="${fn:contains(detailList, '학교 시험')}" > checked</c:if> disabled>
+	                                <label for="exam">학교 시험</label>
+	                            </div>
+	                            <div>
+	                                <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비"
+	                                	<c:if test="${fn:contains(detailList, '취업준비')}" > checked</c:if> disabled>
+	                                <label for="prepare_employment">취업준비</label>
+	                            </div>
+	                            <div>
+	                                <input type="checkbox" id="license" name="meetingInfoDetail" value="자격증"
+	                                	<c:if test="${fn:contains(detailList, '자격증')}" > checked</c:if> disabled>
+	                                <label for="license">자격증</label>
+	                            </div>
+	                            <div>
+	                                <input type="checkbox" id="etc" name="meetingInfoDetail" disabled>
+	                                <label for="etc">
+	                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
+	                                    >
+	                                </label>
+	                            </div>
+	                        </div>
+	                    </c:when>
+	                    
+	                    <c:otherwise>
+							
+							<div class="meeting_info_detail_td" id="hobbyDetail">
+								<div>
+									<input type="checkbox" id="sports" name="meetingInfoDetail" value="스포츠"
+										<c:if test="${fn:contains(detailList, '스포츠')}" > checked</c:if> disabled> 
+									<label for="sports">스포츠</label>
+								</div>
+								<div>
+									<input type="checkbox" id="art" name="meetingInfoDetail" value="예술"
+										<c:if test="${fn:contains(detailList, '예술')}" > checked</c:if> disabled> 
+									<label for="art">예술</label>
+								</div>
+								<div>
+									<input type="checkbox" id="it" name="meetingInfoDetail" value="IT"
+										<c:if test="${fn:contains(detailList, 'IT')}" > checked</c:if> disabled> 
+									<label for="it">IT</label>
+								</div>
+								<div>
+									<input type="checkbox" id="etc" name="meetingInfoDetail" disabled> 
+									<label for="etc">
+										<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요.">
+									</label>
+								</div>
 							</div>
-							<div>
-								<input type="checkbox" id="art" disabled> <label
-									for="art">예술</label>
-							</div>
-							<div>
-								<input type="checkbox" id="it" disabled checked> <label
-									for="it">IT</label>
-							</div>
-							<div>
-								<input type="checkbox" id="etc" disabled> <label
-									for="etc"><input type="text" id="etc"
-									placeholder="기타항목을 입력하세요." disabled></label>
-							</div>
-						</div>
+						</c:otherwise>
+					</c:choose>
 					</td>
-
-					<td colspan="2"><textarea class="regular_memo" disabled>${meetingCommand.memo}</textarea>
-					</td>
+					
 				</tr>
 
 				<!-- 회원들만
@@ -419,6 +507,29 @@ h3, h4 {
 			</table>
 		</form>
 	</div>
+	<script>
+		$(document).ready(function() {
+			document.getElementById("studyDetail").style.display = "none";
+			document.getElementById("hobbyDetail").style.display = "none";
+		});
+		
+		function showDetail(infoId) {
+			if (infoId == "meal") {
+				document.getElementById("mealDetail").style.display = "";
+				document.getElementById("studyDetail").style.display = "none";
+				document.getElementById("hobbyDetail").style.display = "none";
+			} else if (infoId == "study") {
+				document.getElementById("mealDetail").style.display = "none";
+				document.getElementById("studyDetail").style.display = "";
+				document.getElementById("hobbyDetail").style.display = "none";
+			} else {
+				document.getElementById("mealDetail").style.display = "none";
+				document.getElementById("studyDetail").style.display = "none";
+				document.getElementById("hobbyDetail").style.display = "";
+			}
+		}
+	</script>
+	
 </body>
 
 </html>

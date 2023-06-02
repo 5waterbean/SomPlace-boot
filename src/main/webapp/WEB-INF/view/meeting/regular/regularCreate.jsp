@@ -188,7 +188,7 @@ button {
 
 				<tr>
 					<th>모임 이름</th>
-					<td><input type="text" name="meetingName" size="70" value="${meetingCommand.meetingName}" required>
+					<td><input type="text" name="meetingName" size="70" value="${meetingCommand.meetingName}" pattern=".{1,40}" required>
 					</td>
 					<td style="text-align: right;"><strong>모집 인원</strong></td>
 					<td><input type="number" name="maxPeople" min="2" max="10" value="${meetingCommand.maxPeople}"
@@ -299,7 +299,7 @@ button {
                            <div>
                                <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
                                 <label for="etc">
-                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력">
+                                   <input type="text" id="etcTextDetail" name="etcTextDetail" size="15" placeholder="기타항목 입력">
                                </label>
                            </div>
                         </div>
@@ -311,7 +311,7 @@ button {
                                 <label for="task">과제</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험">
+                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교시험">
                                 <label for="exam">학교 시험</label>
                             </div>
                             <div>
@@ -325,7 +325,7 @@ button {
                             <div>
                                 <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
                                 <label for="etc">
-                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
+                                    <input type="text" id="etcTextDetail" name="etcTextDetail" size="15" placeholder="기타항목 입력"
                                     >
                                 </label>
                             </div>
