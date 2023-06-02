@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import com.somplace.domain.Regular;
-import com.somplace.domain.command.MeetingCommand;
+import com.somplace.domain.command.RegularCommand;
 
 public interface RegularDao {
 	// 정기적 모임 생성
-	public void createRegular(MeetingCommand meetingCommand) throws DataAccessException;
+	public void createRegular(RegularCommand meetingCommand) throws DataAccessException;
 			
 	// 정기적 모임 수정
-	public void updateRegular(Regular regular) throws DataAccessException;
-			
+	public void updateRegular(RegularCommand meetingCommand) throws DataAccessException;
+	
 	// 정기적 모임 조회
 	public Regular getRegularById(int meetingId) throws DataAccessException;
 	

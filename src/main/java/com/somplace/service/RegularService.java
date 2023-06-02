@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.somplace.dao.mybatis.MybatisRegularDao;
 import com.somplace.domain.Regular;
-import com.somplace.domain.command.MeetingCommand;
+import com.somplace.domain.command.RegularCommand;
 
 @Service
 @Transactional
@@ -18,13 +18,13 @@ public class RegularService {
 	private MybatisRegularDao regularDao;
 	
 	// 정기적 모임 생성
-	public void createRegular(MeetingCommand meetingCommand) throws DataAccessException {
+	public void createRegular(RegularCommand meetingCommand) throws DataAccessException {
 		regularDao.createRegular(meetingCommand);
 	}
 		
 	// 정기적 모임 수정
-	public void updateRegular(Regular regular) throws DataAccessException {
-		regularDao.updateRegular(regular);
+	public void updateRegular(RegularCommand meetingCommand) throws DataAccessException {
+		regularDao.updateRegular(meetingCommand);
 	}
 	
 	// 정기적 모임 조회

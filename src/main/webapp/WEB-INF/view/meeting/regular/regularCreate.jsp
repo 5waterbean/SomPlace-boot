@@ -153,7 +153,7 @@ button {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 
 	<div class="container">
-		<form:form action="/meeting/regular/create" method="post" modelAttribute="meetingCommand">
+		<form:form action="/meeting/regular/create" method="post" modelAttribute="regularCommand" >
 			<div>
 				<h2>정기적 모임 만들기</h2>
 			</div>
@@ -182,22 +182,23 @@ button {
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" id="title" name="meetingTitle" value="${meetingCommand.meetingTitle}"
+					<td colspan="3"><input type="text" id="title" name="meetingTitle" value=""
 						size="120" required></td>
 				</tr>
 
 				<tr>
 					<th>모임 이름</th>
-					<td><input type="text" name="meetingName" size="70" value="${meetingCommand.meetingName}" pattern=".{1,40}" required>
+					<td><input type="text" name="meetingName" size="70" value="" pattern=".{1,40}" required>
+					<font color="red" size="2"><form:errors path="meetingName" /></font>
 					</td>
 					<td style="text-align: right;"><strong>모집 인원</strong></td>
-					<td><input type="number" name="maxPeople" min="2" max="10" value="${meetingCommand.maxPeople}"
+					<td><input type="number" name="maxPeople" min="2" max="10" value=""
 						required> <strong>명</strong></td>
 				</tr>
 
 				<tr>
 					<th>모임 장소</th>
-					<td colspan="3"><input type="text" name="meetingPlace" value="${meetingCommand.meetingPlace}"
+					<td colspan="3"><input type="text" name="meetingPlace" value=""
 						size="70" required></td>
 				</tr>
 
@@ -242,7 +243,7 @@ button {
 							</div>
 
 							<div class="start_day">
-								<input type="date" name="startDay" value="${meetingCommand.startDay}">
+								<input type="date" name="startDay" value="">
 							</div>
 
 							<br>
@@ -271,6 +272,7 @@ button {
 					<td>
 					<font color="red" size="2"><form:errors path="meetingInfoDetail" /></font>
 						<!-- 식사선택시 -->
+                        <!-- 식사선택시 -->
                         <div class="meeting_info_detail_td" id="mealDetail">
                            <div>
                                <input type="checkbox" id="western" name="meetingInfoDetail" value="양식">
@@ -299,7 +301,7 @@ button {
                            <div>
                                <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
                                 <label for="etc">
-                                   <input type="text" id="etcTextDetail" name="etcTextDetail" size="15" placeholder="기타항목 입력">
+                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력">
                                </label>
                            </div>
                         </div>
@@ -311,8 +313,8 @@ button {
                                 <label for="task">과제</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교시험">
-                                <label for="exam">학교 시험</label>
+                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험">
+                                <label for="exam">학교시험</label>
                             </div>
                             <div>
                                 <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비">
@@ -325,8 +327,7 @@ button {
                             <div>
                                 <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
                                 <label for="etc">
-                                    <input type="text" id="etcTextDetail" name="etcTextDetail" size="15" placeholder="기타항목 입력"
-                                    >
+                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력">
                                 </label>
                             </div>
                         </div>
@@ -348,13 +349,13 @@ button {
 							<div>
 								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"> 
 								<label for="etc">
-									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요.">
+									<input type="text" id="etcTextDetail" name="etcText" placeholder="기타항목을 입력하세요.">
 								</label>
 							</div>
 						</div>
 					</td>
 					<td colspan="2"><textarea class="regular_memo" name="memo"
-							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요.">${meetingCommand.memo}</textarea></td>
+							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요."></textarea></td>
 				
 				</tr>
 				
