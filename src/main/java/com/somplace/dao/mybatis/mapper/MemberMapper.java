@@ -12,4 +12,6 @@ public interface MemberMapper {
 	void createMember(MemberCommand memberComm);
 	
 	int memberIdCheck(String memberId);
+	
+	void updateMember(MemberCommand memberComm);
 }

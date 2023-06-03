@@ -21,4 +21,13 @@
 		FROM MEMBER
 		WHERE ID = #{memberId}
 	</select>
+	
+	<update id="updateMember" parameterType="com.somplace.domain.command.MemberCommand">
+		UPDATE MEMBER
+		SET PW = #{pw},
+			NAME = #{name},
+			MAJOR = #{major},
+			PHONE = #{phone}
+		WHERE ID = #{memberId}
+	</update>
 </mapper>

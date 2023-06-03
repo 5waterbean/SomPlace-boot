@@ -11,4 +11,6 @@ public interface MemberDao {
 	public void createMember(MemberCommand memberComm) throws DataAccessException;
 	
 	public int memberIdCheck(String memberId) throws DataAccessException;
+	
+	public void updateMember(MemberCommand memberComm) throws DataAccessException;
 }
