@@ -116,6 +116,10 @@
                 heartLabel.innerHTML = "🤍";
             }
         }
+        
+        function findInfo(id) {
+    		document.getElementById(id).submit();
+    	}
     </script>
     
     <jsp:include page="/WEB-INF/view/leftTopBar.jsp" />
@@ -151,7 +155,10 @@
 			<c:set var="hobby" value="../../img/lifestyle.png" />
 			<c:forEach var="meeting" items="${myMeetingList}">
 				<td>
-					<div>
+					<form id="${meeting.meetingId}" action="/meeting/info" method="POST">
+						<input type="hidden" name="checkedById" value="${meeting.meetingId}">
+					</form>
+					<div onclick="findInfo(${meeting.meetingId})">
 						<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>
 						<c:choose>
 							<c:when test="${meeting.meetingInfo eq '식사'}">

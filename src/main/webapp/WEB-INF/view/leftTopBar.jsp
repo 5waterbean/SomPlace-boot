@@ -188,7 +188,7 @@ div.active {
 			</div>
 			<br>
 			<div class="profile_btn">
-				<div>내 정보</div>
+				<div onClick="location.href='/member/myInfo'">내 정보</div>
 				<div onClick="location.href='/member/logout'">로그아웃</div>
 			</div>
 		</div>

@@ -26,4 +26,8 @@ public class MemberService {
 	public int memberIdCheck(String memberId) {
 		return memberDao.memberIdCheck(memberId);
 	}
+	
+	public void updateMember(MemberCommand memberComm) {
+		memberDao.updateMember(memberComm);
+	}
 }

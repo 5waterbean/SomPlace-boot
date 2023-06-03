@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html>
 <html>
@@ -169,7 +169,7 @@
     <div class="container">
         <div class="containerTitle">회원가입</div>
 
-        <form:form name="joinFrm" modelAttribute="memberCommand" action="/member/join" method="post" onsubmit="return createMember(this)">
+        <form:form modelAttribute="memberCommand" action="/member/join" onsubmit="return createMember(this)">
             <table>
                 <tr>
                     <th><label for="">아이디 💻</label></th>
@@ -236,7 +236,8 @@
                 <tr class="phone">
                     <th>폰번호 📱</th>
                     <td colspan="5">
-                    	<input type="text" name="phone" value="${memberCommand.phone}" placeholder="- 빼고 숫자만 입력해주세요" required>
+                    	<input type="text" name="phone" value="${memberCommand.phone}" placeholder="- 빼고 숫자만 입력해주세요"
+                    			pattern="010([0-9]{8})" required title="예)01012341234">
                     </td>
                     <td><font color="red" size="2"><form:errors path="phone"/></font></td>
                 </tr>

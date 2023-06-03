@@ -35,7 +35,7 @@ public class MemberCommand {
 	private String major;
 	
 	@NotEmpty
-	@Pattern(regexp = "^010([0-9]{8})$", message = "전화번호 형식이 틀렸습니다")
+	@Pattern(regexp = "^010([0-9]{8})$")
 	private String phone;
 	
 	@NotEmpty

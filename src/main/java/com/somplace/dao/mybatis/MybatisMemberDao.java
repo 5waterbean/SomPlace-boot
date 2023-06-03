@@ -25,4 +25,8 @@ public class MybatisMemberDao implements MemberDao {
 	public int memberIdCheck(String memberId) throws DataAccessException {
 		return memberMapper.memberIdCheck(memberId);
 	}
+	
+	public void updateMember(MemberCommand memberComm) throws DataAccessException {
+		memberMapper.updateMember(memberComm);
+	}
 }
