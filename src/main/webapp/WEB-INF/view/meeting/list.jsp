@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,9 +25,14 @@
 	width: 100%;
 }
 
+.container tr {
+	display: flex;
+	flex-wrap: wrap;
+}
+
 .container td {
 	text-align: center;
-	/* border: 1px solid red; */
+	width: 20%;
 }
 
 .container td>div {
@@ -52,7 +57,6 @@
 .container td div>div:nth-child(3) {
 	font-weight: bold;
 	font-size: small;
-	/* padding: 10px; */
 }
 
 .container td div>div:nth-child(4) {
@@ -81,13 +85,15 @@
 .container td label:hover {
 	cursor: pointer;
 }
+
+label {
+	user-select: none;
+}
 </style>
 
 <script>
 	function addLike(like) {
 		const heartLabel = like.nextElementSibling;
-
-		console.log(heartLabel)
 		if (like.checked) {
 			heartLabel.innerHTML = "❤️";
 		} else {
@@ -104,35 +110,44 @@
 	<div class="container">
 		<table>
 			<tr>
-			<c:set var="study" value="../../img/read.png" />
-			<c:set var="meal" value="../../img/english-breakfast.png" />
-			<c:set var="hobby" value="../../img/lifestyle.png" />
-			<c:forEach var="meeting" items="${sortList}">
-				<td>
-					<div>
-						<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>
-						<c:choose>
-							<c:when test="${meeting.meetingInfo eq '식사'}">
-								<img src='<c:out value="${meal}"/>' alt="">
-							</c:when>
-							<c:when test="${meeting.meetingInfo eq '스터디'}">
-								<img src='<c:out value="${study}"/>' alt="">
-							</c:when>
-							<c:otherwise>
-								<img src='<c:out value="${hobby}"/>' alt="">
-							</c:otherwise>
-						</c:choose>
-						<div>${meeting.meetingTitle}</div>
-						<div>${meeting.meetingInfo}</div>
-						<div>${meeting.meetingInfoDetail}</div>
-						<div>
-							<input type="checkbox" id="heart1" oninput="addLike(this)">
-							<label for="heart1">🤍</label>
+				<c:set var="study" value="../../img/read.png" />
+				<c:set var="meal" value="../../img/english-breakfast.png" />
+				<c:set var="hobby" value="../../img/lifestyle.png" />
+				<c:forEach var="meeting" items="${meetingList}">
+					<td>
+						<form id="${meeting.meetingId}" action="/meeting/info"
+							method="POST">
+							<input type="hidden" name="checkedById"
+								value="${meeting.meetingId}">
+						</form> <!-- this.previousElementSibling.submit(); findInfo(${meeting.meetingId}) -->
+						<div onclick="this.previousElementSibling.submit();">
+							<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>
+							<c:choose>
+								<c:when test="${meeting.meetingInfo eq '식사'}">
+									<img src='<c:out value="${meal}"/>' alt="">
+								</c:when>
+								<c:when test="${meeting.meetingInfo eq '스터디'}">
+									<img src='<c:out value="${study}"/>' alt="">
+								</c:when>
+								<c:otherwise>
+									<img src='<c:out value="${hobby}"/>' alt="">
+								</c:otherwise>
+							</c:choose>
+							<div>${meeting.meetingTitle}</div>
+							<div>${meeting.meetingInfo}</div>
+							<div>${meeting.meetingInfoDetail}</div>
+
+							<div>
+								<input type="checkbox" id="h${meeting.meetingId}"
+									onclick="event.stopPropagation();" oninput="addLike(this)">
+								<label for="h${meeting.meetingId}"
+									onclick="event.stopPropagation();">🤍</label>
+							</div>
 						</div>
-					</div>
-				</td>
-		    </c:forEach>
-		    </tr>
+
+					</td>
+				</c:forEach>
+			</tr>
 		</table>
 	</div>
 </body>
