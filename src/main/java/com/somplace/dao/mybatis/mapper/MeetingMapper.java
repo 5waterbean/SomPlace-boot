@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.dao.DataAccessException;
 
 import com.somplace.domain.Meeting;
 import com.somplace.domain.command.MeetingCommand;
@@ -41,6 +40,9 @@ public interface MeetingMapper {
 	
 	// 모임 수정
 	void updateMeeting(MeetingCommand meetingCommand);
+	
+	// 모임 삭제
+	public void deleteMeeting(int meetingId);
 	
 	// 내가 생성한 모임 조회
 	List<Meeting> getMadeMeetingList(String creatorId);

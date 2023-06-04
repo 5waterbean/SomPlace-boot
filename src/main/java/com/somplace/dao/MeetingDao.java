@@ -39,6 +39,9 @@ public interface MeetingDao {
 	// 모임 수정
 	public void updateMeeting(MeetingCommand meetingCommand) throws DataAccessException;
 	
+	// 모임 삭제
+	public void deleteMeeting(int meetingId) throws DataAccessException;
+	
 	// 내가 생성한 모임 조회
 	public List<Meeting> getMadeMeetingList(String creatorId) throws DataAccessException;
 }
