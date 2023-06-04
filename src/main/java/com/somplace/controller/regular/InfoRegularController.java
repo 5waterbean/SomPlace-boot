@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.somplace.domain.Member;
 import com.somplace.domain.Regular;
+import com.somplace.service.MemberMeetingService;
+import com.somplace.service.MemberService;
 import com.somplace.service.RegularService;
 
 @Controller
@@ -20,6 +23,10 @@ import com.somplace.service.RegularService;
 public class InfoRegularController {
 	@Autowired
 	private RegularService regularService;
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private MemberMeetingService memberMeetingService;
 	
 	private List<String> mealList = Arrays.asList("한식", "일식", "중식", "양식", "분식", "술");
 	private List<String> studyList = Arrays.asList("과제", "학교시험", "취업준비", "자격증");
@@ -36,6 +43,9 @@ public class InfoRegularController {
 		
 		Regular regular = regularService.getRegularById(checkedById);
 		mav.addObject("regular", regular);
+		
+		Member member = memberService.getMember(regular.getCreatorId());
+		mav.addObject("creatorMember", member);
 		
 		// meetingInfoDetail
 		StringTokenizer detailItr = new StringTokenizer(regular.getMeetingInfoDetail(), ",");
@@ -75,6 +85,22 @@ public class InfoRegularController {
 			meetingTimeList.add(timeItr.nextToken().trim());
 		}
 		mav.addObject("meetingTimeList", meetingTimeList);
+		
+		// 회원 목록 조회
+		List<String> joinMemberIdList = memberMeetingService.findJoinMemberIdList(checkedById);
+		List<Member> joinMemberList = new ArrayList<Member>();
+		for (String joinMemberId : joinMemberIdList) {
+			joinMemberList.add( memberService.getMember(joinMemberId));
+		}
+		mav.addObject("joinMemberList", joinMemberList);
+		
+		// 신청자 목록 조회
+		List<String> applyMemberIdList = memberMeetingService.findApplyMemberIdList(checkedById);
+		List<Member> applyMemberList = new ArrayList<Member>();
+		for (String applyMemberId : applyMemberIdList) {
+			applyMemberList.add( memberService.getMember(applyMemberId));
+		}
+		mav.addObject("applyMemberList", applyMemberList);
 		
 		return mav;
 	}

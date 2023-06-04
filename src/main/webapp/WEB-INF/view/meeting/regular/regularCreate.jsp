@@ -153,7 +153,7 @@ button {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 
 	<div class="container">
-		<form:form action="/meeting/regular/create" method="post" modelAttribute="regularCommand" >
+		<form:form action="/meeting/regular/create" method="post" modelAttribute="meetingCommand" >
 			<div>
 				<h2>정기적 모임 만들기</h2>
 			</div>
@@ -188,7 +188,7 @@ button {
 
 				<tr>
 					<th>모임 이름</th>
-					<td><input type="text" name="meetingName" size="70" value="" pattern=".{1,40}" required>
+					<td><input type="text" name="meetingName" value="" required>
 					<font color="red" size="2"><form:errors path="meetingName" /></font>
 					</td>
 					<td style="text-align: right;"><strong>모집 인원</strong></td>
@@ -198,7 +198,7 @@ button {
 
 				<tr>
 					<th>모임 장소</th>
-					<td colspan="3"><input type="text" name="meetingPlace" value=""
+					<td colspan="3"><input type="text" id="meetingPlace" name="meetingPlace" value=""
 						size="70" required></td>
 				</tr>
 
@@ -272,7 +272,6 @@ button {
 					<td>
 					<font color="red" size="2"><form:errors path="meetingInfoDetail" /></font>
 						<!-- 식사선택시 -->
-                        <!-- 식사선택시 -->
                         <div class="meeting_info_detail_td" id="mealDetail">
                            <div>
                                <input type="checkbox" id="western" name="meetingInfoDetail" value="양식">
@@ -299,7 +298,7 @@ button {
                                <label for="alcohol">술</label>
                            </div>
                            <div>
-                               <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
+                               <input type="checkbox" id="etc" name="meetingInfoDetail">
                                 <label for="etc">
                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력">
                                </label>
@@ -313,7 +312,7 @@ button {
                                 <label for="task">과제</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교 시험">
+                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교시험">
                                 <label for="exam">학교시험</label>
                             </div>
                             <div>
@@ -325,9 +324,10 @@ button {
                                 <label for="license">자격증</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)">
+                                <input type="checkbox" id="etc" name="meetingInfoDetail">
                                 <label for="etc">
-                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력">
+                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
+                                    >
                                 </label>
                             </div>
                         </div>
@@ -347,7 +347,7 @@ button {
 								<label for="it">IT</label>
 							</div>
 							<div>
-								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"> 
+								<input type="checkbox" id="etc" name="meetingInfoDetail"> 
 								<label for="etc">
 									<input type="text" id="etcTextDetail" name="etcText" placeholder="기타항목을 입력하세요.">
 								</label>
@@ -389,36 +389,61 @@ button {
 	                etc.value = etcTextDetail.value;
 	            }
 	        }
+	        if(document.getElementById("meetingPlace").value.length > 40)  {
+	        	document.getElementById("meetingPlace").value 
+	              = document.getElementById("meetingPlace").value.substr(0, 40);
+	          }
 	    }
 	
 	    $(document).ready(function() {
-			document.getElementById("studyDetail").style.display = "none";
-			document.getElementById("hobbyDetail").style.display = "none";
-		});
-		
-		function showDetail(infoId) {
-			if (infoId == "meal") {
-				document.getElementById("mealDetail").style.display = "";
-				document.getElementById("studyDetail").style.display = "none";
-				document.getElementById("hobbyDetail").style.display = "none";
-			} else if (infoId == "study") {
-				document.getElementById("mealDetail").style.display = "none";
-				document.getElementById("studyDetail").style.display = "";
-				document.getElementById("hobbyDetail").style.display = "none";
-			} else {
-				document.getElementById("mealDetail").style.display = "none";
-				document.getElementById("studyDetail").style.display = "none";
-				document.getElementById("hobbyDetail").style.display = "";
-			}
-		}
-		
-		function etcVal(etc) {
-			var etcText = regularCreateForm.etcTextDetail.value;
-			alert(etcText);
-			if (etc.checked) {
-				$('#etc').attr('value', etcText);
-			}
-		}
+    		document.getElementById("studyDetail").style.display = "none";
+    		document.getElementById("hobbyDetail").style.display = "none";
+    	});
+    	
+    	let allMeal = document.querySelectorAll('#mealDetail > div > input[type="checkbox"]');
+        let allStudy = document.querySelectorAll('#studyDetail > div > input[type="checkbox"]');
+        let allHobby = document.querySelectorAll('#hobbyDetail > div > input[type="checkbox"]');
+        
+    	function showDetail(infoId) {
+    		if (infoId == "meal") {
+    			document.getElementById("mealDetail").style.display = "";
+    			document.getElementById("studyDetail").style.display = "none";
+    			document.getElementById("hobbyDetail").style.display = "none";
+    			
+    	        for (let i = 0; i < allStudy.length; i++) {
+    	            allStudy[i].checked = false;
+    	        }
+    	        
+    	        for (let i = 0; i < allHobby.length; i++) {
+    	            allHobby[i].checked = false;
+    	        }
+    	        
+    		} else if (infoId == "study") {
+    			document.getElementById("mealDetail").style.display = "none";
+    			document.getElementById("studyDetail").style.display = "";
+    			document.getElementById("hobbyDetail").style.display = "none";
+    			
+    	        for (let i = 0; i < allMeal.length; i++) {
+    	            allMeal[i].checked = false;
+    	        }
+    	        
+    	        for (let i = 0; i < allHobby.length; i++) {
+    	            allHobby[i].checked = false;
+    	        }
+    		} else {
+    			document.getElementById("mealDetail").style.display = "none";
+    			document.getElementById("studyDetail").style.display = "none";
+    			document.getElementById("hobbyDetail").style.display = "";
+    			
+    	        for (let i = 0; i < allMeal.length; i++) {
+    	            allMeal[i].checked = false;
+    	        }
+    	        
+    	        for (let i = 0; i < allStudy.length; i++) {
+    	            allStudy[i].checked = false;
+    	        }
+    		}
+    	}
 	</script>
 </body>
 
