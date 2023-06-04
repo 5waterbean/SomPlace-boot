@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class RegularCommand extends MeetingCommand {
 	// regular
-	@Size(min = 1, max = 40, message = "더 짧게 입력해주세요.")
+	@Size(min = 1, max = 40, message = "10자 이내로 입력해주세요.")
 	private String meetingName;
 	@NotEmpty(message = "모임 날짜를 선택해주세요.")
 	private String regularMeetingDay;

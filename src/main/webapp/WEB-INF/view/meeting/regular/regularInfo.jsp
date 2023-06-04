@@ -209,7 +209,9 @@ h3, h4 {
 				<h2>${regular.meetingTitle} 상세정보</h2>
 				<c:set var="currentMemberId" value="${memberSession.memberId}"/>
 				<c:if test="${regular.creatorId eq currentMemberId}"> <!-- 모임 생성자만 보이게 -->
-					<div class="regular_update_btn"  onClick="updateForm.submit()">모임 수정하기</div>
+					<c:if test="${regular.close eq 0 }">
+						<div class="regular_update_btn"  onClick="updateForm.submit()">모임 수정하기</div>
+					</c:if>
 				</c:if>
 				<input type="hidden" name="checkedById" value="${regular.meetingId}">
 				<input type="hidden" name="detailValue" value="${detailValue}">
@@ -228,7 +230,7 @@ h3, h4 {
 
 				<div class="creator">
 					<h3>모임장</h3>
-					<div class="creator_info">&nbsp; ${memberSession.major} / ${memberSession.studentNumber} &nbsp;</div>
+					<div class="creator_info">&nbsp; ${creatorMember.major} / ${creatorMember.studentNumber} &nbsp;</div>
 				</div>
 			</div>
 
@@ -460,79 +462,78 @@ h3, h4 {
                         </div>
                     </td> 
                 </tr>  -->
-
-				<tr>
-					<!--생성자만-->
-					<th>회원 목록</th>
-
-					<td colspan="3">
-						<div class="member_list_td">
-							<div>
-								<div class="member">이현아 / 20191003 / 컴퓨터학과 / 010-7***-9***</div>
-								<div class="member_good_btn">
-									<img src="../../img/좋아요.png">
-								</div>
-								<div class="member_bad_btn">
-									<img src="../../img/싫어요.png">
-								</div>
-								<!--<div class="member_out_btn">내보내기</div>-->
+				
+				<c:if test="${regular.creatorId eq currentMemberId}"> <!-- 모임 생성자만 보이게 -->
+					<tr>
+						<th>회원 목록</th>	
+						<td colspan="3">
+							<div class="member_list_td">
+								<c:forEach var="joinMember" items="${joinMemberList}">
+									<div>
+										<div class="member">${joinMember.name} / ${joinMember.studentNumber} / ${joinMember.major} / ${joinMember.phone}</div>
+										<div class="member_good_btn">
+											<img src="../../img/좋아요.png">
+										</div>
+										<div class="member_bad_btn">
+											<img src="../../img/싫어요.png">
+										</div>
+										<c:if test="${regular.close eq 0 }">
+											<div class="member_out_btn">내보내기</div>
+										</c:if>
+									</div>
+								</c:forEach>
 							</div>
-							<div>
-								<div class="member">오수빈 / 20200985 / 컴퓨터학과 / 010-7***-9***</div>
-								<div class="member_good_btn">
-									<img src="../../img/좋아요.png">
-								</div>
-								<div class="member_bad_btn">
-									<img src="../../img/싫어요.png">
-								</div>
-								<!--<div class="member_out_btn">내보내기</div>-->
+						</td>
+					</tr>
+					
+	
+					<tr>
+						<th>신청 목록</th>
+						<td colspan="6">
+							<div class="member_list_td">
+								<c:forEach var="applyMember" items="${applyMemberList}">
+									<div>
+										<div class="member">${applyMember.name} / ${applyMember.studentNumber} / ${applyMember.major} / ${applyMember.phone}</div>
+										<div class="member_good">
+											<img src="../../img/좋아요.png">&nbsp;${applyMember.good}
+										</div>
+										<div class="member_bad">
+											<img src="../../img/싫어요.png">&nbsp;${applyMember.bad}
+										</div>
+										<c:if test="${regular.close eq 0 }">
+											<div class="member_in_btn">수락하기</div>
+										</c:if>
+									</div>
+								</c:forEach>
 							</div>
-							<div>
-								<div class="member">장현수 / 20191011 / 컴퓨터학과 / 010-7***-9***</div>
-								<div class="member_good_btn">
-									<img src="../../img/좋아요.png">
-								</div>
-								<div class="member_bad_btn">
-									<img src="../../img/싫어요.png">
-								</div>
-								<!--<div class="member_out_btn">내보내기</div>-->
-							</div>
-						</div>
-					</td>
-				</tr>
-
-				<tr>
-					<th>신청 목록</th>
-					<td colspan="6">
-						<div class="member_list_td">
-							<div>
-								<div class="member">김동덕 / 20190000 / 컴퓨터학과 / 010-7***-9***</div>
-								<div class="member_good">
-									<img src="../../img/좋아요.png">&nbsp;4
-								</div>
-								<div class="member_bad">
-									<img src="../../img/싫어요.png">&nbsp;1
-								</div>
-								<div class="member_in_btn">수락하기</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-
+						</td>
+					</tr>
+				</c:if>
 				<tr>
 					<td></td>
 					<td></td>
 					<td>
-						<div class="regular_delete_btn">모임 삭제하기</div> <!--생성자만-->
+						<c:if test="${regular.creatorId eq currentMemberId}"> <!-- 모임 생성자만 보이게 -->
+							<c:if test="${regular.close eq 0 }">
+								<div class="regular_delete_btn"  onClick="deleteForm.submit()">모임 삭제하기</div>
+							</c:if>
+						</c:if>
 					</td>
 					<td>
-						<div class="regular_close_btn">모집 마감하기</div> <!--생성자만-->
+					<c:if test="${regular.creatorId eq currentMemberId}"> <!-- 모임 생성자만 보이게 -->
+						<c:if test="${regular.close eq 0 }">
+							<div class="regular_close_btn">모집 마감하기</div> <!--생성자만-->
+						</c:if>
+					</c:if>
 					</td>
 					<!--  <td>
                        비회원만 <div class="regular_apply_btn">모임 신청하기</div>
                     </td> -->
 				</tr>
 			</table>
+		</form>
+		<form name="deleteForm" action="/meeting/delete" method="POST">
+			<input type="hidden" name="meetingId" value="${regular.meetingId}">
 		</form>
 	</div>
 	<script>			
