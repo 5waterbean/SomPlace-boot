@@ -207,7 +207,9 @@ h3, h4 {
 				<h2>일시적모임 상세정보</h2>
 				<input type="hidden" name="checkedById" value="${irregular.meetingId}">
 				<c:if test="${irregular.creatorId eq memberSession.memberId}">
-					<button id="irregular_update_btn" type="submit" onclick="update()">모임 수정하기</button>
+					<c:if test="${irregular.close eq 0}">
+						<button id="irregular_update_btn" type="submit">모임 수정하기</button>
+					</c:if>
 				</c:if>
 			</div>
 
@@ -401,72 +403,66 @@ h3, h4 {
                     </td> 
                 </tr>  -->
 
-				<tr>
-					<!--생성자만-->
-					<th>회원 목록</th>
-					<td colspan="6">
-						<div class="member_list_td">
-							<div>
-								<div class="member">이현아 / 20191003 / 컴퓨터학과 / 010-7***-9***</div>
-								<div class="member_good_btn">
-									<img src="../../../img/좋아요.png">
-								</div>
-								<div class="member_bad_btn">
-									<img src="../../../img/싫어요.png">
-								</div>
-								<div class="member_out_btn">내보내기</div>
+				<c:if test="${irregular.creatorId eq memberSession.memberId}"> <!--생성자만-->
+					<tr>
+						<th>회원 목록</th>
+						<td colspan="6">
+							<div class="member_list_td">
+								<c:forEach var="joinMember" items="${joinMemberList}">
+									<div>
+										<div class="member">${joinMember.name} / ${joinMember.studentNumber} / ${joinMember.major} / ${joinMember.phone}</div>
+										<div class="member_good_btn">
+											<img src="../../../img/좋아요.png">
+										</div>
+										<div class="member_bad_btn">
+											<img src="../../../img/싫어요.png">
+										</div>
+										<c:if test="${irregular.close eq 0}">
+											<div class="member_out_btn">내보내기</div>
+										</c:if>
+									</div>
+								</c:forEach>
 							</div>
-							<div>
-								<div class="member">오수빈 / 20200985 / 컴퓨터학과 / 010-7***-9***</div>
-								<div class="member_good_btn">
-									<img src="../../../img/좋아요.png">
-								</div>
-								<div class="member_bad_btn">
-									<img src="../../../img/싫어요.png">
-								</div>
-								<div class="member_out_btn">내보내기</div>
-							</div>
-							<div>
-								<div class="member">장현수 / 20191011 / 컴퓨터학과 / 010-7***-9***</div>
-								<div class="member_good_btn">
-									<img src="../../../img/좋아요.png">
-								</div>
-								<div class="member_bad_btn">
-									<img src="../../../img/싫어요.png">
-								</div>
-								<div class="member_out_btn">내보내기</div>
-							</div>
-						</div>
-					</td>
-				</tr>
+						</td>
+					</tr>
 
-				<tr>
-					<!--생성자만-->
-					<th>신청 목록</th>
-					<td colspan="6">
-						<div class="member_list_td">
-							<div>
-								<div class="member">김동덕 / 20190000 / 컴퓨터학과 / 010-7***-9***</div>
-								<div class="member_good">
-									<img src="../../../img/좋아요.png">&nbsp;4
-								</div>
-								<div class="member_bad">
-									<img src="../../../img/싫어요.png">&nbsp;1
-								</div>
-								<div class="member_in_btn">수락하기</div>
+					<tr>
+						<!--생성자만-->
+						<th>신청 목록</th>
+						<td colspan="6">
+							<div class="member_list_td">
+								<c:forEach var="applyMember" items="${applyMemberList}">
+									<div>
+										<div class="member">${applyMember.name} / ${applyMember.studentNumber} / ${applyMember.major} / ${applyMember.phone}</div>
+										<div class="member_good">
+											<img src="../../../img/좋아요.png">&nbsp;${applyMember.good}
+										</div>
+										<div class="member_bad">
+											<img src="../../../img/싫어요.png">&nbsp;${applyMember.bad}
+										</div>
+										<c:if test="${irregular.close eq 0}">
+											<div class="member_in_btn">수락하기</div>
+										</c:if>
+									</div>
+								</c:forEach>
 							</div>
-						</div>
-					</td>
-				</tr>
-
+						</td>
+					</tr>
+				</c:if>
 				<tr>
 					<td></td>
 					<td></td>
 					<td>
-						<div class="irregular_delete_btn">모임 삭제하기</div> <!--생성자만-->
+						<c:if test="${irregular.creatorId eq memberSession.memberId}">
+							<c:if test="${irregular.close eq 0}">
+								<div class="irregular_delete_btn" onclick="deleteForm.submit()">모임 삭제하기</div> <!--생성자만-->
+							</c:if>
+						</c:if>
 					</td>
 					<td>
-						<div class="irregular_close_btn">모집 마감하기</div> <!--생성자만-->
+						<c:if test="${irregular.close eq 0}">
+							<div class="irregular_close_btn">모집 마감하기</div> <!--생성자만-->
+						</c:if>
 					</td>
 					<!-- <td> 
                         비회원만 <div class="irregular_apply_btn">모임 신청하기</div>
@@ -474,20 +470,16 @@ h3, h4 {
 				</tr>
 			</table>
 		</form>
+		<form name="deleteForm" action="/meeting/delete" method="post">
+			<input type="hidden" name="meetingId" value="${irregular.meetingId}">
+		</form>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
-		 let etc = document.querySelector("#etc");
+		 	let etc = document.querySelector("#etc");
 	        let etcTextDetail = document.querySelector('#etcTextDetail');
 
-	        function update() {
-	            if (etc.checked) {
-	                if (etc.value != "") {
-	                    etc.value = etcTextDetail.value;
-	                }
-	            }
-	        }
 
 	        $(document).ready(function() {
 	    		document.getElementById("studyDetail").style.display = "none";
