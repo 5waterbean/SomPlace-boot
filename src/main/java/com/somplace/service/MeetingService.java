@@ -82,4 +82,9 @@ public class MeetingService {
 	public List<Meeting> getMadeMeetingList(String creatorId) {
 		return meetingDao.getMadeMeetingList(creatorId);
 	}
+	
+	// 내가 찜한 or 신청한 모임 목록 조회
+	public List<Meeting> getMyMeetingList(List<Integer> meetingIdList) {
+		return meetingDao.getMyMeetingList(meetingIdList);
+	}
 }

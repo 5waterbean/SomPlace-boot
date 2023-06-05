@@ -81,4 +81,9 @@ public class MybatisMeetingDao implements MeetingDao {
 	public List<Meeting> getMadeMeetingList(String creatorId) throws DataAccessException {
 		return MeetingMapper.getMadeMeetingList(creatorId);
 	}
+	
+	// 내가 찜한 or 신청한 모임 목록 조회
+	public List<Meeting> getMyMeetingList(List<Integer> meetingIdList) throws DataAccessException {
+		return MeetingMapper.getMyMeetingList(meetingIdList);
+	}
 }

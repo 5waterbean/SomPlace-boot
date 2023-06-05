@@ -233,7 +233,7 @@
                     </td>
                 </tr>
 
-                <tr class="phone">
+                <tr>
                     <th>폰번호 📱</th>
                     <td colspan="5">
                     	<input type="text" name="phone" value="${memberCommand.phone}" placeholder="- 빼고 숫자만 입력해주세요"

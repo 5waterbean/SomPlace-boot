@@ -35,4 +35,7 @@ public interface IrregularDao {
 	public List<Irregular> searchIrregularCategoryByKeyOrder(String key, String category) throws DataAccessException;
 	//일시적모임 카테고리별(키워드) 검색, 인기순 정렬
 	public List<Irregular> sortIrregularCategoryByKeyHeart(String key, String category) throws DataAccessException;
+
+	// 내가 속한 일시적 모임 조회
+	public List<Irregular> getMyJoinIrregularList(List<Integer> meetingIdList) throws DataAccessException;
 }

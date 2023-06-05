@@ -40,5 +40,7 @@ public interface RegularDao {
 		
 	// 정기적모임 카테고리별(키워드) 검색, 인기순 정렬
 	public List<Regular> sortRegularCategoryByKeyHeart(String key, String category) throws DataAccessException;
-	
+
+	// 내가 속한 정기적 모임 조회
+	public List<Regular> getMyJoinRegularList(List<Integer> meetingIdList) throws DataAccessException;
 }

@@ -112,5 +112,13 @@
 		<include refid="selectMeeting_fragment" />
 		WHERE CREATORID = #{creatorId}
 	</select>	
-
+	
+	<!-- 내가 찜한 or 신청한 모임 목록 조회 -->
+	<select resultType="Meeting" id="getMyMeetingList" parameterType="java.util.List"> 
+		<include refid="selectMeeting_fragment" />
+		WHERE MEETINGID IN
+		<foreach collection="meetingIdList" item="item" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
 </mapper>

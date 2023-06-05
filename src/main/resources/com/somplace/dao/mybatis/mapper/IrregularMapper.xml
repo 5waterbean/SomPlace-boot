@@ -94,6 +94,7 @@
 			WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
 			ORDER BY meetingId DESC  
 	</select>
+	
 	<!-- 일시적모임 카테고리별(키워드) 검색, 인기순 정렬 -->
 	<select resultMap="irregularResultSet" id="sortIrregularCategoryByKeyHeart" parameterType="map">
 		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo,
@@ -102,5 +103,14 @@
 		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
 		GROUP BY vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople, vi.maxpeople, vi.meetingplace, vi.memo, vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.close, vi.cancel
 		ORDER BY count(mm.heart) DESC
+	</select>
+	
+	<!-- 내가 속한 일시적 모임 조회 -->
+	<select resultType="Meeting" id="getMyJoinIrregularList" parameterType="java.util.List">
+		<include refid="selectIrregular_view_fragment" />
+		WHERE MEETINGID IN
+		<foreach collection="meetingIdList" item="item" separator="," open="(" close=")">
+			#{item}
+		</foreach>
 	</select>
 </mapper>

@@ -65,4 +65,10 @@ public class IrregularService {
 	public List<Irregular> sortIrregularCategoryByKeyHeart(String key, String category) {
 		return irregularDao.sortIrregularCategoryByKeyHeart(key, category);
 	}
+	
+	// 내가 속한 일시적 모임 조회
+	public List<Irregular> getMyJoinIrregularList(List<Integer> meetingIdList) {
+		return irregularDao.getMyJoinIrregularList(meetingIdList);
+	}
+
 }

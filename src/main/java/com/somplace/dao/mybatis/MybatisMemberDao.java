@@ -29,4 +29,8 @@ public class MybatisMemberDao implements MemberDao {
 	public void updateMember(MemberCommand memberComm) throws DataAccessException {
 		memberMapper.updateMember(memberComm);
 	}
+	
+	public int deleteMember(String memberId) throws DataAccessException {
+		return memberMapper.deleteMember(memberId);
+	}
 }

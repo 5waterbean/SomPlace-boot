@@ -24,4 +24,19 @@ public class MemberMeetingService {
 	public List<String> findApplyMemberIdList(int meetingId) throws DataAccessException {
 		return memberMeetingDao.findApplyMemberIdList(meetingId);
 	}
+	
+	// 내가 속한 모임 아이디 조회
+	public List<Integer> getMyJoinMeetingId(String memberId) throws DataAccessException {
+		return memberMeetingDao.getMyJoinMeetingId(memberId);
+	}
+		
+	// 내가 찜한 모임 아이디 조회
+	public List<Integer> getMyLikeMeetingId(String memberId) throws DataAccessException {
+		return memberMeetingDao.getMyLikeMeetingId(memberId);
+	}
+		
+	// 내가 신청한 모임 아이디 조회
+	public List<Integer> getMyApplyMeetingId(String memberId) throws DataAccessException {
+		return memberMeetingDao.getMyApplyMeetingId(memberId);
+	}
 }

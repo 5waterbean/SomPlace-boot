@@ -15,11 +15,11 @@ public class MemberService {
 	@Autowired
 	private MybatisMemberDao memberDao;
 	
-	public Member getMember(String memberId){
+	public Member getMember(String memberId) {
 		return memberDao.getMember(memberId);
 	}
 	
-	public void createMember(MemberCommand memberComm){
+	public void createMember(MemberCommand memberComm) {
 		memberDao.createMember(memberComm);
 	}
 	
@@ -29,5 +29,9 @@ public class MemberService {
 	
 	public void updateMember(MemberCommand memberComm) {
 		memberDao.updateMember(memberComm);
+	}
+	
+	public int deleteMember(String memberId) {
+		return memberDao.deleteMember(memberId);
 	}
 }

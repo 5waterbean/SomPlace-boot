@@ -69,4 +69,9 @@ public class RegularService {
 	public List<Regular> sortRegularCategoryByKeyHeart(String key, String category) throws DataAccessException {
 		return regularDao.sortRegularCategoryByKeyHeart(key, category);
 	}
+	
+	// 내가 속한 정기적 모임 조회
+	public List<Regular> getMyJoinRegularList(List<Integer> meetingIdList) throws DataAccessException {
+		return regularDao.getMyJoinRegularList(meetingIdList);
+	}
 }

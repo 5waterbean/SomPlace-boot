@@ -197,10 +197,10 @@ div.active {
 
 		<div class="list">
 			<div onClick="location.href='/member/myMeeting/made'">내가 생성한 모임</div>
-			<div>내가 속한 일시적 모임</div>
-			<div>내가 속한 정기적 모임</div>
-			<div>내가 찜한 모임</div>
-			<div>내가 신청한 모임</div>
+			<div onClick="location.href='/member/myMeeting/join/irregular'">내가 속한 일시적 모임</div>
+			<div onClick="location.href='/member/myMeeting/join/regular'">내가 속한 정기적 모임</div>
+			<div onClick="location.href='/member/myMeeting/like'">내가 찜한 모임</div>
+			<div onClick="location.href='/member/myMeeting/apply'">내가 신청한 모임</div>
 		</div>
 	</div>
 	<script>

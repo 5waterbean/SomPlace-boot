@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.Member;
+import com.somplace.service.MemberMeetingService;
 import com.somplace.service.MemberService;
 
 @Controller
 public class LoginController {
 	
+	@Autowired
 	private MemberService memberService;
 
 	@Autowired
-	public void setMeetingService(MemberService memberService) {
-		this.memberService = memberService;
-	}
+	private MemberMeetingService memberMeetingService;
 	
 	@PostMapping("/member/login")
 	public ModelAndView login(@RequestParam("memberId") String memberId, 
@@ -35,6 +35,7 @@ public class LoginController {
 			model.addAttribute("msg", "비밀번호가 틀렸습니다.");
 		}
 		else {
+			member.setLikeMeetingIdList(memberMeetingService.getMyLikeMeetingId(memberId));
 			session.setAttribute("memberSession", member);
 			return new ModelAndView("redirect:/meeting/sort/all");
 		}
