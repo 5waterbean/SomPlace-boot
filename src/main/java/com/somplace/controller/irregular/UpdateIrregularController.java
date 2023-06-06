@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.Irregular;
 import com.somplace.domain.command.IrregularCommand;
-import com.somplace.domain.command.MeetingCommand;
 import com.somplace.service.IrregularService;
 import com.somplace.service.MeetingService;
 
@@ -30,21 +29,17 @@ public class UpdateIrregularController {
 	@Autowired
 	private IrregularService irregularService;
 	
-	public void setMeetingService(MeetingService meetingService) {
-		this.meetingService = meetingService;
-	}
-	public void setIrregularService(IrregularService irregularService) {
-		this.irregularService = irregularService;
-	}
-	
 	// 수정하기 버튼 클릭 -> 일시적 모임 수정페이지로 이동 (GET)
 	@GetMapping("/form")
 	public ModelAndView form(@RequestParam("checkedById") int checkedById,
 								@RequestParam("detailValue") String detailValue) {
 		ModelAndView mav = new ModelAndView("meeting/irregular/irregularUpdate");
+		
+		// 일시적모임 조회
 		Irregular irregular = irregularService.getIrregularById(checkedById);
 		mav.addObject("irregular", irregular);
 		
+		// meetingDate 형식 변환
 		StringTokenizer itr;
 		itr = new StringTokenizer(irregular.getMeetingDate().toString(), " ");
 		String meetingDay = itr.nextToken().trim();
@@ -55,6 +50,7 @@ public class UpdateIrregularController {
 		meetingTime = itr.nextToken() + ":" + itr.nextToken();
 		mav.addObject("meetingTime", meetingTime);
 		
+		// meetingInfoDetail
 		itr = new StringTokenizer(irregular.getMeetingInfoDetail(), ",");
 		List<String> detailList = new ArrayList<String>();
 		while (itr.hasMoreTokens()) {
@@ -62,6 +58,7 @@ public class UpdateIrregularController {
 		}
 		mav.addObject("detailList", detailList);
 		
+		// etcDetail
 		mav.addObject("detailValue", detailValue);
 		
 		return mav;
@@ -73,6 +70,7 @@ public class UpdateIrregularController {
 											@RequestParam("checkedById") int checkedById) {
 		ModelAndView mav = new ModelAndView("redirect:/meeting/irregular/info");
 
+		// meetingDate 형식변환
 		String meetingDate = meetingCommand.getIrregularMeetingDate();
 		StringTokenizer itr = new StringTokenizer(meetingDate, "-");
 		meetingDate = itr.nextToken().trim() + "/" + itr.nextToken().trim() + "/" + itr.nextToken().trim();

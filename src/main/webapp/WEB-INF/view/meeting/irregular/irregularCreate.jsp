@@ -180,7 +180,7 @@ button {
 			</div>
 			<input type="hidden" name="creatorId" value="${memberSession.memberId}">
 			<br>
-
+			
 			<table>
 				<tr>
 					<th>제목</th>
@@ -255,9 +255,9 @@ button {
                                <label for="alcohol">술</label>
                            </div>
                            <div>
-                               <input type="checkbox" id="etc" name="meetingInfoDetail">
+                               <input type="checkbox" id="mealEtc" name="meetingInfoDetail">
                                 <label for="etc">
-                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력">
+                                   <input type="text" id="mealEtcTextDetail" name="mealEtcText" size="15" placeholder="기타항목 입력">
                                </label>
                            </div>
                         </div>
@@ -281,9 +281,9 @@ button {
                                 <label for="license">자격증</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail">
+                                <input type="checkbox" id="studyEtc" name="meetingInfoDetail">
                                 <label for="etc">
-                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
+                                    <input type="text" id="studyEtcTextDetail" name="studyEtcText" size="15" placeholder="기타항목 입력"
                                     >
                                 </label>
                             </div>
@@ -304,9 +304,9 @@ button {
 								<label for="it">IT</label>
 							</div>
 							<div>
-								<input type="checkbox" id="etc" name="meetingInfoDetail"> 
+								<input type="checkbox" id="hobbyEtc" name="meetingInfoDetail"> 
 								<label for="etc">
-									<input type="text" id="etcTextDetail" name="etcText" placeholder="기타항목을 입력하세요.">
+									<input type="text" id="hobbyEtcTextDetail" name="hobbyEtcText" placeholder="기타항목을 입력하세요.">
 								</label>
 							</div>
 						</div>
@@ -334,11 +334,25 @@ button {
 	        let etcTextDetail = document.querySelector('#etcTextDetail');
 
 	        function create() {
-	            if (etc.checked) {
-	            	etcTextDetail.required = true;
-	                if (etc.value != "") {
-	                    etc.value = etcTextDetail.value;
-	                    detailValue.value = etcTextDetail.value;
+	            if (mealEtc.checked) {
+	            	mealEtcTextDetail.required = true;
+	                if (mealEtc.value != "") {
+	                	mealEtc.value = mealEtcTextDetail.value;
+	                    detailValue.value = mealEtcTextDetail.value;
+	                }
+	            }
+	            else if (studyEtc.checked) {
+	            	studyEtcTextDetail.required = true;
+	                if (studyEtc.value != "") {
+	                	studyEtc.value = studyEtcTextDetail.value;
+	                    detailValue.value = studyEtcTextDetail.value;
+	                }
+	            }
+	            else {
+	            	hobbyEtcTextDetail.required = true;
+	                if (hobbyEtc.value != "") {
+	                	hobbyEtc.value = hobbyEtcTextDetail.value;
+	                    detailValue.value = hobbyEtcTextDetail.value;
 	                }
 	            }
 	        }

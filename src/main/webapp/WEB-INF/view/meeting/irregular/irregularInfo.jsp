@@ -201,15 +201,19 @@ h3, h4 {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	<jsp:include page="/WEB-INF/view/reviewList.jsp" />
 
-	<div class="container">
+	<div class="container" id="container">
 		<form action="/meeting/irregular/update/form">
 			<div>
 				<h2>일시적모임 상세정보</h2>
 				<input type="hidden" name="checkedById" value="${irregular.meetingId}">
+				<input type="hidden" id="close" name="close" value="${irregular.close}">
 				<c:if test="${irregular.creatorId eq memberSession.memberId}">
 					<c:if test="${irregular.close eq 0}">
 						<button id="irregular_update_btn" type="submit">모임 수정하기</button>
 					</c:if>
+				</c:if>
+				<c:if test="${irregular.close eq 1}">
+					<font color="red" size="4">삭제된 모임입니다.</font>
 				</c:if>
 			</div>
 
@@ -226,7 +230,7 @@ h3, h4 {
 				<div class="creator">
 					<h3>모임장</h3>
 					<input type="text" id="creatorId"
-						value=" ${memberSession.major} / ${memberSession.studentNumber} " disabled>
+						value=" ${creatorMember.major} / ${creatorMember.studentNumber} " disabled>
 				</div>
 			</div>
 
@@ -460,13 +464,17 @@ h3, h4 {
 						</c:if>
 					</td>
 					<td>
-						<c:if test="${irregular.close eq 0}">
-							<div class="irregular_close_btn">모집 마감하기</div> <!--생성자만-->
+						<c:if test="${irregular.creatorId eq memberSession.memberId}">
+							<c:if test="${irregular.close eq 0}">
+								<div class="irregular_close_btn">모집 마감하기</div> <!--생성자만-->
+							</c:if>
+						</c:if>
+						<c:if test="${!irregular.creatorId eq memberSession.memberId}">
+							<c:if test="${fn:contains(joinMemberList, memberSession) eq false}">
+								<div class="irregular_apply_btn">신청하기</div>
+							</c:if>
 						</c:if>
 					</td>
-					<!-- <td> 
-                        비회원만 <div class="irregular_apply_btn">모임 신청하기</div>
-                    </td> -->
 				</tr>
 			</table>
 		</form>
@@ -475,32 +483,15 @@ h3, h4 {
 		</form>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
-		 	let etc = document.querySelector("#etc");
-	        let etcTextDetail = document.querySelector('#etcTextDetail');
-
-
-	        $(document).ready(function() {
-	    		document.getElementById("studyDetail").style.display = "none";
-	    		document.getElementById("hobbyDetail").style.display = "none";
-	    	});
-	    	
-	        function showDetail(infoId) {
-	    		if (infoId == "meal") {
-	    			document.getElementById("mealDetail").style.display = "";
-	    			document.getElementById("studyDetail").style.display = "none";
-	    			document.getElementById("hobbyDetail").style.display = "none";
-	    		} else if (infoId == "study") {
-	    			document.getElementById("mealDetail").style.display = "none";
-	    			document.getElementById("studyDetail").style.display = "";
-	    			document.getElementById("hobbyDetail").style.display = "none";
-	    		} else {
-	    			document.getElementById("mealDetail").style.display = "none";
-	    			document.getElementById("studyDetail").style.display = "none";
-	    			document.getElementById("hobbyDetail").style.display = "";
+			init();
+	
+			function init() {
+	    		let close = document.getElementById("close").value;
+	    		if (close == 1) {
+	    			document.getElementById("container").style.backgroundColor = "rgb(244, 243, 243)";
 	    		}
-	    	}
+	        }
 	</script>
 </body>
 

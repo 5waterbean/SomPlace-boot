@@ -30,30 +30,36 @@ public class InfoIrregularController {
 	@Autowired
 	private MemberService memberService;
 	
+	// 식사 리스트
 	private List<String> mealList = Arrays.asList("한식", "일식", "양식", "중식", "술", "분식");
+	// 스터디 리스트
 	private List<String> studyList = Arrays.asList("과제", "학교시험", "취업준비", "자격증");
+	// 취미 리스트
 	private List<String> hobbyList = Arrays.asList("스포츠", "예술", "IT");
-	
-	public void setIrregularService(IrregularService irregularService) {
-		this.irregularService = irregularService;
-	}
 	
 	@GetMapping
 	public ModelAndView infoIrregular(@RequestParam("checkedById") int checkedById) {
 		ModelAndView mav = new ModelAndView("meeting/irregular/irregularInfo");
+		
+		// 일시적모임 조회
 		Irregular irregular = irregularService.getIrregularById(checkedById);
 		mav.addObject("irregular", irregular);
 		
+		// 생성자
+		Member member = memberService.getMember(irregular.getCreatorId());
+		mav.addObject("creatorMember", member);
+		
+		// meetingDate
 		StringTokenizer itr;
 		itr = new StringTokenizer(irregular.getMeetingDate().toString(), " ");
 		String meetingDay = itr.nextToken();
 		mav.addObject("meetingDay", meetingDay);
-		
 		String meetingTime = itr.nextToken();
 		itr = new StringTokenizer(meetingTime, ":");
 		meetingTime = itr.nextToken() + ":" + itr.nextToken();
 		mav.addObject("meetingTime", meetingTime);
 		
+		// meetingInfoDetail
 		itr = new StringTokenizer(irregular.getMeetingInfoDetail(), ",");
 		List<String> detailList = new ArrayList<String>();
 		while (itr.hasMoreTokens()) {
@@ -61,6 +67,7 @@ public class InfoIrregularController {
 		}
 		mav.addObject("detailList", detailList);
 		
+		// etcDetail
 		if (irregular.getMeetingInfo().equals("식사")) {
 			if (!mealList.contains(detailList.get(detailList.size() - 1))) {
 				mav.addObject("detailValue", detailList.get(detailList.size() - 1));
@@ -77,6 +84,7 @@ public class InfoIrregularController {
 			}
 		}
 		
+		// 회원 목록 조회
 		List<String> joinMemberIdList = memberMeetingService.findJoinMemberIdList(checkedById);
 		List<Member> joinMemberList = new ArrayList<Member>();
 		for (String joinMemberId : joinMemberIdList) {
@@ -84,6 +92,7 @@ public class InfoIrregularController {
 		}
 		mav.addObject("joinMemberList", joinMemberList);
 		
+		// 신청자 목록 조회
 		List<String> applyMemberIdList = memberMeetingService.findApplyMemberIdList(checkedById);
 		List<Member> applyMemberList = new ArrayList<Member>();
 		for (String applyMemberId : applyMemberIdList) {
