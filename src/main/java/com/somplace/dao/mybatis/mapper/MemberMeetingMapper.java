@@ -21,10 +21,10 @@ public interface MemberMeetingMapper {
 	int getApply(@Param("memberId")String memberId, @Param("meetingId")int meetingId);
 	
 	// 모임 신청 (찜하기 안했을 경우)
-	public void insertApplyMeeting(@Param("memberId")String memberId, @Param("meetingId")int meetingId);
+	int insertApplyMeeting(@Param("memberId") String memberId, @Param("meetingId") int meetingId);
 
 	// 모임 찜하기 (모임 신청 안했을 경우)
-	public void insertHeartMeeting(@Param("memberId")String memberId, @Param("meetingId")int meetingId);
+	int insertHeartMeeting(@Param("memberId") String memberId, @Param("meetingId") int meetingId);
 	
 	
 	// 내가 속한 모임 아이디 조회

@@ -91,12 +91,24 @@ label {
 	user-select: none;
 }
 </style>
-
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
 	function addLike(like) {
 		let heartLabel = like.nextElementSibling;
+		let checkedById = like.id.slice(1);
+		
 		if (like.checked) {
-			heartLabel.innerHTML = "❤️";
+			$.ajax({
+				url : "/meeting/like",
+				type : "post",
+				data : {"checkedById" : checkedById},
+				success : function(data){
+					if(data == 1) {
+						alert("모임 찜하기 성공!");
+						heartLabel.innerHTML = "❤️";
+					} 
+				}
+			})
 		} else {
 			heartLabel.innerHTML = "🤍";
 		}
@@ -121,6 +133,7 @@ label {
 							method="POST">
 							<input type="hidden" name="checkedById"
 								value="${meeting.meetingId}">
+							<input type="hidden" name="apply" value="1">
 						</form> <!-- this.previousElementSibling.submit(); findInfo(${meeting.meetingId}) -->
 						<div onclick="this.previousElementSibling.submit();">
 							<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>

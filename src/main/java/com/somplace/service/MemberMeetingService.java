@@ -36,11 +36,11 @@ public class MemberMeetingService {
 	}
 	
 	// 모임 신청, 찜하기 (insert)
-	public void insertMemberMeeting(int what, String memberId, int meetingId) {
+	public int insertMemberMeeting(int what, String memberId, int meetingId) {
 		if (what == 0) { // 모임 신청 (찜하기 안했을 경우)
-			memberMeetingDao.insertApplyMeeting(memberId, meetingId);
+			return memberMeetingDao.insertApplyMeeting(memberId, meetingId);
 		} else { // 모임 찜하기 (모임 신청 안했을 경우)
-			memberMeetingDao.insertHeartMeeting(memberId, meetingId);
+			return memberMeetingDao.insertHeartMeeting(memberId, meetingId);
 		}
 	}
 	
