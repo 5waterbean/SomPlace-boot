@@ -298,9 +298,9 @@ button {
                                <label for="alcohol">술</label>
                            </div>
                            <div>
-                               <input type="checkbox" id="etc" name="meetingInfoDetail">
-                                <label for="etc">
-                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력">
+                               <input type="checkbox" id="mealEtc" name="meetingInfoDetail">
+                                <label for="mealEtc">
+                                   <input type="text" id="mealEtcTextDetail" name="mealEtcText" size="15" placeholder="기타항목 입력">
                                </label>
                            </div>
                         </div>
@@ -324,9 +324,9 @@ button {
                                 <label for="license">자격증</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail">
-                                <label for="etc">
-                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
+                                <input type="checkbox" id="StudyEtc" name="meetingInfoDetail">
+                                <label for="StudyEtc">
+                                    <input type="text" id="StudyEtcTextDetail" name="StudyEtcText" size="15" placeholder="기타항목 입력"
                                     >
                                 </label>
                             </div>
@@ -347,9 +347,9 @@ button {
 								<label for="it">IT</label>
 							</div>
 							<div>
-								<input type="checkbox" id="etc" name="meetingInfoDetail"> 
-								<label for="etc">
-									<input type="text" id="etcTextDetail" name="etcText" placeholder="기타항목을 입력하세요.">
+								<input type="checkbox" id="hobbyEtc" name="meetingInfoDetail"> 
+								<label for="hobbyEtc">
+									<input type="text" id="hobbyEtcTextDetail" name="hobbyEtcText" placeholder="기타항목을 입력하세요.">
 								</label>
 							</div>
 						</div>
@@ -379,21 +379,37 @@ button {
 			.toISOString().substring(0, 10);
 		document.querySelector('input[type="date"]').min = new Date()
 			.toISOString().substring(0, 10);
-
-		let etc = document.querySelector("#etc");
-	    let etcTextDetail = document.querySelector('#etcTextDetail');
 	
+		let mealEtc = document.querySelector("#mealEtc");
+		let mealEtcTextDetail = document.querySelector('#mealEtcTextDetail');
+		let StudyEtc = document.querySelector("#StudyEtc");
+		let StudyEtcTextDetail = document.querySelector('#StudyEtcTextDetail');
+		let hobbyEtc = document.querySelector("#hobbyEtc");
+		let hobbyEtcTextDetail = document.querySelector('#hobbyEtcTextDetail');
+		
 	    function create() {
-	        if (etc.checked) {
-	            if (etc.value != "") {
-	                etc.value = etcTextDetail.value;
-	            }
-	        }
-	        if(document.getElementById("meetingPlace").value.length > 40)  {
-	        	document.getElementById("meetingPlace").value 
-	              = document.getElementById("meetingPlace").value.substr(0, 40);
-	          }
-	    }
+            if (mealEtc.checked) {
+            	mealEtcTextDetail.required = true;
+            	if (mealEtc.value != "") {
+            		mealEtc.value = mealEtcTextDetail.value;
+            		detailValue.value = mealEtcTextDetail.value;
+            	}
+            }
+            if (StudyEtc.checked) {
+            	StudyEtcTextDetail.required = true;
+            	if (StudyEtc.value != "") {
+            		StudyEtc.value = StudyEtcTextDetail.value;
+            		detailValue.value = StudyEtcTextDetail.value;
+            	}
+            }
+            if (hobbyEtc.checked) {
+            	hobbyEtcTextDetail.required = true;
+            	if (hobbyEtc.value != "") {
+            		hobbyEtc.value = hobbyEtcTextDetail.value;
+            		detailValue.value = hobbyEtcTextDetail.value;
+            	}
+            }
+        }
 	
 	    $(document).ready(function() {
     		document.getElementById("studyDetail").style.display = "none";

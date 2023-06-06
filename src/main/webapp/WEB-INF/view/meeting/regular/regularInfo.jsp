@@ -203,7 +203,7 @@ h3, h4 {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	<jsp:include page="/WEB-INF/view/reviewList.jsp" />
 
-	<div class="container">
+	<div class="container" id="container">
 		<form name="updateForm" action="/meeting/regular/update/form">
 			<div>
 				<h2>${regular.meetingTitle} 상세정보</h2>
@@ -213,8 +213,12 @@ h3, h4 {
 						<div class="regular_update_btn"  onClick="updateForm.submit()">모임 수정하기</div>
 					</c:if>
 				</c:if>
+				<c:if test="${regular.close eq 1 }">
+					<font color="red" size="4">삭제된 모임입니다.</font>
+				</c:if>
 				<input type="hidden" name="checkedById" value="${regular.meetingId}">
 				<input type="hidden" name="detailValue" value="${detailValue}">
+				<input type="hidden" name="close" id="close" value="${regular.close}">
 			</div>
 
 			<hr>
@@ -524,6 +528,7 @@ h3, h4 {
 						<c:if test="${regular.close eq 0 }">
 							<div class="regular_close_btn">모집 마감하기</div> <!--생성자만-->
 						</c:if>
+						
 					</c:if>
 					</td>
 					<!--  <td>
@@ -536,30 +541,15 @@ h3, h4 {
 			<input type="hidden" name="meetingId" value="${regular.meetingId}">
 		</form>
 	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>			
-		document.querySelector('input[type="date"]').value = new Date()
-			.toISOString().substring(0, 10);
-		document.querySelector('input[type="date"]').min = new Date()
-			.toISOString().substring(0, 10);
+		init();
 		
-		$(document).ready(function() {
-			document.getElementById("studyDetail").style.display = "none";
-			document.getElementById("hobbyDetail").style.display = "none";
-		});
-		
-		function showDetail(infoId) {
-			if (infoId == "meal") {
-				document.getElementById("mealDetail").style.display = "";
-				document.getElementById("studyDetail").style.display = "none";
-				document.getElementById("hobbyDetail").style.display = "none";
-			} else if (infoId == "study") {
-				document.getElementById("mealDetail").style.display = "none";
-				document.getElementById("studyDetail").style.display = "";
-				document.getElementById("hobbyDetail").style.display = "none";
-			} else {
-				document.getElementById("mealDetail").style.display = "none";
-				document.getElementById("studyDetail").style.display = "none";
-				document.getElementById("hobbyDetail").style.display = "";
+		function init() {
+			let close = document.getElementById("close").value;
+			if (close == 1) {
+				document.getElementById("container").style.backgroundColor = "rgb(244, 243, 243)";
 			}
 		}
 	</script>
