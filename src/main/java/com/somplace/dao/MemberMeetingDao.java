@@ -10,7 +10,25 @@ public interface MemberMeetingDao {
 	
 	// 신청자 리스트 조회
 	public List<String> findApplyMemberIdList(int meetingId) throws DataAccessException;
+	
+	// heart 값 가져오기
+	public int getHeart(String memberId, int meetingId) throws DataAccessException;
+	
+	// apply 값 가져오기
+	public int getApply(String memberId, int meetingId) throws DataAccessException;
 
+	// 모임 신청 (찜하기 안했을 경우)
+	public void insertApplyMeeting(String memberId, int meetingId) throws DataAccessException;
+
+	// 모임 찜하기 (모임 신청 안했을 경우)
+	public void insertHeartMeeting(String memberId, int meetingId) throws DataAccessException;
+
+	
+	
+	
+	
+	
+	
 	// 내가 속한 모임 아이디 조회
 	public List<Integer> getMyJoinMeetingId(String memberId) throws DataAccessException;
 		

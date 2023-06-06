@@ -171,7 +171,7 @@ h3, h4 {
 }
 
 .regular_update_btn, .regular_delete_btn, .regular_close_btn,
-	.regular_apply_btn {
+	.regular_apply_btn, .regular_applyCancel_btn {
 	border: 1px solid black;
 	background-color: rgb(226, 240, 217);
 	padding: 5px 15px 5px 15px;
@@ -181,7 +181,7 @@ h3, h4 {
 
 .regular_update_btn:hover, .member_out_btn:hover, .member_in_btn:hover,
 	.member_good_btn:hover, .member_bad_btn:hover, .regular_delete_btn:hover,
-	.regular_close_btn:hover, .regular_apply_btn:hover {
+	.regular_close_btn:hover, .regular_apply_btn:hover, .regular_applyCancel_btn:hover {
 	background-color: rgb(174, 220, 175);
 	cursor: pointer;
 }
@@ -524,21 +524,37 @@ h3, h4 {
 						</c:if>
 					</td>
 					<td>
-					<c:if test="${regular.creatorId eq currentMemberId}"> <!-- 모임 생성자만 보이게 -->
-						<c:if test="${regular.close eq 0 }">
-							<div class="regular_close_btn">모집 마감하기</div> <!--생성자만-->
+						<!-- 모임 생성자만 보이게 -->
+						<c:if test="${regular.creatorId eq currentMemberId}"> 
+							<c:if test="${regular.close eq 0 }">
+								<div class="regular_close_btn">모집 마감하기</div> 
+							</c:if>
+						</c:if>
+						<!-- 비회원만 보이게(신청X) -->
+						<c:if test="${regular.creatorId ne currentMemberId}">
+							<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
+								<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
+									<div class="regular_apply_btn" onclick="applyForm.submit()">신청하기</div>
+								</c:if>
+							</c:if>
+						</c:if>
+						<!-- 신청한 사람들만 (수락X) 보이게 -->
+						<c:if test="${regular.creatorId ne currentMemberId}">
+							<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+								<div class="regular_applyCancel_btn">신청 취소하기</div>
+							</c:if>
 						</c:if>
 						
-					</c:if>
 					</td>
-					<!--  <td>
-                       비회원만 <div class="regular_apply_btn">모임 신청하기</div>
-                    </td> -->
 				</tr>
 			</table>
 		</form>
 		<form name="deleteForm" action="/meeting/delete" method="POST">
 			<input type="hidden" name="meetingId" value="${regular.meetingId}">
+		</form>
+		<form name="applyForm" action="/meeting/regular/info">
+			<input type="hidden" name="checkedById" value="${regular.meetingId}">
+			<input type="hidden" name="what" value="0" >
 		</form>
 	</div>
 	
