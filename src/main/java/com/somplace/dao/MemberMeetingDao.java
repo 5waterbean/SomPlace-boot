@@ -18,10 +18,10 @@ public interface MemberMeetingDao {
 	public int getApply(String memberId, int meetingId) throws DataAccessException;
 
 	// 모임 신청 (찜하기 안했을 경우)
-	public void insertApplyMeeting(String memberId, int meetingId) throws DataAccessException;
+	public int insertApplyMeeting(String memberId, int meetingId) throws DataAccessException;
 
 	// 모임 찜하기 (모임 신청 안했을 경우)
-	public void insertHeartMeeting(String memberId, int meetingId) throws DataAccessException;
+	public int insertHeartMeeting(String memberId, int meetingId) throws DataAccessException;
 
 	
 	

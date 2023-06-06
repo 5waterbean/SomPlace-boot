@@ -554,7 +554,7 @@ h3, h4 {
 		</form>
 		<form name="applyForm" action="/meeting/regular/info">
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
-			<input type="hidden" name="what" value="0" >
+			<input type="hidden" name="apply" value="1">
 		</form>
 	</div>
 	

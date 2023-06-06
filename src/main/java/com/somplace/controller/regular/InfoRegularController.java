@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -44,7 +43,7 @@ public class InfoRegularController {
 	@GetMapping
 	public ModelAndView infoRegular(@RequestParam("checkedById") int checkedById, 
 			@ModelAttribute("memberSession") Member memberSession,
-			@RequestParam(value="what", defaultValue="-1") int what) {
+			@RequestParam(value="apply", defaultValue="-1") int apply) {
 		ModelAndView mav = new ModelAndView("meeting/regular/regularInfo");
 		
 		Regular regular = regularService.getRegularById(checkedById);
@@ -54,10 +53,9 @@ public class InfoRegularController {
 		mav.addObject("creatorMember", member);
 		
 		// 모임 신청, 찜하기 (insert)
-		if (what != -1) {
-			memberMeetingService.insertMemberMeeting(what, memberSession.getMemberId(), checkedById);
+		if (apply == 1) {
+			memberMeetingService.insertMemberMeeting(0, memberSession.getMemberId(), checkedById);
 		}
-		
 		// meetingInfoDetail
 		StringTokenizer detailItr = new StringTokenizer(regular.getMeetingInfoDetail(), ",");
 		List<String>detailList = new ArrayList<String>();
