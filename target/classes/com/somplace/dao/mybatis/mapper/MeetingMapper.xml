@@ -111,6 +111,7 @@
 	<select resultType="Meeting" id="getMadeMeetingList"> 
 		<include refid="selectMeeting_fragment" />
 		WHERE CREATORID = #{creatorId}
+		ORDER BY MEETINGID DESC
 	</select>	
 	
 	<!-- 내가 찜한 or 신청한 모임 목록 조회 -->

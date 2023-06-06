@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -92,8 +93,13 @@ label {
 </style>
 
 <script>
+	function init() {
+		var id = "h" + "<c:out value='${meeting.meetingId}'/>";
+		console.log(id);
+	}
+	
 	function addLike(like) {
-		const heartLabel = like.nextElementSibling;
+		let heartLabel = like.nextElementSibling;
 		if (like.checked) {
 			heartLabel.innerHTML = "❤️";
 		} else {
@@ -108,7 +114,7 @@ label {
 	<jsp:include page="/WEB-INF/view/searchBox.jsp" />
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	
-	<div class="container">
+	<div class="container" on>
 		<table>
 			<tr>
 				<c:set var="study" value="../../img/read.png" />
@@ -138,11 +144,25 @@ label {
 							<div>${meeting.meetingInfo}</div>
 							<div>${meeting.meetingInfoDetail}</div>
 
-							<div>
-								<input type="checkbox" id="h${meeting.meetingId}"
-									onclick="event.stopPropagation();" oninput="addLike(this)">
-								<label for="h${meeting.meetingId}"
-									onclick="event.stopPropagation();">🤍</label>
+							<div style="height:50px;">
+							<c:choose>
+								<c:when test="${meeting.close eq 1}">
+									<font color="gray" size="2">삭제된 모임입니다</font>
+								</c:when>
+								<c:otherwise>
+									<input type="checkbox" id="h${meeting.meetingId}" onclick="event.stopPropagation();" 
+										<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)}">checked</c:if> oninput="addLike(this)">
+									<label for="h${meeting.meetingId}"
+										onclick="event.stopPropagation();">🤍</label>
+									<script>
+										var id = "h" + "<c:out value='${meeting.meetingId}'/>";
+										console.log(id);
+										if(document.getElementById(id).checked == true){
+											document.getElementById(id).nextElementSibling.innerHTML = "❤️";
+										}
+									</script>
+								</c:otherwise>
+							</c:choose>
 							</div>
 						</div>
 					</td>
