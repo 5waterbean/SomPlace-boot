@@ -114,12 +114,11 @@ input[type="submit"]:hover {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	<jsp:include page="/WEB-INF/view/reviewList.jsp" />
 
-	
-	<form:form action="/review/write" method="post"
+
+	<form:form name="updateForm" action="/review/update" method="post"
 		modelAttribute="reviewCommand" onsubmit="return create(this)">
-				
 		<div class="container">
-			<h2>&lt;후기 작성하기&gt;</h2>
+			<h2>&lt;후기 수정하기&gt;</h2>
 			<table>
 				<tr>
 					<th>모임이름</th>
@@ -131,21 +130,21 @@ input[type="submit"]:hover {
 					<td>
 						<div class="star-rating space-x-4 mx-auto">
 							<input type="radio" id="5stars" name="star" value="5"
-								v-model="ratings" /> <label for="5stars" class="star pr-4">★</label>
+								v-model="ratings" <c:if test="${review.star eq 5}">checked</c:if> /> <label for="5stars" class="star pr-4">★</label>
 							<input type="radio" id="4stars" name="star" value="4"
-								v-model="ratings" /> <label for="4stars" class="star">★</label>
+								v-model="ratings" <c:if test="${review.star eq 4}">checked</c:if> /> <label for="4stars" class="star">★</label>
 							<input type="radio" id="3stars" name="star" value="3"
-								v-model="ratings" /> <label for="3stars" class="star">★</label>
+								v-model="ratings" <c:if test="${review.star eq 3}">checked</c:if> /> <label for="3stars" class="star">★</label>
 							<input type="radio" id="2stars" name="star" value="2"
-								v-model="ratings" /> <label for="2stars" class="star">★</label>
+								v-model="ratings" <c:if test="${review.star eq 2}">checked</c:if> /> <label for="2stars" class="star">★</label>
 							<input type="radio" id="1stars" name="star" value="1"
-								v-model="ratings" /> <label for="1stars" class="star">★</label>
+								v-model="ratings" <c:if test="${review.star eq 1}">checked</c:if> /> <label for="1stars" class="star">★</label>
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<th>후기</th>
-					<td><textarea name="reviewMemo" id="" rows="10" required></textarea></td>
+					<td><textarea name="reviewMemo" id="" rows="10" required>${review.reviewMemo}</textarea></td>
 				</tr>
 
 				<tr>
@@ -153,7 +152,7 @@ input[type="submit"]:hover {
 					<!-- td style="width: 20%;">
 					<div class="review_back_btn" onclick="location.href='/meeting/regular/info'">뒤로가기</div>
 					</td> -->
-					<td style="width: 20%;"><input type="submit" value="제출하기">
+					<td style="width: 20%;"><input type="submit" value="수정하기">
 					</td>
 				</tr>
 			</table>

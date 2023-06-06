@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +15,7 @@
 .right_review {
 	width: 15%;
 	position: fixed;
-	top: 450px;
+	top: 400px;
 	right: 0;
 	padding: 10px;
 	margin: 10px;
@@ -66,6 +69,9 @@
 
 <body>
 	<div class="right_review">
+
+		<c:set var="currentMemberId" value="${memberSession.memberId}" />
+
 		<div class="right_review_first">
 			<div>
 				<div>후기들</div>
@@ -74,30 +80,50 @@
 				</div>
 			</div>
 
-			<div class="right_review_btn">후기 작성하기</div>
+			<!-- <div class="right_review_btn"
+				onClick="location.href='/review/write/form?meetingId=' + ${regular.meetingId}">후기
+				작성하기</div>-->
+
+			<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+				<c:choose>
+					<c:when test="${existReview}">
+						<div class="right_review_btn" onClick="updateForm.submit()">후기
+							수정하기</div>
+					</c:when>
+					<c:otherwise>
+						<div class="right_review_btn"
+							onClick="location.href='/review/write/form?meetingId=' + ${regular.meetingId}">후기
+							작성하기</div>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
+
+			<c:if test="${irregular.creatorId ne memberSession.memberId}">
+				<div class="right_review_btn" onClick="updateForm.submit()">후기
+					수정하기</div>
+			</c:if>
 		</div>
 
 		<br>
 
 		<div class="right_review_second">
-			<div class="review_item">
-				<div class="star">★★★★☆</div>
-				<div>러닝하니까 건강해지는 느낌!</div>
-			</div>
+			<c:forEach var="review" items="${reviewList}">
+				<div class="review_item">
+					<div class="star">
+						<c:forEach begin="0" end="${review.star}">
+							★	
+							
+						</c:forEach>
+						<c:forEach begin="${review.star}" end="5">
+							☆
+						</c:forEach>
+					</div>
+					<div>${review.reviewMemo}</div>
+				</div>
 
-			<br>
+				<br>
+			</c:forEach>
 
-			<div class="review_item">
-				<div class="star">★★★★★</div>
-				<div>솜솜들이 다 너무 착하셔서 만족하면서 운동하고 있어요ㅠ</div>
-			</div>
-
-			<br>
-
-			<div class="review_item">
-				<div class="star">★★★☆☆</div>
-				<div>운동도 하고 친구도 생겼어요!</div>
-			</div>
 		</div>
 	</div>
 </body>
