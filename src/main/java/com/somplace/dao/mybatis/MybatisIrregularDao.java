@@ -65,4 +65,9 @@ public class MybatisIrregularDao implements IrregularDao {
 	public List<Irregular> sortIrregularCategoryByKeyHeart(String key, String category) throws DataAccessException {
 		return irregularMapper.sortIrregularCategoryByKeyHeart(key, category);
 	}
+	
+	// 내가 속한 일시적 모임 조회
+	public List<Irregular> getMyJoinIrregularList(List<Integer> meetingIdList) throws DataAccessException {
+		return irregularMapper.getMyJoinIrregularList(meetingIdList);
+	}
 }

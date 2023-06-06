@@ -11,4 +11,13 @@ public interface MemberMeetingMapper {
 	
 	// 신청자 리스트 조회
 	List<String> findApplyMemberIdList(int meetingId);
+	
+	// 내가 속한 모임 아이디 조회
+	List<Integer> getMyJoinMeetingId(String memberId);
+	
+	// 내가 찜한 모임 아이디 조회
+	List<Integer> getMyLikeMeetingId(String memberId);
+	
+	// 내가 신청한 모임 아이디 조회
+	List<Integer> getMyApplyMeetingId(String memberId);
 }

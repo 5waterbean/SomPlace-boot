@@ -16,4 +16,25 @@
 		FROM MEMBER_MEETING
 		WHERE meetingId=#{meetingId} AND apply=1
 	</select>
+	
+	<!-- 내가 속한 모임 아이디 조회 -->
+	<select resultType="Integer" id="getMyJoinMeetingId">
+		SELECT MEETINGID
+		FROM MEMBER_MEETING
+		WHERE apply = 0 AND ID = #{memberId} 
+	</select>
+	
+	<!-- 내가 찜한 모임 아이디 조회 -->
+	<select resultType="Integer" id="getMyLikeMeetingId">
+		SELECT MEETINGID
+		FROM MEMBER_MEETING
+		WHERE heart = 1 AND ID = #{memberId} 
+	</select>
+	
+	<!-- 내가 신청한 모임 아이디 조회 -->
+	<select resultType="Integer" id="getMyApplyMeetingId">
+		SELECT MEETINGID
+		FROM MEMBER_MEETING
+		WHERE apply = 1 AND ID = #{memberId} 
+	</select>
 </mapper>

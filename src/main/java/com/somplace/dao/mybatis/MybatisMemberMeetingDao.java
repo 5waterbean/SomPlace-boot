@@ -22,4 +22,19 @@ public class MybatisMemberMeetingDao {
 	public List<String> findApplyMemberIdList(int meetingId) throws DataAccessException {
 		return memberMeetingMapper.findApplyMemberIdList(meetingId);
 	}
+	
+	// 내가 속한 모임 아이디 조회
+	public List<Integer> getMyJoinMeetingId(String memberId) throws DataAccessException {
+		return memberMeetingMapper.getMyJoinMeetingId(memberId);
+	}
+		
+	// 내가 찜한 모임 아이디 조회
+	public List<Integer> getMyLikeMeetingId(String memberId) throws DataAccessException {
+		return memberMeetingMapper.getMyLikeMeetingId(memberId);
+	}
+		
+	// 내가 신청한 모임 아이디 조회
+	public List<Integer> getMyApplyMeetingId(String memberId) throws DataAccessException {
+		return memberMeetingMapper.getMyApplyMeetingId(memberId);
+	}
 }

@@ -44,4 +44,7 @@ public interface MeetingDao {
 	
 	// 내가 생성한 모임 조회
 	public List<Meeting> getMadeMeetingList(String creatorId) throws DataAccessException;
+	
+	// 내가 찜한 or 신청한 모임 목록 조회
+	public List<Meeting> getMyMeetingList(List<Integer> meetingIdList) throws DataAccessException;
 }

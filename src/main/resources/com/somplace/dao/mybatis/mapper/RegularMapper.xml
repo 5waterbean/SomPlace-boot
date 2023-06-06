@@ -107,6 +107,7 @@
 		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
 		ORDER BY meetingId DESC
 	</select>
+	
 	<!-- 정기적모임 카테고리별(키워드) 검색, 인기순 정렬 -->
 	<select resultMap="regularResultSet" id="sortRegularCategoryByKeyHeart" parameterType="map"> 
 		<include refid="selectRegularJoin_fragment" />
@@ -116,4 +117,12 @@
 		ORDER BY count(mm.heart) DESC 
 	</select>
 
+	<!-- 내가 속한 정기적 모임 조회 -->
+	<select resultType="Meeting" id="getMyJoinRegularList" parameterType="java.util.List">
+		<include refid="selectRegularView_fragment" />
+		WHERE MEETINGID IN
+		<foreach collection="meetingIdList" item="item" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
 </mapper>

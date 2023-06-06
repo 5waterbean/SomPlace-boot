@@ -2,6 +2,7 @@ package com.somplace.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class Member implements Serializable {
 	private int good;
 	private int bad;
 	private Date birth;
+	private List<Integer> likeMeetingIdList;
 	
 	public Member() {
 		super();

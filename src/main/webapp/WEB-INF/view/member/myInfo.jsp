@@ -65,7 +65,7 @@ select {
 	font-size: x-large;
 }
 
-.backTd {
+.buttonTd {
 	width: 15%;
 }
 
@@ -89,6 +89,13 @@ input[type="submit"]:hover {
 	background-color: rgb(174, 220, 175);
 }
 </style>
+<script>
+function deleteMember() {
+	if (confirm("정말로 탈퇴하시겠습니까?")) {
+    	location.href="/member/delete";
+    }
+}
+</script>
 </head>
 
 <body>
@@ -139,8 +146,9 @@ input[type="submit"]:hover {
 				</tr>
 
 				<tr>
-					<td colspan="4"></td>
-					<td class="backTd"><input type="button" value="뒤로 가기" onClick="location.href='/meeting/sort/all'"></td>
+					<td colspan="3"></td>
+					<td class="buttonTd"><input type="button" style="background-color:rgb(255, 186, 173);" value="탈퇴하기" onClick="deleteMember()"></td>
+					<td class="buttonTd"><input type="button" value="뒤로 가기" onClick="location.href='/meeting/sort/all'"></td>
 					<td class="lastTd"><input type="button" value="내 정보 수정하기📝" onClick="location.href='/member/myInfo/update'"></td>
 				</tr>
 			</table>

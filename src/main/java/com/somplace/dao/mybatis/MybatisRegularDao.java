@@ -71,4 +71,8 @@ public class MybatisRegularDao implements RegularDao {
 		return regularMapper.sortRegularCategoryByKeyHeart(key, category);
 	}
 	
+	// 내가 속한 정기적 모임 조회
+	public List<Regular> getMyJoinRegularList(List<Integer> meetingIdList) throws DataAccessException {
+		return regularMapper.getMyJoinRegularList(meetingIdList);
+	}
 }

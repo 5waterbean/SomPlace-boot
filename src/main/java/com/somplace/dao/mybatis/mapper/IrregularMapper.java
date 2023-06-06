@@ -38,4 +38,7 @@ public interface IrregularMapper {
 	List<Irregular> searchIrregularCategoryByKeyOrder(@Param("key")String key, @Param("category")String category) throws DataAccessException;
 	//일시적모임 카테고리별(키워드) 검색, 인기순 정렬
 	List<Irregular> sortIrregularCategoryByKeyHeart(@Param("key")String key, @Param("category")String category) throws DataAccessException;
+
+	// 내가 속한 일시적 모임 조회
+	List<Irregular> getMyJoinIrregularList(List<Integer> meetingIdList) throws DataAccessException;
 }

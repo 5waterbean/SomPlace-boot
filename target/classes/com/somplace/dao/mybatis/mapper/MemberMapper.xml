@@ -30,4 +30,9 @@
 			PHONE = #{phone}
 		WHERE ID = #{memberId}
 	</update>
+	
+	<delete id="deleteMember">
+		DELETE FROM MEMBER
+		WHERE ID = #{memberId}
+	</delete>
 </mapper>
