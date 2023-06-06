@@ -8,18 +8,23 @@ import java.util.StringTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.Member;
 import com.somplace.domain.Regular;
+import com.somplace.domain.Review;
 import com.somplace.service.MemberMeetingService;
 import com.somplace.service.MemberService;
 import com.somplace.service.RegularService;
+import com.somplace.service.ReviewService;
 
 @Controller
 @RequestMapping("/meeting/regular/info")
+@SessionAttributes("memberSession")
 public class InfoRegularController {
 	@Autowired
 	private RegularService regularService;
@@ -27,6 +32,8 @@ public class InfoRegularController {
 	private MemberService memberService;
 	@Autowired
 	private MemberMeetingService memberMeetingService;
+	@Autowired
+	private ReviewService reviewService;
 	
 	private List<String> mealList = Arrays.asList("한식", "일식", "중식", "양식", "분식", "술");
 	private List<String> studyList = Arrays.asList("과제", "학교시험", "취업준비", "자격증");
@@ -37,8 +44,12 @@ public class InfoRegularController {
 		this.regularService = regularService;
 	}
 	
+	public void setReviewService(ReviewService reviewService) {
+		this.reviewService = reviewService;
+	}
+	
 	@GetMapping
-	public ModelAndView infoRegular(@RequestParam("checkedById") int checkedById) {
+	public ModelAndView infoRegular(@RequestParam("checkedById") int checkedById, @ModelAttribute("memberSession") Member memberSession) {
 		ModelAndView mav = new ModelAndView("meeting/regular/regularInfo");
 		
 		Regular regular = regularService.getRegularById(checkedById);
@@ -46,6 +57,18 @@ public class InfoRegularController {
 		
 		Member member = memberService.getMember(regular.getCreatorId());
 		mav.addObject("creatorMember", member);
+		
+		//후기 작성 부분
+		List<Review> reviewList = reviewService.getReviewById(checkedById);
+		mav.addObject("reviewList", reviewList);
+		//내 아이디가 있는지 없는지(있으면 리뷰 작성된 상태, 없으면 리뷰 작성 아직 안한 상태)
+		for (Review review : reviewList) {
+			if(review.getId() == memberSession.getMemberId()) {
+				mav.addObject("existReview", true);
+				
+				break;
+			}
+		}
 		
 		// meetingInfoDetail
 		StringTokenizer detailItr = new StringTokenizer(regular.getMeetingInfoDetail(), ",");
@@ -93,6 +116,8 @@ public class InfoRegularController {
 			joinMemberList.add( memberService.getMember(joinMemberId));
 		}
 		mav.addObject("joinMemberList", joinMemberList);
+		
+		// 내 아이디가 memberList(회원)인지 확인할 수 있는 리스트(memberIdList = 참여자의 ID List)
 		mav.addObject("joinMemberIdList", joinMemberIdList);
 		
 		// 신청자 목록 조회
