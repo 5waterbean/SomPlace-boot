@@ -93,11 +93,6 @@ label {
 </style>
 
 <script>
-	function init() {
-		var id = "h" + "<c:out value='${meeting.meetingId}'/>";
-		console.log(id);
-	}
-	
 	function addLike(like) {
 		let heartLabel = like.nextElementSibling;
 		if (like.checked) {
@@ -114,7 +109,7 @@ label {
 	<jsp:include page="/WEB-INF/view/searchBox.jsp" />
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	
-	<div class="container" on>
+	<div class="container">
 		<table>
 			<tr>
 				<c:set var="study" value="../../img/read.png" />
