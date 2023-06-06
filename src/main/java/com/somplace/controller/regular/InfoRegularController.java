@@ -8,10 +8,8 @@ import java.util.StringTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.Member;
@@ -21,8 +19,7 @@ import com.somplace.service.MemberService;
 import com.somplace.service.RegularService;
 
 @Controller
-@RequestMapping("/meeting/regular/info") 
-@SessionAttributes("memberSession")
+@RequestMapping("/meeting/regular/info")
 public class InfoRegularController {
 	@Autowired
 	private RegularService regularService;
@@ -41,9 +38,7 @@ public class InfoRegularController {
 	}
 	
 	@GetMapping
-	public ModelAndView infoRegular(@RequestParam("checkedById") int checkedById, 
-			@ModelAttribute("memberSession") Member memberSession,
-			@RequestParam(value="apply", defaultValue="-1") int apply) {
+	public ModelAndView infoRegular(@RequestParam("checkedById") int checkedById) {
 		ModelAndView mav = new ModelAndView("meeting/regular/regularInfo");
 		
 		Regular regular = regularService.getRegularById(checkedById);
@@ -52,10 +47,6 @@ public class InfoRegularController {
 		Member member = memberService.getMember(regular.getCreatorId());
 		mav.addObject("creatorMember", member);
 		
-		// 모임 신청, 찜하기 (insert)
-		if (apply == 1) {
-			memberMeetingService.insertMemberMeeting(0, memberSession.getMemberId(), checkedById);
-		}
 		// meetingInfoDetail
 		StringTokenizer detailItr = new StringTokenizer(regular.getMeetingInfoDetail(), ",");
 		List<String>detailList = new ArrayList<String>();
@@ -102,7 +93,7 @@ public class InfoRegularController {
 			joinMemberList.add( memberService.getMember(joinMemberId));
 		}
 		mav.addObject("joinMemberList", joinMemberList);
-		mav.addObject("joinMemberIdList", joinMemberIdList);		
+		mav.addObject("joinMemberIdList", joinMemberIdList);
 		
 		// 신청자 목록 조회
 		List<String> applyMemberIdList = memberMeetingService.findApplyMemberIdList(checkedById);
@@ -111,7 +102,6 @@ public class InfoRegularController {
 			applyMemberList.add( memberService.getMember(applyMemberId));
 		}
 		mav.addObject("applyMemberList", applyMemberList);
-		mav.addObject("applyMemberIdList", applyMemberIdList);
 		
 		return mav;
 	}
