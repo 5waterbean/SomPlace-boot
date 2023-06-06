@@ -25,6 +25,27 @@ public class MemberMeetingService {
 		return memberMeetingDao.findApplyMemberIdList(meetingId);
 	}
 	
+	// heart 값 가져오기
+	public int getHeart(String memberId, int meetingId) throws DataAccessException {
+		return memberMeetingDao.getHeart(memberId, meetingId);
+	}
+	
+	// apply 값 가져오기
+	public int getApply(String memberId, int meetingId) throws DataAccessException {
+		return memberMeetingDao.getApply(memberId, meetingId);
+	}
+	
+	// 모임 신청, 찜하기 (insert)
+	public void insertMemberMeeting(int what, String memberId, int meetingId) {
+		if (what == 0) { // 모임 신청 (찜하기 안했을 경우)
+			memberMeetingDao.insertApplyMeeting(memberId, meetingId);
+		} else { // 모임 찜하기 (모임 신청 안했을 경우)
+			memberMeetingDao.insertHeartMeeting(memberId, meetingId);
+		}
+	}
+	
+	
+	
 	// 내가 속한 모임 아이디 조회
 	public List<Integer> getMyJoinMeetingId(String memberId) throws DataAccessException {
 		return memberMeetingDao.getMyJoinMeetingId(memberId);

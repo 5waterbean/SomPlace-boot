@@ -17,6 +17,32 @@
 		WHERE meetingId=#{meetingId} AND apply=1
 	</select>
 	
+	<!-- heart값 가져오기 -->
+	<select id="getHeart" parameterType="map">
+		SELECT heart
+		FROM member_meeting
+		WHERE id=#{memberId} AND meetingId=#{meetingId}
+	</select>
+
+	<!-- apply값 가져오기 -->
+	<select id="getApply" parameterType="map">
+		SELECT apply
+		FROM member_meeting
+		WHERE id=#{memberId} AND meetingId=#{meetingId}
+	</select>
+	
+	<!-- 모임 신청 (찜하기 안했을 경우) -->
+	<insert id="insertApplyMeeting" parameterType="map"> 
+		INSERT INTO member_meeting 
+		VALUES (#{memberId}, #{meetingId}, 1, 0)
+	</insert>
+	
+	<!-- 모임 찜하기 (모임 신청 안했을 경우) -->
+	<insert id="insertHeartMeeting" parameterType="map"> 
+		INSERT INTO member_meeting (id, meetingId, heart)
+		VALUES (#{memberId}, #{meetingId}, 1)
+	</insert>
+	
 	<!-- 내가 속한 모임 아이디 조회 -->
 	<select resultType="Integer" id="getMyJoinMeetingId">
 		SELECT MEETINGID
