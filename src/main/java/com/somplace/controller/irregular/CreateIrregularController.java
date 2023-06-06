@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.command.IrregularCommand;
@@ -23,19 +22,11 @@ import com.somplace.service.MeetingService;
 
 @Controller
 @RequestMapping("/meeting/irregular/create")
-@SessionAttributes("memberSession")
 public class CreateIrregularController {
 	@Autowired
 	private MeetingService meetingService;
 	@Autowired
 	private IrregularService irregularService;
-	
-	public void setMeetingService(MeetingService meetingService) {
-		this.meetingService = meetingService;
-	}
-	public void setIrregularService(IrregularService irregularService) {
-		this.irregularService = irregularService;
-	}
 	
 	// 모임 만들기 클릭 -> 일시적 모임 생성 폼 이동 (GET)
 	@GetMapping("/form")
@@ -48,9 +39,11 @@ public class CreateIrregularController {
 	public ModelAndView createIrregular(@Valid @ModelAttribute("meetingCommand") IrregularCommand meetingCommand,
 									  BindingResult result) {
 		ModelAndView mav = new ModelAndView("redirect:/meeting/sort/all");
-		if (result.hasErrors()) {
+		
+		if (result.hasErrors()) { //오류시
 			mav = new ModelAndView("meeting/irregular/irregularCreate");
 		} else {
+			// meetingDate 형식 변환
 			String meetingDate = meetingCommand.getIrregularMeetingDate();
 			StringTokenizer itr = new StringTokenizer(meetingDate, "-");
 			meetingDate = itr.nextToken().trim() + "/" + itr.nextToken().trim() + "/" + itr.nextToken().trim();
