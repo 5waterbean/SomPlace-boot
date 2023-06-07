@@ -101,7 +101,7 @@ label {
 			$.ajax({
 				url : "/meeting/like",
 				type : "post",
-				data : {"checkedById" : checkedById},
+				data : {"checkedById" : checkedById}, 
 				success : function(data){
 					if(data == 1) {
 						alert("모임 찜하기 성공!");
@@ -133,7 +133,13 @@ label {
 							method="POST">
 							<input type="hidden" name="checkedById"
 								value="${meeting.meetingId}">
-							<input type="hidden" name="apply" value="1">
+							
+								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)}">
+									<input type="hidden" name="heart" value="1">
+								</c:if>
+								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId) eq false}">
+									<input type="hidden" name="heart" value="0">								
+								</c:if>
 						</form> <!-- this.previousElementSibling.submit(); findInfo(${meeting.meetingId}) -->
 						<div onclick="this.previousElementSibling.submit();">
 							<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>

@@ -23,7 +23,7 @@ import com.somplace.service.RegularService;
 import com.somplace.service.ReviewService;
 
 @Controller
-@RequestMapping("/meeting/regular/info")
+@RequestMapping("/meeting/regular/info") 
 @SessionAttributes("memberSession")
 public class InfoRegularController {
 	@Autowired
@@ -49,7 +49,11 @@ public class InfoRegularController {
 	}
 	
 	@GetMapping
-	public ModelAndView infoRegular(@RequestParam("checkedById") int checkedById, @ModelAttribute("memberSession") Member memberSession) {
+	public ModelAndView infoRegular(@RequestParam("checkedById") int checkedById, 
+			@ModelAttribute("memberSession") Member memberSession,
+			@RequestParam(value="checkedApply", defaultValue="-1") int checkedApply,
+			@RequestParam(value="apply", defaultValue="-1") int apply,
+			@RequestParam(value="heart", defaultValue="-1") int heart) {
 		ModelAndView mav = new ModelAndView("meeting/regular/regularInfo");
 		
 		Regular regular = regularService.getRegularById(checkedById);
@@ -65,10 +69,39 @@ public class InfoRegularController {
 		for (Review review : reviewList) {
 			if(review.getId() == memberSession.getMemberId()) {
 				mav.addObject("existReview", true);
-				
+
 				break;
 			}
 		}
+		
+		// 모임 신청 (찜하기 안했을 경우)
+		if (checkedApply == 1) {
+			System.out.println(apply);
+			System.out.println(heart);
+			
+			if (apply != -1) { // 신청이 되어있는 상태면 apply값 가져오기 (jsp에서 1로 하면 안됨, update할 때 필요)
+				apply = memberMeetingService.getApply(memberSession.getMemberId(), checkedById);
+			}
+			mav.addObject("apply", apply);
+			
+			if (heart == 0 && apply == -1) {
+				heart = -1;
+			}
+			
+			if (heart == -1) { // insert
+				System.out.println("insert");
+				memberMeetingService.insertMemberMeeting(0, memberSession.getMemberId(), checkedById);
+			} else { // update
+				System.out.println("update");
+				// heart값 조회
+				heart = memberMeetingService.getHeart(memberSession.getMemberId(), checkedById);
+				mav.addObject("heart", heart);
+				
+				memberMeetingService.updateMemberMeeting(apply, heart, memberSession.getMemberId(), checkedById);
+			}
+		}
+		
+		mav.addObject("heart", heart);
 		
 		// meetingInfoDetail
 		StringTokenizer detailItr = new StringTokenizer(regular.getMeetingInfoDetail(), ",");
@@ -116,9 +149,7 @@ public class InfoRegularController {
 			joinMemberList.add( memberService.getMember(joinMemberId));
 		}
 		mav.addObject("joinMemberList", joinMemberList);
-		
-		// 내 아이디가 memberList(회원)인지 확인할 수 있는 리스트(memberIdList = 참여자의 ID List)
-		mav.addObject("joinMemberIdList", joinMemberIdList);
+		mav.addObject("joinMemberIdList", joinMemberIdList);		
 		
 		// 신청자 목록 조회
 		List<String> applyMemberIdList = memberMeetingService.findApplyMemberIdList(checkedById);
@@ -127,7 +158,9 @@ public class InfoRegularController {
 			applyMemberList.add( memberService.getMember(applyMemberId));
 		}
 		mav.addObject("applyMemberList", applyMemberList);
+		mav.addObject("applyMemberIdList", applyMemberIdList);
 		
+	
 		return mav;
 	}
 }

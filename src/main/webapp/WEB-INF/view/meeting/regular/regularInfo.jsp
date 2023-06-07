@@ -524,27 +524,25 @@ h3, h4 {
 						</c:if>
 					</td>
 					<td>
-						<!-- 모임 생성자만 보이게 -->
-						<c:if test="${regular.creatorId eq currentMemberId}"> 
-							<c:if test="${regular.close eq 0 }">
+						<c:if test="${regular.close eq 0}">
+							<c:if test="${regular.creatorId eq currentMemberId}"> 
 								<div class="regular_close_btn">모집 마감하기</div> 
 							</c:if>
-						</c:if>
-						<!-- 비회원만 보이게(신청X) -->
-						<c:if test="${regular.creatorId ne currentMemberId}">
-							<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
-								<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
-									<div class="regular_apply_btn" onclick="applyForm.submit()">신청하기</div>
+						
+							<c:if test="${regular.creatorId ne currentMemberId}">
+								<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
+									<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
+										<div class="regular_apply_btn" onclick="applyForm.submit()">신청하기</div>
+									</c:if>
+								</c:if>
+							</c:if>
+								
+							<c:if test="${regular.creatorId ne currentMemberId}">
+								<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+									<div class="regular_applyCancel_btn" onclick="applyForm.submit()">신청 취소하기</div>
 								</c:if>
 							</c:if>
 						</c:if>
-						<!-- 신청한 사람들만 (수락X) 보이게 -->
-						<c:if test="${regular.creatorId ne currentMemberId}">
-							<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
-								<div class="regular_applyCancel_btn">신청 취소하기</div>
-							</c:if>
-						</c:if>
-						
 					</td>
 				</tr>
 			</table>
@@ -554,7 +552,19 @@ h3, h4 {
 		</form>
 		<form name="applyForm" action="/meeting/regular/info">
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
-			<input type="hidden" name="apply" value="1">
+			<input type="hidden" name="checkedApply" value="1">			
+			<c:choose>
+				<c:when test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+					<input type="hidden" name="apply" value="1">
+				</c:when>
+				<c:when test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+					<input type="hidden" name="apply" value="0">
+				</c:when>
+				<c:otherwise>
+					<input type="hidden" name="apply" value="-1">
+				</c:otherwise>
+			</c:choose>		
+			<input type="hidden" name="heart" value="${heart}">
 		</form>
 	</div>
 	
