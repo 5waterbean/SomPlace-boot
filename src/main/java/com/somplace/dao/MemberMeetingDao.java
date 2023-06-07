@@ -23,9 +23,21 @@ public interface MemberMeetingDao {
 	// 모임 찜하기 (모임 신청 안했을 경우)
 	public int insertHeartMeeting(String memberId, int meetingId) throws DataAccessException;
 
+	// 모임 신청 (찜하기 되어있을 경우)
+	public int updateApplyMeeting(String memberId, int meetingId) throws DataAccessException;
 	
+	// 모임 찜하기 (신청, 수락 되어 있을 경우)
+	public int updateHeartMeeting(String memberId, int meetingId) throws DataAccessException;
 	
+	// 모임 신청 취소 (찜하기 되어 있을 경우)
+	public int updateApplyCancelMeeting(String memberId, int meetingId) throws DataAccessException;
 	
+	// 모임 찜하기 취소 (신청, 수락 되어 있을 경우)
+	public int updateHeartCancelMeeting(String memberId, int meetingId) throws DataAccessException;
+	
+	// 내가 생성한 모임 회원 수락 (신청이 되어있을 때)
+	public int updateConfirmApplyMeeting(String memberId, int meetingId) throws DataAccessException;
+		
 	
 	
 	
