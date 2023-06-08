@@ -20,6 +20,7 @@ public class Member implements Serializable {
 	private int bad;
 	private Date birth;
 	private List<Integer> likeMeetingIdList;
+	private List<Integer> applyMeetingIdList;
 	
 	public Member() {
 		super();

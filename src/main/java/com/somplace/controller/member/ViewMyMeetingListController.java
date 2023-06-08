@@ -64,7 +64,7 @@ public class ViewMyMeetingListController {
 	
 	@RequestMapping("/apply")
 	public ModelAndView getApplyMeetingList(@ModelAttribute("memberSession") Member loginMember) {
-		List<Integer> applyMeetingIdList = memberMeetingService.getMyApplyMeetingId(loginMember.getMemberId());
+		List<Integer> applyMeetingIdList = loginMember.getApplyMeetingIdList();
 		ModelAndView mav = new ModelAndView();
 		
 		if(applyMeetingIdList.size() != 0) {
