@@ -1,5 +1,7 @@
 package com.somplace.controller.member;
 
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +26,35 @@ public class LoginController {
 	
 	@PostMapping("/member/login")
 	public ModelAndView login(@RequestParam("memberId") String memberId, 
-						@RequestParam("password") String password,
-						Model model, HttpSession session) {
-		
+						@RequestParam("password") String password, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
 		Member member = memberService.getMember(memberId);
+		
 		if(member == null) {
-			model.addAttribute("msg", "존재하지 않는 아이디입니다.");
+			mav.addObject("msg", "존재하지 않는 아이디입니다.");
 		}
 		else if(!member.getPw().equals(password)) {
-			model.addAttribute("msg", "비밀번호가 틀렸습니다.");
+			mav.addObject("msg", "비밀번호가 틀렸습니다.");
 		}
 		else {
+			mav.setViewName("redirect:/meeting/sort/all");
 			member.setLikeMeetingIdList(memberMeetingService.getMyLikeMeetingId(memberId));
+			member.setApplyMeetingIdList(memberMeetingService.getMyApplyMeetingId(memberId));
 			session.setAttribute("memberSession", member);
-			return new ModelAndView("redirect:/meeting/sort/all");
+			
+			LocalDate now = LocalDate.now();
+			int month = now.getMonthValue(); // 이번 달
+			int lastDate = now.lengthOfMonth(); // 해당 월의 마지막 날짜 ex)28, 30, 31
+			int firstDay = now.withDayOfMonth(1).getDayOfWeek().getValue(); // 해당 월의 시작 요일
+			
+			MyCalendar mc = new MyCalendar(month, lastDate, firstDay);
+			session.setAttribute("myCalendar", mc);
+			
+			return mav;
 		}
 		
-		model.addAttribute("url", "/");
-		return new ModelAndView("alert");
+		mav.addObject("url", "/");
+		mav.setViewName("alert");
+		return mav;
 	}
 }

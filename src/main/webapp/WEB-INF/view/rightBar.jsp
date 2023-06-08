@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,17 +43,20 @@
 	border-radius: 20px;
 }
 
-.right table tr:nth-child(odd) {
-	font-size: 5px;
-	height: 20px;
+.right table tr {
+	border-top: 1px solid black;
+	vertical-align : top;
 }
 
-.right table tr:nth-child(even) {
-	border-top: 1px solid black;
+.right table td {
+	height: 45px;
 }
 
 .right table th {
 	font-size: large;
+	background-color: rgb(254, 251, 191);
+	border-top-right-radius: 20px;
+	border-top-left-radius: 20px;
 }
 </style>
 </head>
@@ -65,110 +69,40 @@
 
 		<div class="divTable">
 			<table>
-				<tr>
-					<th colspan="7">5월 일정</th>
+				<tr style="border:0px;">
+					<th colspan="7">${myCalendar.month}월 일정</th>
 				</tr>
 
-				<tr>
-					<td></td>
-					<td>1</td>
-					<td>2</td>
-					<td>3</td>
-					<td>4</td>
-					<td>5</td>
-					<td>6</td>
-				</tr>
-
-				<tr>
-					<td></td>
-					<td>📌</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-
-
-				<tr>
-					<td>7</td>
-					<td>8</td>
-					<td>9</td>
-					<td>10</td>
-					<td>11</td>
-					<td>12</td>
-					<td>13</td>
-				</tr>
-
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>📌</td>
-					<td></td>
-				</tr>
-
-				<tr>
-					<td>14</td>
-					<td>15</td>
-					<td>16</td>
-					<td>17</td>
-					<td>18</td>
-					<td>19</td>
-					<td>20</td>
-				</tr>
-
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-
-				<tr>
-					<td>21</td>
-					<td>22</td>
-					<td>23</td>
-					<td>24</td>
-					<td>25</td>
-					<td>26</td>
-					<td>27</td>
-				</tr>
-
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>📌</td>
-				</tr>
-
-				<tr>
-					<td>28</td>
-					<td>29</td>
-					<td>30</td>
-					<td>31</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
+				<c:set var="num" value="1"/>
+				<c:forEach begin="1" end="${myCalendar.firstDay}" varStatus="status">
+					<c:if test="${num % 7 == 1}">
+						<tr>
+					</c:if>
+					<td> </td>
+					<c:set var="num" value="${num + 1}" />
+				</c:forEach>
+				
+				<c:forEach begin="1" end="${myCalendar.lastDate}" varStatus="status">
+					<c:if test="${num % 7 == 1}">
+						<tr>
+					</c:if>
+					<td>
+						<font color='
+							<c:choose>
+								<c:when test="${num % 7 == 1}">red</c:when>
+								<c:when test="${num % 7 == 0}">blue</c:when>
+								<c:otherwise>black</c:otherwise>
+							</c:choose>'>${status.index}</font>
+						<br>
+						<c:if test="${num % 7 == 3}">
+							<font size="1">📌</font>
+						</c:if>
+					</td>
+					<c:if test="${num % 7 == 0}">
+						</tr>
+					</c:if>
+					<c:set var="num" value="${num + 1}" />
+				</c:forEach>
 			</table>
 		</div>
 	</div>
