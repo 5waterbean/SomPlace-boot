@@ -110,8 +110,19 @@ label {
 				}
 			})
 		} else {
-			heartLabel.innerHTML = "🤍";
+			$.ajax({
+				url : "/meeting/like",
+				type : "post",
+				data : {"checkedById" : checkedById}, 
+				success : function(data){
+					if(data == -1) {
+						alert("모임 찜하기 취소!");
+						heartLabel.innerHTML = "🤍";
+					} 
+				}
+			})
 		}
+		location.reload();
 	}
 </script>
 </head>
@@ -133,13 +144,25 @@ label {
 							method="POST">
 							<input type="hidden" name="checkedById"
 								value="${meeting.meetingId}">
-							
-								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)}">
+								<!-- 신청o, 찜하기o -->
+								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)
+													&& fn:contains(memberSession.applyMeetingIdList, meeting.meetingId)}">
 									<input type="hidden" name="heart" value="1">
+									<input type="hidden" name="apply" value="1">
 								</c:if>
-								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId) eq false}">
-									<input type="hidden" name="heart" value="0">								
+								<!-- 신청o, 찜하기x -->
+								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId) eq false
+													&& fn:contains(memberSession.applyMeetingIdList, meeting.meetingId)}">
+									<input type="hidden" name="heart" value="0">	
+									<input type="hidden" name="apply" value="1">							
 								</c:if>
+								<!-- 신청x, 찜하기o -->
+								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)
+													&& fn:contains(memberSession.applyMeetingIdList, meeting.meetingId) eq false}">
+									<input type="hidden" name="heart" value="1">	
+									<input type="hidden" name="apply" value="-1">							
+								</c:if>
+								<!-- 신청x, 찜하기x는 default -1 값으로 -->
 						</form> <!-- this.previousElementSibling.submit(); findInfo(${meeting.meetingId}) -->
 						<div onclick="this.previousElementSibling.submit();">
 							<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>

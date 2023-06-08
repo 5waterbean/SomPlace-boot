@@ -203,9 +203,10 @@ button {
 				</tr>
 				<tr>
 					<th>모임 날짜/시간</th>
-					<td colspan="3"><input type="date" id="meetingDate"
-						name="irregularMeetingDate" value ="${meetingCommand.irregularMeetingDate}" required> <input type="time"
-						id="meetingTime" name="irregularMeetingTime" value ="${meetingCommand.irregularMeetingTime}" required></td>
+					<td colspan="3">
+						<input type="date" id="meetingDate" name="irregularMeetingDate" value ="${meetingCommand.irregularMeetingDate}" oninput="compareDate(this)" required> 
+						<input type="time" id="meetingTime" name="irregularMeetingTime" value ="${meetingCommand.irregularMeetingTime}" required>
+					</td>
 				</tr>
 				<tr>
 					<th>모임 메모</th>
@@ -256,7 +257,7 @@ button {
                            </div>
                            <div>
                                <input type="checkbox" id="mealEtc" name="meetingInfoDetail">
-                                <label for="etc">
+                                <label for="mealEtc">
                                    <input type="text" id="mealEtcTextDetail" name="mealEtcText" size="15" placeholder="기타항목 입력">
                                </label>
                            </div>
@@ -282,7 +283,7 @@ button {
                             </div>
                             <div>
                                 <input type="checkbox" id="studyEtc" name="meetingInfoDetail">
-                                <label for="etc">
+                                <label for="studyEtc">
                                     <input type="text" id="studyEtcTextDetail" name="studyEtcText" size="15" placeholder="기타항목 입력"
                                     >
                                 </label>
@@ -306,7 +307,7 @@ button {
 							<div>
 								<input type="checkbox" id="hobbyEtc" name="meetingInfoDetail"> 
 								<label for="etc">
-									<input type="text" id="hobbyEtcTextDetail" name="hobbyEtcText" placeholder="기타항목을 입력하세요.">
+									<input type="hobbyEtc" id="hobbyEtcTextDetail" name="hobbyEtcText" placeholder="기타항목을 입력하세요.">
 								</label>
 							</div>
 						</div>
@@ -327,85 +328,100 @@ button {
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
-		document.querySelector('input[type="date"]').min = new Date()
-				.toISOString().substring(0, 10);
-		
-		 let etc = document.querySelector("#etc");
-	        let etcTextDetail = document.querySelector('#etcTextDetail');
-
-	        function create() {
-	            if (mealEtc.checked) {
-	            	mealEtcTextDetail.required = true;
-	                if (mealEtc.value != "") {
-	                	mealEtc.value = mealEtcTextDetail.value;
-	                    detailValue.value = mealEtcTextDetail.value;
-	                }
-	            }
-	            else if (studyEtc.checked) {
-	            	studyEtcTextDetail.required = true;
-	                if (studyEtc.value != "") {
-	                	studyEtc.value = studyEtcTextDetail.value;
-	                    detailValue.value = studyEtcTextDetail.value;
-	                }
-	            }
-	            else {
-	            	hobbyEtcTextDetail.required = true;
-	                if (hobbyEtc.value != "") {
-	                	hobbyEtc.value = hobbyEtcTextDetail.value;
-	                    detailValue.value = hobbyEtcTextDetail.value;
-	                }
-	            }
+	let d = new Date();
+	let date = d.toISOString().substring(0, 10);
+	let hr = d.getHours();
+	let min = d.getMinutes();
+	let time = hr + ':' + min;
+	document.querySelector('input[type="date"]').min = date;
+	
+	function compareDate(cd) {
+		console.log(document.querySelector('input[type="time"]').value);
+		if (cd == date) {
+			document.querySelector('input[type="time"]').min = time;
+		}
+	}
+	
+	let mealEtc = document.querySelector("#mealEtc");
+	let mealEtcTextDetail = document.querySelector('#mealEtcTextDetail');
+	let StudyEtc = document.querySelector("#StudyEtc");
+	let StudyEtcTextDetail = document.querySelector('#StudyEtcTextDetail');
+	let hobbyEtc = document.querySelector("#hobbyEtc");
+	let hobbyEtcTextDetail = document.querySelector('#hobbyEtcTextDetail');
+	
+	function create() {
+        if (mealEtc.checked) {
+        	mealEtcTextDetail.required = true;
+        	if (mealEtc.value != "") {
+        		mealEtc.value = mealEtcTextDetail.value;
+        		detailValue.value = mealEtcTextDetail.value;
+        	}
+        }
+        if (StudyEtc.checked) {
+        	StudyEtcTextDetail.required = true;
+        	if (StudyEtc.value != "") {
+        		StudyEtc.value = StudyEtcTextDetail.value;
+        		detailValue.value = StudyEtcTextDetail.value;
+        	}
+        }
+        if (hobbyEtc.checked) {
+        	hobbyEtcTextDetail.required = true;
+        	if (hobbyEtc.value != "") {
+        		hobbyEtc.value = hobbyEtcTextDetail.value;
+        		detailValue.value = hobbyEtcTextDetail.value;
+        	}
+        }
+    }
+	
+	$(document).ready(function() {
+		document.getElementById("studyDetail").style.display = "none";
+		document.getElementById("hobbyDetail").style.display = "none";
+	});
+	
+	let allMeal = document.querySelectorAll('#mealDetail > div > input[type="checkbox"]');
+	let allStudy = document.querySelectorAll('#studyDetail > div > input[type="checkbox"]');
+	let allHobby = document.querySelectorAll('#hobbyDetail > div > input[type="checkbox"]');
+	
+	function showDetail(infoId) {
+		if (infoId == "meal") {
+			document.getElementById("mealDetail").style.display = "";
+			document.getElementById("studyDetail").style.display = "none";
+			document.getElementById("hobbyDetail").style.display = "none";
+			
+	        for (let i = 0; i < allStudy.length; i++) {
+	            allStudy[i].checked = false;
 	        }
-
-	        $(document).ready(function() {
-	    		document.getElementById("studyDetail").style.display = "none";
-	    		document.getElementById("hobbyDetail").style.display = "none";
-	    	});
-	    	
-	    	let allMeal = document.querySelectorAll('#mealDetail > div > input[type="checkbox"]');
-	        let allStudy = document.querySelectorAll('#studyDetail > div > input[type="checkbox"]');
-	        let allHobby = document.querySelectorAll('#hobbyDetail > div > input[type="checkbox"]');
 	        
-	    	function showDetail(infoId) {
-	    		if (infoId == "meal") {
-	    			document.getElementById("mealDetail").style.display = "";
-	    			document.getElementById("studyDetail").style.display = "none";
-	    			document.getElementById("hobbyDetail").style.display = "none";
-	    			
-	    	        for (let i = 0; i < allStudy.length; i++) {
-	    	            allStudy[i].checked = false;
-	    	        }
-	    	        
-	    	        for (let i = 0; i < allHobby.length; i++) {
-	    	            allHobby[i].checked = false;
-	    	        }
-	    	        
-	    		} else if (infoId == "study") {
-	    			document.getElementById("mealDetail").style.display = "none";
-	    			document.getElementById("studyDetail").style.display = "";
-	    			document.getElementById("hobbyDetail").style.display = "none";
-	    			
-	    	        for (let i = 0; i < allMeal.length; i++) {
-	    	            allMeal[i].checked = false;
-	    	        }
-	    	        
-	    	        for (let i = 0; i < allHobby.length; i++) {
-	    	            allHobby[i].checked = false;
-	    	        }
-	    		} else {
-	    			document.getElementById("mealDetail").style.display = "none";
-	    			document.getElementById("studyDetail").style.display = "none";
-	    			document.getElementById("hobbyDetail").style.display = "";
-	    			
-	    	        for (let i = 0; i < allMeal.length; i++) {
-	    	            allMeal[i].checked = false;
-	    	        }
-	    	        
-	    	        for (let i = 0; i < allStudy.length; i++) {
-	    	            allStudy[i].checked = false;
-	    	        }
-	    		}
-	    	}
+	        for (let i = 0; i < allHobby.length; i++) {
+	            allHobby[i].checked = false;
+	        }
+	        
+		} else if (infoId == "study") {
+			document.getElementById("mealDetail").style.display = "none";
+			document.getElementById("studyDetail").style.display = "";
+			document.getElementById("hobbyDetail").style.display = "none";
+			
+	        for (let i = 0; i < allMeal.length; i++) {
+	            allMeal[i].checked = false;
+	        }
+	        
+	        for (let i = 0; i < allHobby.length; i++) {
+	            allHobby[i].checked = false;
+	        }
+		} else {
+			document.getElementById("mealDetail").style.display = "none";
+			document.getElementById("studyDetail").style.display = "none";
+			document.getElementById("hobbyDetail").style.display = "";
+			
+	        for (let i = 0; i < allMeal.length; i++) {
+	            allMeal[i].checked = false;
+	        }
+	        
+	        for (let i = 0; i < allStudy.length; i++) {
+	            allStudy[i].checked = false;
+	        }
+		}
+	}
 	</script>
 </body>
 
