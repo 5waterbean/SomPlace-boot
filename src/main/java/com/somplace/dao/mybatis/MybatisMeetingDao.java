@@ -76,6 +76,15 @@ public class MybatisMeetingDao implements MeetingDao {
 	public void deleteMeeting(int meetingId) throws DataAccessException {
 		MeetingMapper.deleteMeeting(meetingId);
 	}
+	
+	// 모집 마감하기
+	public void closeMeeting(int meetingId) throws DataAccessException {
+		MeetingMapper.closeMeeting(meetingId);
+	}
+	// 다시 모집하기
+	public void closeCancelMeeting(int meetingId) throws DataAccessException {
+		MeetingMapper.closeCancelMeeting(meetingId);
+	}
 
 	// 내가 생성한 모임 리스트 조회
 	public List<Meeting> getMadeMeetingList(String creatorId) throws DataAccessException {

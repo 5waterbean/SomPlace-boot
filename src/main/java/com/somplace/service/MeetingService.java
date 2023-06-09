@@ -3,6 +3,7 @@ package com.somplace.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,6 +77,16 @@ public class MeetingService {
 	// 모임 삭제
 	public void deleteMeeting(int meetingId) {
 		meetingDao.deleteMeeting(meetingId);
+	}
+	
+	// 모집 관련
+	public void closeAndCloseCancelMeeting(int meetingId, int what) {
+		if(what == 1) { // 모집 마감하기
+			meetingDao.closeMeeting(meetingId);
+		}
+		else { // 다시 모집하기
+			meetingDao.closeCancelMeeting(meetingId);
+		}
 	}
 	
 	// 내가 생성한 모임 조회

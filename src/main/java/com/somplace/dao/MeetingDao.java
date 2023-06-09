@@ -42,6 +42,11 @@ public interface MeetingDao {
 	// 모임 삭제
 	public void deleteMeeting(int meetingId) throws DataAccessException;
 	
+	// 모집 마감하기
+	public void closeMeeting(int meetingId) throws DataAccessException;
+	// 다시 모집하기
+	public void closeCancelMeeting(int meetingId) throws DataAccessException;
+	
 	// 내가 생성한 모임 조회
 	public List<Meeting> getMadeMeetingList(String creatorId) throws DataAccessException;
 	
