@@ -16,7 +16,8 @@ public class FindMeetingController {
 	
 	@RequestMapping("/meeting/info")
 	public ModelAndView findMeeting(@RequestParam(value="checkedById") int checkedById,
-			@RequestParam(value="heart") int heart) {
+									@RequestParam(value="apply", defaultValue="-1") int apply,
+									@RequestParam(value="heart", defaultValue="-1") int heart) {
 		ModelAndView mav;
 		
 		Irregular irregular = irregularService.getIrregularById(checkedById);
@@ -27,6 +28,7 @@ public class FindMeetingController {
 		}
 		mav.addObject("checkedById", checkedById);
 		System.out.println("info:"+ heart);
+		mav.addObject("apply", apply);
 		mav.addObject("heart", heart);
 		
 		return mav;

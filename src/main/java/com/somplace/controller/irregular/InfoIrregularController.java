@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -38,7 +39,10 @@ public class InfoIrregularController {
 	private List<String> hobbyList = Arrays.asList("스포츠", "예술", "IT");
 	
 	@GetMapping
-	public ModelAndView infoIrregular(@RequestParam("checkedById") int checkedById) {
+	public ModelAndView infoIrregular(@RequestParam("checkedById") int checkedById,
+										@RequestParam(value="apply", defaultValue="-1") int apply,
+										@RequestParam(value="heart", defaultValue="-1") int heart,
+										@ModelAttribute("memberSession") Member memberSession) {
 		ModelAndView mav = new ModelAndView("meeting/irregular/irregularInfo");
 		
 		// 일시적모임 조회
@@ -48,7 +52,7 @@ public class InfoIrregularController {
 		// 생성자
 		Member member = memberService.getMember(irregular.getCreatorId());
 		mav.addObject("creatorMember", member);
-		
+
 		// meetingDate
 		StringTokenizer itr;
 		itr = new StringTokenizer(irregular.getMeetingDate().toString(), " ");
@@ -86,6 +90,7 @@ public class InfoIrregularController {
 		
 		// 회원 목록 조회
 		List<String> joinMemberIdList = memberMeetingService.findJoinMemberIdList(checkedById);
+		mav.addObject("joinMemberIdList", joinMemberIdList);
 		List<Member> joinMemberList = new ArrayList<Member>();
 		for (String joinMemberId : joinMemberIdList) {
 			joinMemberList.add(memberService.getMember(joinMemberId));
@@ -94,11 +99,17 @@ public class InfoIrregularController {
 		
 		// 신청자 목록 조회
 		List<String> applyMemberIdList = memberMeetingService.findApplyMemberIdList(checkedById);
+		mav.addObject("applyMemberIdList", applyMemberIdList);
 		List<Member> applyMemberList = new ArrayList<Member>();
 		for (String applyMemberId : applyMemberIdList) {
 			applyMemberList.add(memberService.getMember(applyMemberId));
 		}
 		mav.addObject("applyMemberList", applyMemberList);
+		
+		// apply값 넘기기
+		mav.addObject("apply", apply);
+		// heart값 넘기기
+		mav.addObject("heart", heart);
 		
 		return mav;
 	}

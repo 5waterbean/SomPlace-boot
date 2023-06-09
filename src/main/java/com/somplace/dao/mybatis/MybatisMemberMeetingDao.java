@@ -68,6 +68,10 @@ public class MybatisMemberMeetingDao {
 		return memberMeetingMapper.updateConfirmApplyMeeting(memberId, meetingId);
 	}
 	
+	// 모임 신청 취소 (찜하기 되어 있지 않을 경우), 모임 찜하기 취소 (신청, 수락 되어있지 않을 경우), 내가 생성한 모임 회원 내보내기
+	public void deleteMemberMeeting(String memberId, int meetingId) throws DataAccessException {
+		memberMeetingMapper.deleteMemberMeeting(memberId, meetingId);
+	}
 	
 	
 	

@@ -177,7 +177,7 @@ h3, h4 {
 	width: 20%;
 }
 
-.irregular_delete_btn, .irregular_close_btn, .irregular_apply_btn,
+.irregular_delete_btn, .irregular_close_btn, .irregular_apply_btn, .irregular_cancel_apply_btn,
 	#irregular_update_btn {
 	border: 1px solid black;
 	background-color: rgb(226, 240, 217);
@@ -188,7 +188,7 @@ h3, h4 {
 
 .member_out_btn:hover, .member_in_btn:hover, .member_good_btn:hover,
 	.member_bad_btn:hover, .irregular_delete_btn:hover,
-	.irregular_close_btn:hover, .irregular_apply_btn:hover,
+	.irregular_close_btn:hover, .irregular_apply_btn:hover, .irregular_cancel_apply_btn:hover,
 	#irregular_update_btn:hover {
 	background-color: rgb(174, 220, 175);
 	cursor: pointer;
@@ -199,7 +199,6 @@ h3, h4 {
 <body>
 	<jsp:include page="/WEB-INF/view/leftTopBar.jsp" />
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
-	<jsp:include page="/WEB-INF/view/reviewList.jsp" />
 
 	<div class="container" id="container">
 		<form action="/meeting/irregular/update/form">
@@ -393,19 +392,27 @@ h3, h4 {
 					</td>
 				</tr>
 
-				<!-- 회원들만
-                <tr> 
-                    <th>모임장 정보</th>
-                    <td colspan="3">
-                        <div class="member_list_td">
-                            <div>
-                                <div class="member">이현아 / 20191003 / 컴퓨터학과 / 010-7***-9***</div>
-                                <div class="member_good_btn"><img src="../../../img/좋아요.png"></div>
-                                <div class="member_bad_btn"><img src="../../../img/싫어요.png"></div>
-                            </div>
-                        </div>
-                    </td> 
-                </tr>  -->
+				<!-- 회원들만 모임장 정보 보이게 -->
+				<c:if test="${irregular.creatorId ne memberSession.memberId}">
+					<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+		                <tr> 
+		                    <th>모임장 정보</th>
+		                    <td colspan="3">
+		                        <div class="member_list_td">
+		                            <div>
+		                                <div class="member">${cretorMember.name} / ${creatorMember.studentNumber} / ${creatorMember.major} / ${creatorMember.phone}</div>
+		                                <div class="member_good_btn">
+		                                	<img src="../../../img/좋아요.png">
+		                                </div>
+		                                <div class="member_bad_btn">
+		                                	<img src="../../../img/싫어요.png">
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </td> 
+		                </tr>
+		             </c:if>
+		         </c:if>
 
 				<c:if test="${irregular.creatorId eq memberSession.memberId}"> <!--생성자만-->
 					<tr>
@@ -457,6 +464,7 @@ h3, h4 {
 					<td></td>
 					<td></td>
 					<td>
+						<!-- 모임 생성자만 보이게 -->
 						<c:if test="${irregular.creatorId eq memberSession.memberId}">
 							<c:if test="${irregular.close eq 0}">
 								<div class="irregular_delete_btn" onclick="deleteForm.submit()">모임 삭제하기</div> <!--생성자만-->
@@ -464,14 +472,23 @@ h3, h4 {
 						</c:if>
 					</td>
 					<td>
-						<c:if test="${irregular.creatorId eq memberSession.memberId}">
-							<c:if test="${irregular.close eq 0}">
-								<div class="irregular_close_btn">모집 마감하기</div> <!--생성자만-->
+						<c:if test="${irregular.close eq 0}">
+							<c:if test="${irregular.creatorId eq memberSession.memberId}">
+								<div class="irregular_close_btn">모집 마감하기</div> <!-- 모임 생성자만 보이게 -->
 							</c:if>
-						</c:if>
-						<c:if test="${!irregular.creatorId eq memberSession.memberId}">
-							<c:if test="${fn:contains(joinMemberList, memberSession) eq false}">
-								<div class="irregular_apply_btn">신청하기</div>
+							<!-- 비회원만 보이게(신청X) -->
+							<c:if test="${irregular.creatorId ne memberSession.memberId}">
+								<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
+									<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
+										<div class="irregular_apply_btn" onclick="applyForm.submit()">신청하기</div>
+									</c:if>
+								</c:if>
+							</c:if>
+							<!-- 신청한 사람들만 (수락X) 보이게 -->
+							<c:if test="${irregular.creatorId ne memberSession.memberId}">
+								<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+									<div class="irregular_cancel_apply_btn" onclick="applyCancelForm.submit()">신청 취소하기</div>
+								</c:if>
 							</c:if>
 						</c:if>
 					</td>
@@ -480,6 +497,38 @@ h3, h4 {
 		</form>
 		<form name="deleteForm" action="/meeting/delete" method="post">
 			<input type="hidden" name="meetingId" value="${irregular.meetingId}">
+		</form>
+		<form name="applyForm" action="/meeting/join">
+			<input type="hidden" name="checkedById" value="${irregular.meetingId}">
+			<input type="hidden" name="checkedApply" value="1">
+			<c:choose>
+				<c:when test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+					<input type="hidden" name="apply" value="1">
+				</c:when>
+				<c:when test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+					<input type="hidden" name="apply" value="0">
+				</c:when>
+				<c:otherwise>
+					<input type="hidden" name="apply" value="-1">
+				</c:otherwise>
+			</c:choose>
+			<input type="hidden" name="heart" value="${heart}">
+		</form>
+		<form name="applyCancelForm" action="/meeting/join">
+			<input type="hidden" name="checkedById" value="${irregular.meetingId}">
+			<input type="hidden" name="checkedApply" value="0">
+			<c:choose>
+				<c:when test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+					<input type="hidden" name="apply" value="1">
+				</c:when>
+				<c:when test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+					<input type="hidden" name="apply" value="0">
+				</c:when>
+				<c:otherwise>
+					<input type="hidden" name="apply" value="-1">
+				</c:otherwise>
+			</c:choose>
+			<input type="hidden" name="heart" value="${heart}">
 		</form>
 	</div>
 

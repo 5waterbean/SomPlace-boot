@@ -57,7 +57,7 @@
 	
 	<!-- 모임 신청 취소 (찜하기 되어 있을 경우)  -->
 	<update id="updateApplyCancelMeeting" parameterType="map">
-		UPDATE member_meeting SET apply = NULL
+		UPDATE member_meeting SET apply = -1
 		WHERE id = #{memberId} AND meetingId = #{meetingId}
 	</update> 
 	
@@ -72,6 +72,12 @@
 		UPDATE member_meeting SET apply=0
 		WHERE id = #{memberId} AND meetingId = #{meetingId}
 	</update> 
+	
+	<!-- 모임 신청 취소 (찜하기 되어 있지 않을 경우), 모임 찜하기 취소 (신청, 수락 되어있지 않을 경우), 내가 생성한 모임 회원 내보내기 -->
+	<delete id="deleteMemberMeeting" parameterType="map">
+		DELETE FROM member_meeting
+		WHERE id = #{memberId}  AND meetingId = #{meetingId}
+	</delete>
 	
 	<!-- 내가 속한 모임 아이디 조회 -->
 	<select resultType="Integer" id="getMyJoinMeetingId">
