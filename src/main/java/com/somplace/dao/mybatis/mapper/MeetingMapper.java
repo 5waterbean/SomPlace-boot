@@ -42,7 +42,12 @@ public interface MeetingMapper {
 	void updateMeeting(MeetingCommand meetingCommand);
 	
 	// 모임 삭제
-	public void deleteMeeting(int meetingId);
+	void deleteMeeting(int meetingId);
+	
+	// 모집 마감하기
+	void closeMeeting(int meetingId);
+	// 다시 모집하기
+	void closeCancelMeeting(int meetingId);
 	
 	// 내가 생성한 모임 조회
 	List<Meeting> getMadeMeetingList(String creatorId);

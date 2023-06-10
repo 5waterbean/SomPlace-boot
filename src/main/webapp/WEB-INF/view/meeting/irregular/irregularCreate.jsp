@@ -306,8 +306,8 @@ button {
 							</div>
 							<div>
 								<input type="checkbox" id="hobbyEtc" name="meetingInfoDetail"> 
-								<label for="etc">
-									<input type="hobbyEtc" id="hobbyEtcTextDetail" name="hobbyEtcText" placeholder="기타항목을 입력하세요.">
+								<label for="hobbyEtc">
+									<input type="text" id="hobbyEtcTextDetail" name="hobbyEtcText" placeholder="기타항목을 입력하세요.">
 								</label>
 							</div>
 						</div>
@@ -344,8 +344,8 @@ button {
 	
 	let mealEtc = document.querySelector("#mealEtc");
 	let mealEtcTextDetail = document.querySelector('#mealEtcTextDetail');
-	let StudyEtc = document.querySelector("#StudyEtc");
-	let StudyEtcTextDetail = document.querySelector('#StudyEtcTextDetail');
+	let studyEtc = document.querySelector("#studyEtc");
+	let studyEtcTextDetail = document.querySelector('#studyEtcTextDetail');
 	let hobbyEtc = document.querySelector("#hobbyEtc");
 	let hobbyEtcTextDetail = document.querySelector('#hobbyEtcTextDetail');
 	
@@ -357,11 +357,11 @@ button {
         		detailValue.value = mealEtcTextDetail.value;
         	}
         }
-        if (StudyEtc.checked) {
-        	StudyEtcTextDetail.required = true;
-        	if (StudyEtc.value != "") {
-        		StudyEtc.value = StudyEtcTextDetail.value;
-        		detailValue.value = StudyEtcTextDetail.value;
+        if (studyEtc.checked) {
+        	studyEtcTextDetail.required = true;
+        	if (studyEtc.value != "") {
+        		studyEtc.value = studyEtcTextDetail.value;
+        		detailValue.value = studyEtcTextDetail.value;
         	}
         }
         if (hobbyEtc.checked) {

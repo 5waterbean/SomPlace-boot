@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.somplace.domain.Irregular;
 import com.somplace.domain.Member;
 import com.somplace.service.IrregularService;
+import com.somplace.service.MeetingService;
 import com.somplace.service.MemberMeetingService;
 import com.somplace.service.MemberService;
 
@@ -30,6 +31,8 @@ public class InfoIrregularController {
 	private MemberMeetingService memberMeetingService;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private MeetingService meetingService;
 	
 	// 식사 리스트
 	private List<String> mealList = Arrays.asList("한식", "일식", "양식", "중식", "술", "분식");
@@ -42,14 +45,22 @@ public class InfoIrregularController {
 	public ModelAndView infoIrregular(@RequestParam("checkedById") int checkedById,
 										@RequestParam(value="apply", defaultValue="-1") int apply,
 										@RequestParam(value="heart", defaultValue="-1") int heart,
+										@RequestParam(value="close", defaultValue="-1") int close,
 										@ModelAttribute("memberSession") Member memberSession) {
 		ModelAndView mav = new ModelAndView("meeting/irregular/irregularInfo");
+		// 모집 관련
+		if (close == 1) {// 모집 마감하기
+			meetingService.closeAndCloseCancelMeeting(checkedById, 1);
+		}
+		else if (close == 0) {// 다시 모집하기
+			meetingService.closeAndCloseCancelMeeting(checkedById, 0);
+		}
 		
 		// 일시적모임 조회
 		Irregular irregular = irregularService.getIrregularById(checkedById);
 		mav.addObject("irregular", irregular);
 		
-		// 생성자
+		// 모임생성자
 		Member member = memberService.getMember(irregular.getCreatorId());
 		mav.addObject("creatorMember", member);
 

@@ -183,7 +183,7 @@ label {
 
 							<div style="height:50px;">
 							<c:choose>
-								<c:when test="${meeting.close eq 1}">
+								<c:when test="${meeting.cancel eq 1}">
 									<font color="gray" size="2">삭제된 모임입니다</font>
 								</c:when>
 								<c:otherwise>
