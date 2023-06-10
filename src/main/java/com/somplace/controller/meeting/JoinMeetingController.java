@@ -24,6 +24,8 @@ public class JoinMeetingController {
 										@RequestParam(value="checkedApply", defaultValue="-1") int checkedApply,
 										@RequestParam(value="apply", defaultValue="-1") int apply,
 										@RequestParam(value="heart", defaultValue="-1") int heart,
+										@RequestParam(value="applyMemberId", defaultValue="null") String applyMemberId,
+										@RequestParam(value="inOrOut", defaultValue="-1") int inOrOut,
 										@ModelAttribute("memberSession") Member memberSession) {
 		String memberId = memberSession.getMemberId();
 		ModelAndView mav = new ModelAndView("redirect:/meeting/info");
@@ -52,7 +54,6 @@ public class JoinMeetingController {
 			memberSession.getApplyMeetingIdList().add(checkedById); // 신청리스트에 추가
 		}
 		
-		
 		// 모임 신청 취소 
 		if (checkedApply == 0) {
 			if (heart == 0 || heart == -1) { // 찜하기 x
@@ -62,6 +63,14 @@ public class JoinMeetingController {
 				memberMeetingService.updateMemberMeeting(1, heart, memberId, checkedById , 0);
 			}
 			memberSession.getApplyMeetingIdList().remove(memberSession.getApplyMeetingIdList().indexOf(checkedById)); // 신청리스트에서 삭제
+		}
+		
+		// 신청수락
+		if (inOrOut == 1) {
+			memberMeetingService.updateMemberMeeting(1, heart, applyMemberId, checkedById , -1);
+		}
+		else if (inOrOut == 0) {
+			memberMeetingService.deleteMemberMeeting(applyMemberId, checkedById);
 		}
 		mav.addObject("heart", heart);
 		mav.addObject("apply", apply);

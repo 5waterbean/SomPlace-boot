@@ -187,17 +187,19 @@ label {
 									<font color="gray" size="2">삭제된 모임입니다</font>
 								</c:when>
 								<c:otherwise>
-									<input type="checkbox" id="h${meeting.meetingId}" onclick="event.stopPropagation();" 
-										<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)}">checked</c:if> oninput="addLike(this)">
-									<label for="h${meeting.meetingId}"
-										onclick="event.stopPropagation();">🤍</label>
-									<script>
-										var id = "h" + "<c:out value='${meeting.meetingId}'/>";
-										console.log(id);
-										if(document.getElementById(id).checked == true){
-											document.getElementById(id).nextElementSibling.innerHTML = "❤️";
-										}
-									</script>
+									<c:if test="${memberSession.memberId ne meeting.creatorId}">
+										<input type="checkbox" id="h${meeting.meetingId}" onclick="event.stopPropagation();" 
+											<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)}">checked</c:if> oninput="addLike(this)">
+										<label for="h${meeting.meetingId}"
+											onclick="event.stopPropagation();">🤍</label>
+										<script>
+											var id = "h" + "<c:out value='${meeting.meetingId}'/>";
+											console.log(id);
+											if(document.getElementById(id).checked == true){
+												document.getElementById(id).nextElementSibling.innerHTML = "❤️";
+											}
+										</script>
+									</c:if>
 								</c:otherwise>
 							</c:choose>
 							</div>

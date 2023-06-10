@@ -64,7 +64,7 @@ public class MemberMeetingService {
 			}
 		}
 		else { //회원 수락일 경우
-			if (apply == 1 && heart == -1) { // 내가 생성한 모임 회원 수락 (신청이 되어있을 때)
+			if (apply == 1) { // 내가 생성한 모임 회원 수락 (신청이 되어있을 때)
 				return memberMeetingDao.updateConfirmApplyMeeting(memberId, meetingId);
 			}
 		}
