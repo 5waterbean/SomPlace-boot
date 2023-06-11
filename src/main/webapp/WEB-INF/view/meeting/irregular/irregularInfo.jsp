@@ -407,7 +407,7 @@ h3, h4 {
 		                    <td colspan="3">
 		                        <div class="member_list_td">
 		                            <div>
-		                                <div class="member">${cretorMember.name} / ${creatorMember.studentNumber} / ${creatorMember.major} / ${creatorMember.phone}</div>
+		                                <div class="member">${creatorMember.name} / ${creatorMember.studentNumber} / ${creatorMember.major} / ${creatorMember.phone}</div>
 		                                <div class="member_good_btn">
 		                                	<img src="../../../img/좋아요.png">
 		                                </div>
@@ -435,8 +435,8 @@ h3, h4 {
 										<div class="member_bad_btn">
 											<img src="../../../img/싫어요.png">
 										</div>
-										<c:if test="${irregular.close eq 0}">
-											<div class="member_out_btn">내보내기</div>
+										<c:if test="${irregular.close eq 0 || irregular.cancel eq 0}">
+											<div class="member_out_btn" id="${joinMember.memberId}" onclick="memberOut(this.id)">내보내기</div>
 										</c:if>
 									</div>
 								</c:forEach>
@@ -458,8 +458,8 @@ h3, h4 {
 										<div class="member_bad">
 											<img src="../../../img/싫어요.png">&nbsp;${applyMember.bad}
 										</div>
-										<c:if test="${irregular.close eq 0}">
-											<div class="member_in_btn">수락하기</div>
+										<c:if test="${irregular.close eq 0 && irregular.cancel eq 0}">
+											<div class="member_in_btn" id="${applyMember.memberId}" onclick="memberIn(this.id)">수락하기</div>
 										</c:if>
 									</div>
 								</c:forEach>
@@ -506,6 +506,16 @@ h3, h4 {
 					</td>
 				</tr>
 			</table>
+		</form>
+		<form name="memberOutForm" id="memberOutForm" action="/meeting/join">
+			<input type="hidden" name="checkedById" value="${irregular.meetingId}">
+			<input type="hidden" name="applyMemberId" id="memberOut">
+			<input type="hidden" name="inOrOut" value="0">
+		</form>
+		<form name="memberInForm" id="memberInForm" action="/meeting/join">
+			<input type="hidden" name="checkedById" value="${irregular.meetingId}">
+			<input type="hidden" name="applyMemberId" id="memberIn">
+			<input type="hidden" name="inOrOut" value="1">
 		</form>
 		<form name="deleteForm" action="/meeting/delete" method="post">
 			<input type="hidden" name="meetingId" value="${irregular.meetingId}">
@@ -561,6 +571,16 @@ h3, h4 {
 	    			document.getElementById("container").style.backgroundColor = "rgb(244, 243, 243)";
 	    		}
 	        }
+			
+			function memberIn(applyMemberId) {
+				document.getElementById("memberIn").value = applyMemberId;
+				document.getElementById("memberInForm").submit();
+			}
+			
+			function memberOut(applyMemberId) {
+				document.getElementById("memberOut").value = applyMemberId;
+				document.getElementById("memberOutForm").submit();
+			}
 	</script>
 </body>
 

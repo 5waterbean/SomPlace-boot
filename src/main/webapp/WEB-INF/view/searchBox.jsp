@@ -84,15 +84,15 @@
         <div class="middle_second">
         	<form:form name="selectForm" action="/meeting/sort/all">
             <div>
-                <input type="radio" name="meetingType" value="irregular" 
+                <input type="radio" name="meetingType" id="irregular" value="irregular" 
                 	<c:if test="${checkedIrregular}">checked</c:if> onchange="this.form.submit()">
-                <label for="">일시적</label>
-                <input type="radio" name="meetingType" value="regular" 
+                <label for="irregular">일시적</label>
+                <input type="radio" name="meetingType" id="regular" value="regular" 
                 	<c:if test="${checkedRegular}">checked</c:if> onchange="this.form.submit()">
-                <label for="">정기적</label>
-                <input type="radio" name="meetingType" value="all" 
+                <label for="regular">정기적</label>
+                <input type="radio" name="meetingType" id="all" value="all" 
                 	<c:if test="${checkedAll}">checked</c:if> onchange="this.form.submit()">
-                <label for="">전체</label>
+                <label for="all">전체</label>
             </div>
 				<input type="hidden" name="category" value="${checkedCategory}"></input>
 				<input type="hidden" name="key" value="${checkedKey}"></input>
