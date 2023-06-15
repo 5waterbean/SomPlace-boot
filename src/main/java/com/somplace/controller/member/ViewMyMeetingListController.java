@@ -80,7 +80,7 @@ public class ViewMyMeetingListController {
 	
 	@RequestMapping("/join/regular")
 	public ModelAndView getJoinRegularList(@ModelAttribute("memberSession") Member loginMember) {
-		List<Integer> joinMeetingIdList = memberMeetingService.getMyJoinMeetingId(loginMember.getMemberId());
+		List<Integer> joinMeetingIdList = loginMember.getJoinMeetingIdList();
 		ModelAndView mav = new ModelAndView();
 		
 		if(joinMeetingIdList.size() != 0) {
@@ -96,7 +96,7 @@ public class ViewMyMeetingListController {
 	
 	@RequestMapping("/join/irregular")
 	public ModelAndView getJoinIrregularList(@ModelAttribute("memberSession") Member loginMember) {
-		List<Integer> joinMeetingIdList = memberMeetingService.getMyJoinMeetingId(loginMember.getMemberId());
+		List<Integer> joinMeetingIdList = loginMember.getJoinMeetingIdList();
 		ModelAndView mav = new ModelAndView();
 		
 		if(joinMeetingIdList.size() != 0) {

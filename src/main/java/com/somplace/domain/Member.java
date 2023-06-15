@@ -21,6 +21,7 @@ public class Member implements Serializable {
 	private Date birth;
 	private List<Integer> likeMeetingIdList;
 	private List<Integer> applyMeetingIdList;
+	private List<Integer> joinMeetingIdList;
 	
 	public Member() {
 		super();

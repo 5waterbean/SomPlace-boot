@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.Member;
 import com.somplace.domain.command.MemberCommand;
+import com.somplace.service.MemberMeetingService;
 import com.somplace.service.MemberService;
 
 @Controller
@@ -22,6 +23,9 @@ import com.somplace.service.MemberService;
 public class MemberInfoController {
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private MemberMeetingService memberMeetingService;
 
 	@GetMapping
 	public String myInfo() {
@@ -40,8 +44,13 @@ public class MemberInfoController {
 			return new ModelAndView("member/myInfoUpdate", "majorList", JoinMemberController.majorList);
 		}
 		
+		String memberId = memberCommand.getMemberId();
 		memberService.updateMember(memberCommand);
-		Member updateMember = memberService.getMember(memberCommand.getMemberId());
+		
+		Member updateMember = memberService.getMember(memberId);
+		updateMember.setLikeMeetingIdList(memberMeetingService.getMyLikeMeetingId(memberId));
+		updateMember.setApplyMeetingIdList(memberMeetingService.getMyApplyMeetingId(memberId));
+		updateMember.setJoinMeetingIdList(memberMeetingService.getMyJoinMeetingId(memberId));
 		
 		sessionStatus.setComplete();
 		session.setAttribute("memberSession", updateMember);

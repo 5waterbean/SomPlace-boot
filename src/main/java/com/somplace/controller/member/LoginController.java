@@ -1,6 +1,7 @@
 package com.somplace.controller.member;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.Member;
+import com.somplace.service.IrregularService;
 import com.somplace.service.MemberMeetingService;
 import com.somplace.service.MemberService;
+import com.somplace.service.RegularService;
 
 @Controller
 public class LoginController {
@@ -23,6 +26,12 @@ public class LoginController {
 
 	@Autowired
 	private MemberMeetingService memberMeetingService;
+	
+	@Autowired
+	private IrregularService irregularService;
+	
+	@Autowired
+	private RegularService regularService;
 	
 	@PostMapping("/member/login")
 	public ModelAndView login(@RequestParam("memberId") String memberId, 
@@ -37,19 +46,25 @@ public class LoginController {
 			mav.addObject("msg", "비밀번호가 틀렸습니다.");
 		}
 		else {
-			mav.setViewName("redirect:/meeting/sort/all");
+			List<Integer> joinMeetingIdList = memberMeetingService.getMyJoinMeetingId(memberId);
 			member.setLikeMeetingIdList(memberMeetingService.getMyLikeMeetingId(memberId));
 			member.setApplyMeetingIdList(memberMeetingService.getMyApplyMeetingId(memberId));
+			member.setJoinMeetingIdList(joinMeetingIdList);		
 			session.setAttribute("memberSession", member);
 			
 			LocalDate now = LocalDate.now();
-			int month = now.getMonthValue(); // 이번 달
-			int lastDate = now.lengthOfMonth(); // 해당 월의 마지막 날짜 ex)28, 30, 31
-			int firstDay = now.withDayOfMonth(1).getDayOfWeek().getValue(); // 해당 월의 시작 요일
-			
-			MyCalendar mc = new MyCalendar(month, lastDate, firstDay);
+			MyCalendar mc = new MyCalendar();
+			mc.setMonth(now.getMonthValue()); // 이번 달
+			mc.setToday(now.getDayOfMonth()); // 오늘
+			mc.setLastDate(now.lengthOfMonth()); // 해당 월의 마지막 날짜 ex)28, 30, 31
+			mc.setFirstDay(now.withDayOfMonth(1).getDayOfWeek().getValue()); // 해당 월의 시작 요일
+			if(joinMeetingIdList.size() != 0) {
+				mc.setMyJoinIrregularList(irregularService.getMyJoinIrregularList(joinMeetingIdList));
+				mc.setMyJoinRegularList(regularService.getMyJoinRegularList(joinMeetingIdList));
+			}
 			session.setAttribute("myCalendar", mc);
 			
+			mav.setViewName("redirect:/meeting/sort/all");
 			return mav;
 		}
 		
