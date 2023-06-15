@@ -113,9 +113,6 @@ public class InfoRegularController {
 		mav.addObject("joinMemberList", joinMemberList);
 		mav.addObject("joinMemberIdList", joinMemberIdList);
 		
-		System.out.println("조인멤버아이디리스트");
-		System.out.println(joinMemberIdList);
-
 		// 후기 작성 부분
 		List<Review> reviewList = reviewService.getReviewById(checkedById);
 		mav.addObject("reviewList", reviewList);
@@ -123,18 +120,8 @@ public class InfoRegularController {
 		List<String> reviewMemberIdList = new ArrayList<String>();		
 		for (Review review : reviewList) {
 			reviewMemberIdList.add(review.getId());
-			
-//			if (review.getId() == memberSession.getMemberId()) {
-//				for (String joinMemberId : joinMemberIdList) {
-//					mav.addObject("existReview", true);
-//				}
-//				
-//				break;
-//			}
-		}
+		}		
 		mav.addObject("reviewMemberIdList", reviewMemberIdList);
-		System.out.println("리뷰아이디리스트");
-		System.out.println(reviewMemberIdList);
 		
 		// 신청자 목록 조회
 		List<String> applyMemberIdList = memberMeetingService.findApplyMemberIdList(checkedById);

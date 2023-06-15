@@ -93,7 +93,6 @@ input[type="submit"]:hover {
 
 .star-rating label {
 	-webkit-text-fill-color: transparent;
-	/* Will override color (regardless of order) */
 	-webkit-text-stroke-width: 2.3px;
 	-webkit-text-stroke-color: #2b2a29;
 	cursor: pointer;
@@ -114,10 +113,10 @@ input[type="submit"]:hover {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	<jsp:include page="/WEB-INF/view/reviewList.jsp" />
 
-	
+
 	<form:form action="/review/write" method="post"
 		modelAttribute="reviewCommand" onsubmit="return create(this)">
-				
+
 		<div class="container">
 			<h2>&lt;후기 작성하기&gt;</h2>
 			<table>
@@ -171,8 +170,9 @@ input[type="submit"]:hover {
 			let star3 = document.getElementById('3stars');
 			let star4 = document.getElementById('4stars');
 			let star5 = document.getElementById('5stars');
-			
-			if (!star1.checked && !star2.checked && !star3.checked && !star4.checked && !star5.checked) {
+
+			if (!star1.checked && !star2.checked && !star3.checked
+					&& !star4.checked && !star5.checked) {
 				alert("별점을 입력해주세요");
 
 				return false;

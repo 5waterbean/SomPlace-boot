@@ -80,18 +80,13 @@
 				</div>
 			</div>
 
-			<!-- <div class="right_review_btn"
-				onClick="location.href='/review/write/form?meetingId=' + ${regular.meetingId}">후기
-				작성하기</div>-->
-
-
 			<c:if test="${fn:contains(joinMemberIdList, currentMemberId)}">
 				<c:choose>
 					<c:when test="${fn:contains(reviewMemberIdList, currentMemberId)}">
 						<div class="right_review_btn" onClick="updateForm.submit()">후기
 							수정하기</div>
 					</c:when>
-					
+
 					<c:otherwise>
 						<div class="right_review_btn"
 							onClick="location.href='/review/write/form?meetingId=' + ${regular.meetingId}">후기
