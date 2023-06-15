@@ -118,7 +118,7 @@
 	</select>
 
 	<!-- 내가 속한 정기적 모임 조회 -->
-	<select resultType="Meeting" id="getMyJoinRegularList" parameterType="java.util.List">
+	<select resultMap="regularResultSet" id="getMyJoinRegularList" parameterType="java.util.List">
 		<include refid="selectRegularView_fragment" />
 		WHERE MEETINGID IN
 		<foreach collection="meetingIdList" item="item" separator="," open="(" close=")">

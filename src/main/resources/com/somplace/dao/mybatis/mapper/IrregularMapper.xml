@@ -106,7 +106,7 @@
 	</select>
 	
 	<!-- 내가 속한 일시적 모임 조회 -->
-	<select resultType="Meeting" id="getMyJoinIrregularList" parameterType="java.util.List">
+	<select resultMap="irregularResultSet" id="getMyJoinIrregularList" parameterType="java.util.List">
 		<include refid="selectIrregular_view_fragment" />
 		WHERE MEETINGID IN
 		<foreach collection="meetingIdList" item="item" separator="," open="(" close=")">
