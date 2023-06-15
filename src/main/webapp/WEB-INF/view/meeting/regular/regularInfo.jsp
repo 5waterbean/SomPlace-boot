@@ -92,7 +92,7 @@ h3, h4 {
 	resize: none;
 }
 
-.meeting_info_detail_td {
+.meeting_info_detail_td, button {
 	border: 1px solid black;
 	border-radius: 20px;
 	padding: 20px;
