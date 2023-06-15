@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.somplace.domain.Member;
 import com.somplace.domain.Regular;
 import com.somplace.domain.Review;
+import com.somplace.service.MeetingService;
 import com.somplace.service.MemberMeetingService;
 import com.somplace.service.MemberService;
 import com.somplace.service.RegularService;
@@ -34,31 +35,34 @@ public class InfoRegularController {
 	private MemberMeetingService memberMeetingService;
 	@Autowired
 	private ReviewService reviewService;
+	@Autowired
+	private MeetingService meetingService;
 	
 	private List<String> mealList = Arrays.asList("한식", "일식", "중식", "양식", "분식", "술");
 	private List<String> studyList = Arrays.asList("과제", "학교시험", "취업준비", "자격증");
 	private List<String> hobbyList = Arrays.asList("스포츠", "예술", "IT");
 	
-	
-	public void setIrregularService(RegularService regularService) {
-		this.regularService = regularService;
-	}
-	
-	public void setReviewService(ReviewService reviewService) {
-		this.reviewService = reviewService;
-	}
-	
 	@GetMapping
 	public ModelAndView infoRegular(@RequestParam("checkedById") int checkedById, 
 			@ModelAttribute("memberSession") Member memberSession,
-			@RequestParam(value="checkedApply", defaultValue="-1") int checkedApply,
 			@RequestParam(value="apply", defaultValue="-1") int apply,
-			@RequestParam(value="heart", defaultValue="-1") int heart) {
+			@RequestParam(value="heart", defaultValue="-1") int heart,
+			@RequestParam(value="close", defaultValue="-1") int close) {
 		ModelAndView mav = new ModelAndView("meeting/regular/regularInfo");
 		
+		// 모집 관련
+		if (close == 1) {// 모집 마감하기
+			meetingService.closeAndCloseCancelMeeting(checkedById, 1);
+		}
+		else if (close == 0) {// 다시 모집하기
+			meetingService.closeAndCloseCancelMeeting(checkedById, 0);
+		}
+		
+		// 정기적모임 조회
 		Regular regular = regularService.getRegularById(checkedById);
 		mav.addObject("regular", regular);
 		
+		// 모임생성자
 		Member member = memberService.getMember(regular.getCreatorId());
 		mav.addObject("creatorMember", member);
 		
@@ -73,36 +77,7 @@ public class InfoRegularController {
 				break;
 			}
 		}
-		
-		// 모임 신청 (찜하기 안했을 경우)
-		if (checkedApply == 1) {
-			System.out.println(apply);
-			System.out.println(heart);
-			
-			if (apply != -1) { // 신청이 되어있는 상태면 apply값 가져오기 (jsp에서 1로 하면 안됨, update할 때 필요)
-				apply = memberMeetingService.getApply(memberSession.getMemberId(), checkedById);
-			}
-			mav.addObject("apply", apply);
-			
-			if (heart == 0 && apply == -1) {
-				heart = -1;
-			}
-			
-			if (heart == -1) { // insert
-				System.out.println("insert");
-				memberMeetingService.insertMemberMeeting(0, memberSession.getMemberId(), checkedById);
-			} else { // update
-				System.out.println("update");
-				// heart값 조회
-				heart = memberMeetingService.getHeart(memberSession.getMemberId(), checkedById);
-				mav.addObject("heart", heart);
 				
-				memberMeetingService.updateMemberMeeting(apply, heart, memberSession.getMemberId(), checkedById);
-			}
-		}
-		
-		mav.addObject("heart", heart);
-		
 		// meetingInfoDetail
 		StringTokenizer detailItr = new StringTokenizer(regular.getMeetingInfoDetail(), ",");
 		List<String>detailList = new ArrayList<String>();
@@ -160,7 +135,11 @@ public class InfoRegularController {
 		mav.addObject("applyMemberList", applyMemberList);
 		mav.addObject("applyMemberIdList", applyMemberIdList);
 		
-	
+		// apply 값 넘기기
+		mav.addObject("apply", apply);
+		// heart 값 넘기기
+		mav.addObject("heart", heart);
+		
 		return mav;
 	}
 }
