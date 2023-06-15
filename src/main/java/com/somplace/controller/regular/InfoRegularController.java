@@ -24,7 +24,7 @@ import com.somplace.service.RegularService;
 import com.somplace.service.ReviewService;
 
 @Controller
-@RequestMapping("/meeting/regular/info") 
+@RequestMapping("/meeting/regular/info")
 @SessionAttributes("memberSession")
 public class InfoRegularController {
 	@Autowired
@@ -37,55 +37,42 @@ public class InfoRegularController {
 	private ReviewService reviewService;
 	@Autowired
 	private MeetingService meetingService;
-	
+
 	private List<String> mealList = Arrays.asList("한식", "일식", "중식", "양식", "분식", "술");
 	private List<String> studyList = Arrays.asList("과제", "학교시험", "취업준비", "자격증");
 	private List<String> hobbyList = Arrays.asList("스포츠", "예술", "IT");
-	
+
 	@GetMapping
-	public ModelAndView infoRegular(@RequestParam("checkedById") int checkedById, 
+	public ModelAndView infoRegular(@RequestParam("checkedById") int checkedById,
 			@ModelAttribute("memberSession") Member memberSession,
-			@RequestParam(value="apply", defaultValue="-1") int apply,
-			@RequestParam(value="heart", defaultValue="-1") int heart,
-			@RequestParam(value="close", defaultValue="-1") int close) {
+			@RequestParam(value = "apply", defaultValue = "-1") int apply,
+			@RequestParam(value = "heart", defaultValue = "-1") int heart,
+			@RequestParam(value = "close", defaultValue = "-1") int close) {
 		ModelAndView mav = new ModelAndView("meeting/regular/regularInfo");
-		
+
 		// 모집 관련
 		if (close == 1) {// 모집 마감하기
 			meetingService.closeAndCloseCancelMeeting(checkedById, 1);
-		}
-		else if (close == 0) {// 다시 모집하기
+		} else if (close == 0) {// 다시 모집하기
 			meetingService.closeAndCloseCancelMeeting(checkedById, 0);
 		}
-		
+
 		// 정기적모임 조회
 		Regular regular = regularService.getRegularById(checkedById);
 		mav.addObject("regular", regular);
-		
+
 		// 모임생성자
 		Member member = memberService.getMember(regular.getCreatorId());
 		mav.addObject("creatorMember", member);
-		
-		//후기 작성 부분
-		List<Review> reviewList = reviewService.getReviewById(checkedById);
-		mav.addObject("reviewList", reviewList);
-		//내 아이디가 있는지 없는지(있으면 리뷰 작성된 상태, 없으면 리뷰 작성 아직 안한 상태)
-		for (Review review : reviewList) {
-			if(review.getId() == memberSession.getMemberId()) {
-				mav.addObject("existReview", true);
 
-				break;
-			}
-		}
-				
 		// meetingInfoDetail
 		StringTokenizer detailItr = new StringTokenizer(regular.getMeetingInfoDetail(), ",");
-		List<String>detailList = new ArrayList<String>();
+		List<String> detailList = new ArrayList<String>();
 		while (detailItr.hasMoreElements()) {
 			detailList.add(detailItr.nextToken().trim());
 		}
 		mav.addObject("detailList", detailList);
-		
+
 		// etcDetail
 		if (regular.getMeetingInfo().equals("식사")) {
 			if (!mealList.contains(detailList.get(detailList.size() - 1))) {
@@ -100,46 +87,69 @@ public class InfoRegularController {
 				mav.addObject("detailValue", detailList.get(detailList.size() - 1));
 			}
 		}
-		
+
 		// regularDay
 		StringTokenizer dayItr = new StringTokenizer(regular.getMeetingDay(), ",");
-		List<String>meetingdayList = new ArrayList<String>();
+		List<String> meetingdayList = new ArrayList<String>();
 		while (dayItr.hasMoreElements()) {
 			meetingdayList.add(dayItr.nextToken().trim());
 		}
 		mav.addObject("meetingdayList", meetingdayList);
-		
+
 		// regularTime
 		StringTokenizer timeItr = new StringTokenizer(regular.getMeetingTime(), ",");
-		List<String>meetingTimeList = new ArrayList<String>();
+		List<String> meetingTimeList = new ArrayList<String>();
 		while (timeItr.hasMoreElements()) {
 			meetingTimeList.add(timeItr.nextToken().trim());
 		}
 		mav.addObject("meetingTimeList", meetingTimeList);
-		
+
 		// 회원 목록 조회
 		List<String> joinMemberIdList = memberMeetingService.findJoinMemberIdList(checkedById);
 		List<Member> joinMemberList = new ArrayList<Member>();
 		for (String joinMemberId : joinMemberIdList) {
-			joinMemberList.add( memberService.getMember(joinMemberId));
+			joinMemberList.add(memberService.getMember(joinMemberId));
 		}
 		mav.addObject("joinMemberList", joinMemberList);
-		mav.addObject("joinMemberIdList", joinMemberIdList);		
+		mav.addObject("joinMemberIdList", joinMemberIdList);
+		
+		System.out.println("조인멤버아이디리스트");
+		System.out.println(joinMemberIdList);
+
+		// 후기 작성 부분
+		List<Review> reviewList = reviewService.getReviewById(checkedById);
+		mav.addObject("reviewList", reviewList);
+		
+		List<String> reviewMemberIdList = new ArrayList<String>();		
+		for (Review review : reviewList) {
+			reviewMemberIdList.add(review.getId());
+			
+//			if (review.getId() == memberSession.getMemberId()) {
+//				for (String joinMemberId : joinMemberIdList) {
+//					mav.addObject("existReview", true);
+//				}
+//				
+//				break;
+//			}
+		}
+		mav.addObject("reviewMemberIdList", reviewMemberIdList);
+		System.out.println("리뷰아이디리스트");
+		System.out.println(reviewMemberIdList);
 		
 		// 신청자 목록 조회
 		List<String> applyMemberIdList = memberMeetingService.findApplyMemberIdList(checkedById);
 		List<Member> applyMemberList = new ArrayList<Member>();
 		for (String applyMemberId : applyMemberIdList) {
-			applyMemberList.add( memberService.getMember(applyMemberId));
+			applyMemberList.add(memberService.getMember(applyMemberId));
 		}
 		mav.addObject("applyMemberList", applyMemberList);
 		mav.addObject("applyMemberIdList", applyMemberIdList);
-		
+
 		// apply 값 넘기기
 		mav.addObject("apply", apply);
 		// heart 값 넘기기
 		mav.addObject("heart", heart);
-		
+
 		return mav;
 	}
 }

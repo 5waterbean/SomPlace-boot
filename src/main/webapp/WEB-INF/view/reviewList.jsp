@@ -84,23 +84,20 @@
 				onClick="location.href='/review/write/form?meetingId=' + ${regular.meetingId}">후기
 				작성하기</div>-->
 
-			<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+
+			<c:if test="${fn:contains(joinMemberIdList, currentMemberId)}">
 				<c:choose>
-					<c:when test="${existReview}">
+					<c:when test="${fn:contains(reviewMemberIdList, currentMemberId)}">
 						<div class="right_review_btn" onClick="updateForm.submit()">후기
 							수정하기</div>
 					</c:when>
+					
 					<c:otherwise>
 						<div class="right_review_btn"
 							onClick="location.href='/review/write/form?meetingId=' + ${regular.meetingId}">후기
 							작성하기</div>
 					</c:otherwise>
 				</c:choose>
-			</c:if>
-
-			<c:if test="${irregular.creatorId ne memberSession.memberId}">
-				<div class="right_review_btn" onClick="updateForm.submit()">후기
-					수정하기</div>
 			</c:if>
 		</div>
 
@@ -110,11 +107,10 @@
 			<c:forEach var="review" items="${reviewList}">
 				<div class="review_item">
 					<div class="star">
-						<c:forEach begin="0" end="${review.star}">
+						<c:forEach begin="1" end="${review.star}">
 							★	
-							
 						</c:forEach>
-						<c:forEach begin="${review.star}" end="5">
+						<c:forEach begin="${review.star + 1}" end="5">
 							☆
 						</c:forEach>
 					</div>

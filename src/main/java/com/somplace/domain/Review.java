@@ -4,10 +4,12 @@ import java.io.Serializable;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @SuppressWarnings("serial")
+@ToString
 public class Review implements Serializable {
 	private int reviewId;
 	private int star;
