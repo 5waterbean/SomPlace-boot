@@ -471,14 +471,6 @@ h3, h4 {
 					<td></td>
 					<td></td>
 					<td>
-						<!-- 모임 생성자만 보이게 -->
-						<c:if test="${irregular.creatorId eq memberSession.memberId}">
-							<c:if test="${irregular.cancel eq 0}">
-								<div class="irregular_delete_btn" onclick="deleteForm.submit()">모임 삭제하기</div> <!--생성자만-->
-							</c:if>
-						</c:if>
-					</td>
-					<td>
 						<c:if test="${irregular.cancel eq 0 && irregular.close eq 0}">
 							<c:if test="${irregular.creatorId eq memberSession.memberId}">
 								<div class="irregular_close_btn" onclick="closeForm.submit()">모집 마감하기</div> <!-- 모임 생성자만 보이게 -->
@@ -500,7 +492,17 @@ h3, h4 {
 						</c:if>
 						<c:if test="${irregular.cancel eq 0 && irregular.close eq 1}">
 							<c:if test="${irregular.creatorId eq memberSession.memberId}">
-								<div class="irregular_cancel_close_btn" onclick="closeCancelForm.submit()">다시 모집하기</div> <!-- 모임 생성자만 보이게 -->
+								<c:if test="${irregular.numOfPeople lt irregular.maxPeople}">
+									<div class="irregular_cancel_close_btn" onclick="closeCancelForm.submit()">다시 모집하기</div> <!-- 모임 생성자만 보이게 -->
+								</c:if>
+							</c:if>
+						</c:if>
+					</td>
+					<td>
+						<!-- 모임 생성자만 보이게 -->
+						<c:if test="${irregular.creatorId eq memberSession.memberId}">
+							<c:if test="${irregular.cancel eq 0}">
+								<div class="irregular_delete_btn" onclick="deleteForm.submit()">모임 삭제하기</div> <!--생성자만-->
 							</c:if>
 						</c:if>
 					</td>
@@ -511,11 +513,13 @@ h3, h4 {
 			<input type="hidden" name="checkedById" value="${irregular.meetingId}">
 			<input type="hidden" name="applyMemberId" id="memberOut">
 			<input type="hidden" name="inOrOut" value="0">
+			<input type="hidden" name="count" value="${irregular.numOfPeople}">
 		</form>
 		<form name="memberInForm" id="memberInForm" action="/meeting/join">
 			<input type="hidden" name="checkedById" value="${irregular.meetingId}">
 			<input type="hidden" name="applyMemberId" id="memberIn">
 			<input type="hidden" name="inOrOut" value="1">
+			<input type="hidden" name="count" value="${irregular.numOfPeople}">
 		</form>
 		<form name="deleteForm" action="/meeting/delete" method="post">
 			<input type="hidden" name="meetingId" value="${irregular.meetingId}">

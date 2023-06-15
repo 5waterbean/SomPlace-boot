@@ -58,8 +58,17 @@ public class InfoIrregularController {
 		
 		// 일시적모임 조회
 		Irregular irregular = irregularService.getIrregularById(checkedById);
-		mav.addObject("irregular", irregular);
 		
+		// 회원수 == 최대인원 일때 자동 마감
+		if (irregular.getNumOfPeople() == irregular.getMaxPeople()) {
+			meetingService.closeAndCloseCancelMeeting(checkedById, 1);
+		}
+		else if (irregular.getNumOfPeople() < irregular.getMaxPeople()){
+			meetingService.closeAndCloseCancelMeeting(checkedById, 0);
+		}
+		irregular = irregularService.getIrregularById(checkedById);
+		mav.addObject("irregular", irregular);
+			
 		// 모임생성자
 		Member member = memberService.getMember(irregular.getCreatorId());
 		mav.addObject("creatorMember", member);

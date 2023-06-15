@@ -41,6 +41,9 @@ public interface MeetingMapper {
 	// 모임 수정
 	void updateMeeting(MeetingCommand meetingCommand);
 	
+	// 현재인원 수정
+	void updateNumOfPeople(@Param("meetingId")int meetingId, @Param("count")int count);
+	
 	// 모임 삭제
 	void deleteMeeting(int meetingId);
 	
