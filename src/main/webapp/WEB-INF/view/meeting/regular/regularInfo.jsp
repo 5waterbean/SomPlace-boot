@@ -539,8 +539,8 @@ h3, h4 {
 							</c:if>
 						</c:if>
 					</td>
-					<td>
-						<c:if test="${regular.cancel eq 0 && regular.close eq 0}">
+					<c:if test="${regular.cancel eq 0 && regular.close eq 0}"><td>
+						
 							<c:if test="${regular.creatorId eq memberSession.memberId}"> 
 								<div class="regular_close_btn" onclick="closeForm.submit()">모집 마감하기</div> 
 							</c:if>
@@ -560,14 +560,18 @@ h3, h4 {
 									<div class="regular_applyCancel_btn" onclick="applyCancelForm.submit()">신청 취소하기</div>
 								</c:if>
 							</c:if>
-						</c:if>
 						
+					</td></c:if>
+					<td>	
 						<c:if test="${regular.cancel eq 0 && regular.close eq 1}">
 							<c:if test="${regular.creatorId eq memberSession.memberId}">
-								<div class="regular_applyCancel_btn" onclick="closeCancelForm.submit()">다시 모집하기</div> 
+								<c:if test="${regular.numOfPeople lt regular.maxPeople}">
+									<div class="regular_applyCancel_btn" onclick="closeCancelForm.submit()">다시 모집하기</div>
+								</c:if> 
 							</c:if>
 						</c:if>
 					</td>
+					
 				</tr>
 			</table>
 		</form>
@@ -576,12 +580,14 @@ h3, h4 {
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
 			<input type="hidden" name="applyMemberId" id="memberOut">
 			<input type="hidden" name="inOrOut" value="0">
+			<input type="hidden" name="count" value="${regular.numOfPeople}">
 		</form>
 		<!-- 멤버 수락 -->
 		<form name="memberInForm" id="memberInForm" action="/meeting/join">
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
 			<input type="hidden" name="applyMemberId" id="memberIn">
 			<input type="hidden" name="inOrOut" value="1">
+			<input type="hidden" name="count" value="${regular.numOfPeople}">
 		</form>
 		
 		<form name="deleteForm" action="/meeting/delete" method="post">

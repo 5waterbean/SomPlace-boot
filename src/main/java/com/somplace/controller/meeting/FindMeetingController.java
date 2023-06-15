@@ -27,7 +27,6 @@ public class FindMeetingController {
 			mav = new ModelAndView("redirect:/meeting/irregular/info");
 		}
 		mav.addObject("checkedById", checkedById);
-		System.out.println("info:"+ heart);
 		mav.addObject("apply", apply);
 		mav.addObject("heart", heart);
 		
