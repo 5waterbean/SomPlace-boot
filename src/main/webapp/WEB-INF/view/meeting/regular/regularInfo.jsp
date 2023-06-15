@@ -207,18 +207,23 @@ h3, h4 {
 		<form name="updateForm" action="/meeting/regular/update/form">
 			<div>
 				<h2>${regular.meetingTitle} 상세정보</h2>
-				<c:set var="currentMemberId" value="${memberSession.memberId}"/>
-				<c:if test="${regular.creatorId eq currentMemberId}"> <!-- 모임 생성자만 보이게 -->
-					<c:if test="${regular.close eq 0 }">
+				
+				<c:if test="${regular.cancel eq 1}">
+					<font color="red" size="4">삭제된 모임입니다.</font>
+				</c:if>
+				<c:if test="${regular.close eq 1 && irregular.cancel eq 0}">
+					<font color="red" size="4">모집 마감된 모임입니다.</font>
+				</c:if>
+				<c:if test="${regular.creatorId eq memberSession.memberId}">
+					<c:if test="${regular.cancel eq 0}">
 						<div class="regular_update_btn"  onClick="updateForm.submit()">모임 수정하기</div>
 					</c:if>
 				</c:if>
-				<c:if test="${regular.close eq 1 }">
-					<font color="red" size="4">삭제된 모임입니다.</font>
-				</c:if>
+				
 				<input type="hidden" name="checkedById" value="${regular.meetingId}">
 				<input type="hidden" name="detailValue" value="${detailValue}">
 				<input type="hidden" name="close" id="close" value="${regular.close}">
+				<input type="hidden" name="cancel" id="cancel" value="${regular.cancel}">
 			</div>
 
 			<hr>
@@ -453,21 +458,30 @@ h3, h4 {
 					<td colspan="2"><textarea class="regular_memo" name="memo" disabled>${regular.memo}</textarea></td>
 				</tr>
 
-				<!-- 회원들만
-                <tr> 
-                    <th>모임장 정보</th>
-                    <td colspan="3">
-                        <div class="member_list_td">
-                            <div>
-                                <div class="member">이현아 / 20191003 / 컴퓨터학과 / 010-7***-9***</div>
-                                <div class="member_good_btn"><img src="../../img/좋아요.png"></div>
-                                <div class="member_bad_btn"><img src="../../img/싫어요.png"></div>
-                            </div>
-                        </div>
-                    </td> 
-                </tr>  -->
+				<!-- 회원들만 모임장 정보 보이게 -->
+				<c:if test="${irregular.creatorId ne memberSession.memberId}">
+					<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+		                <tr> 
+		                    <th>모임장 정보</th>
+		                    <td colspan="3">
+		                        <div class="member_list_td">
+		                            <div>
+		                                <div class="member">${creatorMember.name} / ${creatorMember.studentNumber} / ${creatorMember.major} / ${creatorMember.phone}</div>
+		                                <div class="member_good_btn">
+		                                	<img src="../../../img/좋아요.png">
+		                                </div>
+		                                <div class="member_bad_btn">
+		                                	<img src="../../../img/싫어요.png">
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </td> 
+		                </tr>
+                	</c:if>
+		        </c:if>
 				
-				<c:if test="${regular.creatorId eq currentMemberId}"> <!-- 모임 생성자만 보이게 -->
+				<!-- 모임 생성자만 보이게 -->
+				<c:if test="${regular.creatorId eq memberSession.memberId}"> 
 					<tr>
 						<th>회원 목록</th>	
 						<td colspan="3">
@@ -481,8 +495,8 @@ h3, h4 {
 										<div class="member_bad_btn">
 											<img src="../../img/싫어요.png">
 										</div>
-										<c:if test="${regular.close eq 0 }">
-											<div class="member_out_btn">내보내기</div>
+										<c:if test="${regular.close eq 0 || regular.cancel eq 0}">
+											<div class="member_out_btn" id="${joinMember.memberId}" onclick="memberOut(this.id)">내보내기</div>
 										</c:if>
 									</div>
 								</c:forEach>
@@ -504,8 +518,8 @@ h3, h4 {
 										<div class="member_bad">
 											<img src="../../img/싫어요.png">&nbsp;${applyMember.bad}
 										</div>
-										<c:if test="${regular.close eq 0 }">
-											<div class="member_in_btn">수락하기</div>
+										<c:if test="${regular.close eq 0 && regular.cancel eq 0}">
+											<div class="member_in_btn" id="${applyMember.memberId}" onclick="memberIn(this.id)">수락하기</div>
 										</c:if>
 									</div>
 								</c:forEach>
@@ -513,23 +527,26 @@ h3, h4 {
 						</td>
 					</tr>
 				</c:if>
+				
 				<tr>
 					<td></td>
 					<td></td>
 					<td>
-						<c:if test="${regular.creatorId eq currentMemberId}"> <!-- 모임 생성자만 보이게 -->
-							<c:if test="${regular.close eq 0 }">
+						<!-- 모임 생성자만 보이게 -->
+						<c:if test="${regular.creatorId eq memberSession.memberId}"> 
+							<c:if test="${regular.cancel eq 0 }">
 								<div class="regular_delete_btn"  onClick="deleteForm.submit()">모임 삭제하기</div>
 							</c:if>
 						</c:if>
 					</td>
 					<td>
-						<c:if test="${regular.close eq 0}">
-							<c:if test="${regular.creatorId eq currentMemberId}"> 
-								<div class="regular_close_btn">모집 마감하기</div> 
+						<c:if test="${regular.cancel eq 0 && regular.close eq 0}">
+							<c:if test="${regular.creatorId eq memberSession.memberId}"> 
+								<div class="regular_close_btn" onclick="closeForm.submit()">모집 마감하기</div> 
 							</c:if>
 						
-							<c:if test="${regular.creatorId ne currentMemberId}">
+							<!-- 비회원만 보이게(신청X) -->
+							<c:if test="${regular.creatorId ne memberSession.memberId}">
 								<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
 									<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
 										<div class="regular_apply_btn" onclick="applyForm.submit()">신청하기</div>
@@ -537,22 +554,53 @@ h3, h4 {
 								</c:if>
 							</c:if>
 								
-							<c:if test="${regular.creatorId ne currentMemberId}">
+							<!-- 신청한 사람들만 (수락X) 보이게 -->
+							<c:if test="${regular.creatorId ne memberSession.memberId}">
 								<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
-									<div class="regular_applyCancel_btn" onclick="applyForm.submit()">신청 취소하기</div>
+									<div class="regular_applyCancel_btn" onclick="applyCancelForm.submit()">신청 취소하기</div>
 								</c:if>
+							</c:if>
+						</c:if>
+						
+						<c:if test="${regular.cancel eq 0 && regular.close eq 1}">
+							<c:if test="${regular.creatorId eq memberSession.memberId}">
+								<div class="regular_applyCancel_btn" onclick="closeCancelForm.submit()">다시 모집하기</div> 
 							</c:if>
 						</c:if>
 					</td>
 				</tr>
 			</table>
 		</form>
-		<form name="deleteForm" action="/meeting/delete" method="POST">
+		<!-- 멤버 내보내기 -->
+		<form name="memberOutForm" id="memberOutForm" action="/meeting/join">
+			<input type="hidden" name="checkedById" value="${regular.meetingId}">
+			<input type="hidden" name="applyMemberId" id="memberOut">
+			<input type="hidden" name="inOrOut" value="0">
+		</form>
+		<!-- 멤버 수락 -->
+		<form name="memberInForm" id="memberInForm" action="/meeting/join">
+			<input type="hidden" name="checkedById" value="${regular.meetingId}">
+			<input type="hidden" name="applyMemberId" id="memberIn">
+			<input type="hidden" name="inOrOut" value="1">
+		</form>
+		
+		<form name="deleteForm" action="/meeting/delete" method="post">
 			<input type="hidden" name="meetingId" value="${regular.meetingId}">
 		</form>
-		<form name="applyForm" action="/meeting/regular/info">
+		
+		<form name="closeForm" action="/meeting/regular/info">
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
-			<input type="hidden" name="checkedApply" value="1">			
+			<input type="hidden" name="close" value="1">
+		</form>
+		
+		<form name="closeCancelForm" action="/meeting/regular/info">
+			<input type="hidden" name="checkedById" value="${regular.meetingId}">
+			<input type="hidden" name="close" value="0">
+		</form>
+		
+		<form name="applyForm" action="/meeting/join">
+			<input type="hidden" name="checkedById" value="${regular.meetingId}">
+			<input type="hidden" name="checkedApply" value="1">
 			<c:choose>
 				<c:when test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
 					<input type="hidden" name="apply" value="1">
@@ -563,7 +611,24 @@ h3, h4 {
 				<c:otherwise>
 					<input type="hidden" name="apply" value="-1">
 				</c:otherwise>
-			</c:choose>		
+			</c:choose>
+			<input type="hidden" name="heart" value="${heart}">
+		</form>
+		
+		<form name="applyCancelForm" action="/meeting/join">
+			<input type="hidden" name="checkedById" value="${regular.meetingId}">
+			<input type="hidden" name="checkedApply" value="0">
+			<c:choose>
+				<c:when test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+					<input type="hidden" name="apply" value="1">
+				</c:when>
+				<c:when test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+					<input type="hidden" name="apply" value="0">
+				</c:when>
+				<c:otherwise>
+					<input type="hidden" name="apply" value="-1">
+				</c:otherwise>
+			</c:choose>
 			<input type="hidden" name="heart" value="${heart}">
 		</form>
 	</div>
@@ -577,6 +642,16 @@ h3, h4 {
 			if (close == 1) {
 				document.getElementById("container").style.backgroundColor = "rgb(244, 243, 243)";
 			}
+		}
+		
+		function memberIn(applyMemberId) {
+			document.getElementById("memberIn").value = applyMemberId;
+			document.getElementById("memberInForm").submit();
+		}
+		
+		function memberOut(applyMemberId) {
+			document.getElementById("memberOut").value = applyMemberId;
+			document.getElementById("memberOutForm").submit();
 		}
 	</script>
 	

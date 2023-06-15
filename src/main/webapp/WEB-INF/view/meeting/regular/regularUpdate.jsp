@@ -96,7 +96,7 @@ h3, h4 {
 	resize: none;
 }
 
-.meeting_info_detail_td {
+.meeting_info_detail_td, button {
 	border: 1px solid black;
 	border-radius: 20px;
 	padding: 20px;
@@ -118,24 +118,24 @@ h3, h4 {
 	width: 20%;
 }
 
-button, .regular_update_btn, .regular_back_btn {
+button, .regular_back_btn {
 	border: 1px solid black;
 	background-color: rgb(226, 240, 217);
 	padding: 5px 15px 5px 15px;
 	border-radius: 20px;
 	text-align: center;
-	font-size:16px;
-	height:33px;
+	font-size: 16px;
+	height: 33px;
 }
 
-button:hover, .regular_update_btn:hover, .regular_back_btn:hover {
+button:hover, .regular_back_btn:hover {
 	background-color: rgb(174, 220, 175);
 	cursor: pointer;
 }
 
 button {
-	font-size:16px;
-	height:33px;
+	font-size: 16px;
+	height: 33px;
 }
 </style>
 </head>
@@ -391,10 +391,10 @@ button {
 					<td></td>
 					<td></td>
 					<td>
-						<button type="submit" onclick="update()">모임 수정하기</button>
+						<button type="submit" onclick="update()">수정하기</button>
 					</td>
 					<td>
-						<div class="regular_back_btn">취소하기</div>
+						<div class="regular_back_btn" onclick="history.back();">취소하기</div>
 					</td>
 				</tr>
 			</table>
