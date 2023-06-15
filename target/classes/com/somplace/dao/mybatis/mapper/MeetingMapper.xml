@@ -100,6 +100,17 @@
 		WHERE meetingId = #{meetingId}
 	</update>
 	
+	<!-- 현재인원 수정 -->
+	<update id="updateNumOfPeople" parameterType="map"> 
+		UPDATE meeting
+		SET numOfPeople = #{count}
+		WHERE meetingId = #{meetingId}
+	</update>
+	
+	<!-- 회원내보내기하면 numOfPeople -1 -->
+	<!--  <update id="MinusNumOfPeople"> 
+	</update>-->
+	
 	<!-- 모임 삭제 -->
 	<update id="deleteMeeting">
 		UPDATE meeting

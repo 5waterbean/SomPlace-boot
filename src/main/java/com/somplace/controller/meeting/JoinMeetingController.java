@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.Member;
+import com.somplace.service.MeetingService;
 import com.somplace.service.MemberMeetingService;
 
 @Controller
@@ -18,6 +19,8 @@ import com.somplace.service.MemberMeetingService;
 public class JoinMeetingController {
 	@Autowired
 	private MemberMeetingService memberMeetingService;
+	@Autowired
+	private MeetingService meetingService;
 	
 	@GetMapping
 	public ModelAndView joinMeeting(@RequestParam("checkedById") int checkedById,
@@ -26,6 +29,7 @@ public class JoinMeetingController {
 										@RequestParam(value="heart", defaultValue="-1") int heart,
 										@RequestParam(value="applyMemberId", defaultValue="null") String applyMemberId,
 										@RequestParam(value="inOrOut", defaultValue="-1") int inOrOut,
+										@RequestParam(value="count", defaultValue="-1") int count,
 										@ModelAttribute("memberSession") Member memberSession) {
 		String memberId = memberSession.getMemberId();
 		ModelAndView mav = new ModelAndView("redirect:/meeting/info");
@@ -68,9 +72,11 @@ public class JoinMeetingController {
 		// 신청수락
 		if (inOrOut == 1) {
 			memberMeetingService.updateMemberMeeting(1, heart, applyMemberId, checkedById , -1);
+			meetingService.updateNumOfPeople(checkedById, count + 1);
 		}
 		else if (inOrOut == 0) {
 			memberMeetingService.deleteMemberMeeting(applyMemberId, checkedById);
+			meetingService.updateNumOfPeople(checkedById, count - 1);
 		}
 		mav.addObject("heart", heart);
 		mav.addObject("apply", apply);
