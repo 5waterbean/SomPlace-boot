@@ -113,10 +113,8 @@ input[type="submit"]:hover {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	<jsp:include page="/WEB-INF/view/reviewList.jsp" />
 
-
 	<form:form action="/review/write" method="post"
 		modelAttribute="reviewCommand" onsubmit="return create(this)">
-
 		<div class="container">
 			<h2>&lt;후기 작성하기&gt;</h2>
 			<table>
