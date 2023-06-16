@@ -55,6 +55,9 @@ public interface MeetingMapper {
 	// 내가 생성한 모임 조회
 	List<Meeting> getMadeMeetingList(String creatorId);
 	
-	// 내가 찜한 or 신청한 모임 목록 조회
+	// 내가 생성한 모임 아이디 조회
+	List<Integer> getMadeMeetingId(String creatorId);
+	
+	// 모임 아이디로 모임 목록 조회
 	List<Meeting> getMyMeetingList(List<Integer> meetingIdList);
 }

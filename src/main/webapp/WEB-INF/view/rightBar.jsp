@@ -60,15 +60,30 @@
 	border-top-left-radius: 20px;
 }
 
+.schedule {
+	border-bottom-right-radius: 20px;
+	border-botton-left-radius: 20px;
+}
+
 </style>
 </head>
 
 <body>
+	<script>
+		function alertSchedule(day) {
+			const meetingTitle = document.getElementById("input" + day).value;
+			if(meetingTitle != ""){
+				document.getElementById("scheduleAlert").innerHTML = meetingTitle;	
+			}
+			else {
+				document.getElementById("scheduleAlert").innerHTML = "등록된 일정이 없습니다";
+			}
+		}
+	</script>
+
 	<div class="right">
 		<div class="create_btn" onClick="location.href='/meeting/irregular/create/form';">모임 만들기</div>
-
 		<br>
-
 		<div class="divTable">
 			<table id="calendar">
 				<tr style="border:0px;">
@@ -88,7 +103,7 @@
 					<c:if test="${num % 7 == 1}">
 						<tr>
 					</c:if>
-					<td style='background-color:<c:if test="${myCalendar.today == status.index}">rgb(220, 220, 220)</c:if>'>
+					<td onClick="alertSchedule(${status.index})" style='background-color:<c:if test="${myCalendar.today == status.index}">rgb(220, 220, 220)</c:if>'>
 						<font class="${num % 7}" color='
 							<c:choose>
 								<c:when test="${num % 7 == 1}">red</c:when>
@@ -97,14 +112,21 @@
 							</c:choose>'>${status.index}</font>
 						<br>
 						<font size="1" id="${status.index}"></font>
+						<input id="input${status.index}" type="hidden" value="" />
 					</td>
 					<c:if test="${num % 7 == 0}">
 						</tr>
 					</c:if>
 					<c:set var="num" value="${num + 1}" />
 				</c:forEach>
+				<tr>
+					<td class="schedule" colspan="7" style="height:5px;background-color:rgb(254, 251, 191);border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;">
+						<font size="2" id="scheduleAlert">등록된 일정이 없습니다</font>
+					</td>
+				</tr>
 			</table>
 		</div>
+		
 		<script>
 			<c:forEach var='regular' items='${myCalendar.myJoinRegularList}'>
 				var day = "<c:out value='${regular.meetingDay}'/>";
@@ -134,10 +156,13 @@
 						dayClass = document.getElementsByClassName(dayArr[i]);
 						for(var j = 0; j < dayClass.length; j++){
 							if(startMonth == ${myCalendar.month}){
-								if(Number(dayClass[j].innerHTML) > startDay)
-									dayClass[j].nextElementSibling.nextElementSibling.innerHTML = "📌";
+								if(Number(dayClass[j].innerHTML) > startDay) {
+									document.getElementById("input" + dayClass[j].innerHTML).value += "<c:out value='${regular.meetingTitle}'/><br>";
+									dayClass[j].nextElementSibling.nextElementSibling.innerHTML = "◾";
+								}
 							} else {
-								dayClass[j].nextElementSibling.nextElementSibling.innerHTML = "📌";
+								document.getElementById("input" + dayClass[j].innerHTML).value += "<c:out value='${regular.meetingTitle}'/><br>";
+								dayClass[j].nextElementSibling.nextElementSibling.innerHTML = "◾";
 							}
 								
 						}
@@ -150,9 +175,15 @@
 				var month = Number(date.slice(-5,-3));
 				var day = Number(date.slice(-2));
 				if(month == ${myCalendar.month}) {
-					document.getElementById(String(day)).innerHTML = "📌";
+					document.getElementById("input" + String(day)).value += "<c:out value='${irregular.meetingTitle}'/><br>";
+					document.getElementById(String(day)).innerHTML = "◾";
 				}
 			</c:forEach>
+			
+			var meetingTitle = document.getElementById("input" + "<c:out value='${myCalendar.today}'/>").value;
+			if(meetingTitle != "") {
+				document.getElementById("scheduleAlert").innerHTML = meetingTitle;
+			}
 		</script>
 	</div>
 </body>

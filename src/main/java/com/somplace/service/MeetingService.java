@@ -3,6 +3,7 @@ package com.somplace.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,6 +97,11 @@ public class MeetingService {
 	// 내가 생성한 모임 조회
 	public List<Meeting> getMadeMeetingList(String creatorId) {
 		return meetingDao.getMadeMeetingList(creatorId);
+	}
+	
+	// 내가 생성한 모임 아이디 조회
+	public List<Integer> getMadeMeetingId(String creatorId) {
+		return meetingDao.getMadeMeetingId(creatorId);
 	}
 	
 	// 내가 찜한 or 신청한 모임 목록 조회

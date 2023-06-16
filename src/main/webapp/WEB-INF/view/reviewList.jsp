@@ -15,7 +15,7 @@
 .right_review {
 	width: 15%;
 	position: fixed;
-	top: 400px;
+	top: 430px;
 	right: 0;
 	padding: 10px;
 	margin: 10px;
@@ -50,7 +50,7 @@
 	border-radius: 20px;
 	padding: 10px;
 	overflow-y: scroll;
-	height: 200px;
+	height: 190px;
 }
 
 .right_review .review_item {
