@@ -1,6 +1,8 @@
 package com.somplace.controller.member;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -62,10 +64,12 @@ public class LoginController {
 			mc.setToday(now.getDayOfMonth()); // 오늘
 			mc.setLastDate(now.lengthOfMonth()); // 해당 월의 마지막 날짜 ex)28, 30, 31
 			mc.setFirstDay(now.withDayOfMonth(1).getDayOfWeek().getValue()); // 해당 월의 시작 요일
-			joinMeetingIdList.addAll(meetingService.getMadeMeetingId(memberId));
+			List<Integer> myMeetingIdList = new ArrayList<Integer>();
+			myMeetingIdList.addAll(joinMeetingIdList);
+			myMeetingIdList.addAll(meetingService.getMadeMeetingId(memberId));
 			if(joinMeetingIdList.size() != 0) {
-				mc.setMyJoinIrregularList(irregularService.getMyJoinIrregularList(joinMeetingIdList));
-				mc.setMyJoinRegularList(regularService.getMyJoinRegularList(joinMeetingIdList));
+				mc.setMyJoinIrregularList(irregularService.getMyJoinIrregularList(myMeetingIdList));
+				mc.setMyJoinRegularList(regularService.getMyJoinRegularList(myMeetingIdList));
 			}
 			session.setAttribute("myCalendar", mc);
 			
