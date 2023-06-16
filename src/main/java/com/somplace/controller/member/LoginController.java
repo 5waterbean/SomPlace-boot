@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.somplace.domain.Member;
 import com.somplace.service.IrregularService;
+import com.somplace.service.MeetingService;
 import com.somplace.service.MemberMeetingService;
 import com.somplace.service.MemberService;
 import com.somplace.service.RegularService;
@@ -26,6 +27,9 @@ public class LoginController {
 
 	@Autowired
 	private MemberMeetingService memberMeetingService;
+	
+	@Autowired
+	private MeetingService meetingService;
 	
 	@Autowired
 	private IrregularService irregularService;
@@ -58,6 +62,7 @@ public class LoginController {
 			mc.setToday(now.getDayOfMonth()); // 오늘
 			mc.setLastDate(now.lengthOfMonth()); // 해당 월의 마지막 날짜 ex)28, 30, 31
 			mc.setFirstDay(now.withDayOfMonth(1).getDayOfWeek().getValue()); // 해당 월의 시작 요일
+			joinMeetingIdList.addAll(meetingService.getMadeMeetingId(memberId));
 			if(joinMeetingIdList.size() != 0) {
 				mc.setMyJoinIrregularList(irregularService.getMyJoinIrregularList(joinMeetingIdList));
 				mc.setMyJoinRegularList(regularService.getMyJoinRegularList(joinMeetingIdList));

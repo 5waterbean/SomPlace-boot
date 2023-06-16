@@ -15,7 +15,7 @@
 .right_review {
 	width: 15%;
 	position: fixed;
-	top: 400px;
+	top: 430px;
 	right: 0;
 	padding: 10px;
 	margin: 10px;
@@ -50,7 +50,7 @@
 	border-radius: 20px;
 	padding: 10px;
 	overflow-y: scroll;
-	height: 200px;
+	height: 190px;
 }
 
 .right_review .review_item {
@@ -71,36 +71,39 @@
 	<div class="right_review">
 
 		<c:set var="currentMemberId" value="${memberSession.memberId}" />
+		<c:set var="joinMemberIdList" value="${joinMemberIdList}" />
+		<c:set var="reviewMemberIdList" value="${reviewMemberIdList}" />
 
 		<div class="right_review_first">
 			<div>
 				<div>후기들</div>
 				<div>
-					(평점 <span class="score">4.5</span>)
+					(평점 <span class="score">${String.format("%.2f", scoreSum)}</span>)
 				</div>
 			</div>
 
-			<!-- <div class="right_review_btn"
-				onClick="location.href='/review/write/form?meetingId=' + ${regular.meetingId}">후기
-				작성하기</div>-->
-
-			<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+			<c:if test="${fn:contains(joinMemberIdList, currentMemberId)}">
+				<!--<c:if test="${fn:contains(reviewMemberIdList, currentMemberId) eq true}">
+					<div class="right_review_btn" onClick="updateReviewForm.submit();">후기
+							수정하기</div>
+				</c:if>
+				
+				<c:if test="${fn:contains(reviewMemberIdList, currentMemberId) eq false}">
+					<div class="right_review_btn" onClick="writeReviewForm.submit();">후기
+							작성하기</div>
+				</c:if>-->
+				
 				<c:choose>
-					<c:when test="${existReview}">
-						<div class="right_review_btn" onClick="updateForm.submit()">후기
+					<c:when test="${fn:contains(reviewMemberIdList, currentMemberId)}">
+						<div class="right_review_btn" onClick="updateReviewForm.submit();">후기
 							수정하기</div>
 					</c:when>
+
 					<c:otherwise>
-						<div class="right_review_btn"
-							onClick="location.href='/review/write/form?meetingId=' + ${regular.meetingId}">후기
+						<div class="right_review_btn" onClick="writeReviewForm.submit();">후기
 							작성하기</div>
 					</c:otherwise>
 				</c:choose>
-			</c:if>
-
-			<c:if test="${irregular.creatorId ne memberSession.memberId}">
-				<div class="right_review_btn" onClick="updateForm.submit()">후기
-					수정하기</div>
 			</c:if>
 		</div>
 
@@ -110,11 +113,10 @@
 			<c:forEach var="review" items="${reviewList}">
 				<div class="review_item">
 					<div class="star">
-						<c:forEach begin="0" end="${review.star}">
+						<c:forEach begin="1" end="${review.star}">
 							★	
-							
 						</c:forEach>
-						<c:forEach begin="${review.star}" end="5">
+						<c:forEach begin="${review.star + 1}" end="5">
 							☆
 						</c:forEach>
 					</div>
@@ -123,9 +125,18 @@
 
 				<br>
 			</c:forEach>
-
 		</div>
 	</div>
+
+	<form name="updateReviewForm" action="/review/update/form">
+		<input type="hidden" name="meetingId" value="${regular.meetingId}">
+		<input type="hidden" name="scoreSum" value="${scoreSum}">
+	</form>
+
+	<form name="writeReviewForm" action="/review/write/form">
+		<input type="hidden" name="meetingId" value="${regular.meetingId}">
+		<input type="hidden" name="scoreSum" value="${scoreSum}">
+	</form>
 </body>
 
 </html>
