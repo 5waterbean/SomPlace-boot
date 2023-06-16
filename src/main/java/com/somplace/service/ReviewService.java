@@ -30,4 +30,9 @@ public class ReviewService {
 	public List<Review> getReviewById(int meetingId) {
 		return reviewDao.getReviewById(meetingId);		
 	}
+	
+	//후기 한 개 목록 조회
+	public Review getReviewBymeetingIdAndId(int meetingId, String id) {
+		return reviewDao.getReviewBymeetingIdAndId(meetingId, id);
+	}
  }

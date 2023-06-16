@@ -117,11 +117,27 @@ public class InfoRegularController {
 		List<Review> reviewList = reviewService.getReviewById(checkedById);
 		mav.addObject("reviewList", reviewList);
 		
+		// 후기 아이디만 모아서 리스트로 만들기
 		List<String> reviewMemberIdList = new ArrayList<String>();		
 		for (Review review : reviewList) {
-			reviewMemberIdList.add(review.getId());
+			reviewMemberIdList.add(review.getId());			
 		}		
 		mav.addObject("reviewMemberIdList", reviewMemberIdList);
+		
+		// 후기 평균 계산
+		double scoreSum = 0;
+		int reviewLength = 0;
+		for (Review review : reviewList) {	
+			if(review.getMeetingId() == checkedById) {
+				scoreSum += review.getStar();
+				reviewLength += 1;
+			}
+		}
+		
+		if(scoreSum != 0) {			
+			scoreSum = scoreSum / reviewLength;
+		} 		
+		mav.addObject("scoreSum", scoreSum);
 		
 		// 신청자 목록 조회
 		List<String> applyMemberIdList = memberMeetingService.findApplyMemberIdList(checkedById);

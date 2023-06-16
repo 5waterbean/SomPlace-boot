@@ -3,6 +3,7 @@ package com.somplace.dao.mybatis.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.somplace.domain.Review;
 import com.somplace.domain.command.ReviewCommand;
@@ -17,4 +18,7 @@ public interface ReviewMapper {
 	
 	//후기 목록 조회
 	List<Review> getReviewById(int meetingId);
+	
+	//후기 한 개 조회
+	Review getReviewBymeetingIdAndId(@Param("meetingId")int meetingId, @Param("id")String id);
 }

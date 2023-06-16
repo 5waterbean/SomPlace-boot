@@ -58,7 +58,9 @@ input[type="text"] {
 	border: 2px solid black;
 }
 
+input[type="button"],
 input[type="submit"] {
+	text-align: center;
 	width: 100%;
 	padding: 5px;
 	border-radius: 20px;
@@ -72,6 +74,7 @@ input:hover {
 	cursor: pointer;
 }
 
+input[type="button"]:hover,
 input[type="submit"]:hover {
 	background-color: rgb(174, 220, 175);
 }
@@ -114,7 +117,6 @@ input[type="submit"]:hover {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	<jsp:include page="/WEB-INF/view/reviewList.jsp" />
 
-
 	<form:form name="updateForm" action="/review/update" method="post"
 		modelAttribute="reviewCommand" onsubmit="return create(this)">
 		<div class="container">
@@ -130,15 +132,21 @@ input[type="submit"]:hover {
 					<td>
 						<div class="star-rating space-x-4 mx-auto">
 							<input type="radio" id="5stars" name="star" value="5"
-								v-model="ratings" <c:if test="${review.star eq 5}">checked</c:if> /> <label for="5stars" class="star pr-4">★</label>
-							<input type="radio" id="4stars" name="star" value="4"
-								v-model="ratings" <c:if test="${review.star eq 4}">checked</c:if> /> <label for="4stars" class="star">★</label>
-							<input type="radio" id="3stars" name="star" value="3"
-								v-model="ratings" <c:if test="${review.star eq 3}">checked</c:if> /> <label for="3stars" class="star">★</label>
-							<input type="radio" id="2stars" name="star" value="2"
-								v-model="ratings" <c:if test="${review.star eq 2}">checked</c:if> /> <label for="2stars" class="star">★</label>
-							<input type="radio" id="1stars" name="star" value="1"
-								v-model="ratings" <c:if test="${review.star eq 1}">checked</c:if> /> <label for="1stars" class="star">★</label>
+								v-model="ratings"
+								<c:if test="${review.star eq 5}">checked</c:if> /> <label
+								for="5stars" class="star pr-4">★</label> <input type="radio"
+								id="4stars" name="star" value="4" v-model="ratings"
+								<c:if test="${review.star eq 4}">checked</c:if> /> <label
+								for="4stars" class="star">★</label> <input type="radio"
+								id="3stars" name="star" value="3" v-model="ratings"
+								<c:if test="${review.star eq 3}">checked</c:if> /> <label
+								for="3stars" class="star">★</label> <input type="radio"
+								id="2stars" name="star" value="2" v-model="ratings"
+								<c:if test="${review.star eq 2}">checked</c:if> /> <label
+								for="2stars" class="star">★</label> <input type="radio"
+								id="1stars" name="star" value="1" v-model="ratings"
+								<c:if test="${review.star eq 1}">checked</c:if> /> <label
+								for="1stars" class="star">★</label>
 						</div>
 					</td>
 				</tr>
@@ -149,10 +157,10 @@ input[type="submit"]:hover {
 
 				<tr>
 					<td colspan="2"></td>
-					<!-- td style="width: 20%;">
-					<div class="review_back_btn" onclick="location.href='/meeting/regular/info'">뒤로가기</div>
-					</td> -->
-					<td style="width: 20%;"><input type="submit" value="수정하기">
+					<td style="width: 15%;">
+					<input type="button" value="뒤로가기" onclick="history.back();">
+					</td>
+					<td style="width: 15%;"><input type="submit" value="수정하기">
 					</td>
 				</tr>
 			</table>
@@ -160,6 +168,7 @@ input[type="submit"]:hover {
 
 		<!-- reviewCommand에 들어가야할 5개의 값을 넘겨주기 위해서 hidden으로 데이터 안보이게 처리(reviewCommand에 모든 값이 넘어가야함) -->
 		<input type="hidden" name="meetingId" value="${regular.meetingId}">
+		<input type="hidden" name="scoreSum" value="${scoreSum}">
 		<input type="hidden" name="id" value="${memberSession.memberId}">
 	</form:form>
 
@@ -170,8 +179,9 @@ input[type="submit"]:hover {
 			let star3 = document.getElementById('3stars');
 			let star4 = document.getElementById('4stars');
 			let star5 = document.getElementById('5stars');
-			
-			if (!star1.checked && !star2.checked && !star3.checked && !star4.checked && !star5.checked) {
+
+			if (!star1.checked && !star2.checked && !star3.checked
+					&& !star4.checked && !star5.checked) {
 				alert("별점을 입력해주세요");
 
 				return false;

@@ -1,7 +1,5 @@
 package com.somplace.domain.command;
 
-import javax.validation.constraints.NotEmpty;
-
 import lombok.Data;
 
 @Data

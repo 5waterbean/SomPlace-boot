@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.somplace.dao.mybatis.mapper.ReviewMapper">
 	<cache />
-	<resultMap type="com.somplace.domain.Review"
+	<!-- <resultMap type="com.somplace.domain.Review"
 		id="reviewResultSet">
-		<result column="MEETINGID" property="meetingId" />
+		<result column="REVIEWID" property="reviewId" />
 		<result column="STAR" property="star" />
 		<result column="REVIEWMEMO" property="reviewMemo" />
-	</resultMap>
+		<result column="ID" property="id" />
+		<result column="MEETINGID" property="meetingId" />
+	</resultMap> -->
 
 	<!-- 후기 생성 -->
 	<insert id="createReview"
@@ -17,17 +19,24 @@
 		#{reviewMemo}, #{id}, #{meetingId})
 	</insert>
 
-	<!-- 후기 목록 조회 -->
-	<select id="getReviewById" resultMap="reviewResultSet">
-		SELECT star, reviewMemo, id
+	<!-- 후기 전체 목록 조회 -->
+	<select id="getReviewById" parameterType="map" resultType="Review">
+		SELECT reviewId, star, reviewMemo, id, meetingId
 		FROM REVIEW
-		WHERE review.meetingid = #{meetingId}
+		WHERE meetingId = #{meetingId}
+	</select>
+	
+	<!-- 후기 하나 조회 -->
+	<select id="getReviewBymeetingIdAndId" parameterType="map" resultType="Review">
+		SELECT reviewId, star, reviewMemo, id, meetingId
+		FROM REVIEW
+		WHERE meetingId = #{meetingId} AND id = #{id}
 	</select>
 
 	<!-- 후기 수정 -->
 	<update id="updateReview" parameterType="com.somplace.domain.command.ReviewCommand">
 		UPDATE Review
 		SET star = #{star}, reviewMemo = #{reviewMemo}
-		WHERE meetingId = #{meetingId}
+		WHERE meetingId = #{meetingId} AND id = #{id}
 	</update>
 </mapper>

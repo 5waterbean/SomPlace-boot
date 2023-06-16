@@ -71,25 +71,36 @@
 	<div class="right_review">
 
 		<c:set var="currentMemberId" value="${memberSession.memberId}" />
+		<c:set var="joinMemberIdList" value="${joinMemberIdList}" />
+		<c:set var="reviewMemberIdList" value="${reviewMemberIdList}" />
 
 		<div class="right_review_first">
 			<div>
 				<div>후기들</div>
 				<div>
-					(평점 <span class="score">4.5</span>)
+					(평점 <span class="score">${String.format("%.2f", scoreSum)}</span>)
 				</div>
 			</div>
 
 			<c:if test="${fn:contains(joinMemberIdList, currentMemberId)}">
+				<!--<c:if test="${fn:contains(reviewMemberIdList, currentMemberId) eq true}">
+					<div class="right_review_btn" onClick="updateReviewForm.submit();">후기
+							수정하기</div>
+				</c:if>
+				
+				<c:if test="${fn:contains(reviewMemberIdList, currentMemberId) eq false}">
+					<div class="right_review_btn" onClick="writeReviewForm.submit();">후기
+							작성하기</div>
+				</c:if>-->
+				
 				<c:choose>
 					<c:when test="${fn:contains(reviewMemberIdList, currentMemberId)}">
-						<div class="right_review_btn" onClick="updateForm.submit()">후기
+						<div class="right_review_btn" onClick="updateReviewForm.submit();">후기
 							수정하기</div>
 					</c:when>
 
 					<c:otherwise>
-						<div class="right_review_btn"
-							onClick="location.href='/review/write/form?meetingId=' + ${regular.meetingId}">후기
+						<div class="right_review_btn" onClick="writeReviewForm.submit();">후기
 							작성하기</div>
 					</c:otherwise>
 				</c:choose>
@@ -114,9 +125,18 @@
 
 				<br>
 			</c:forEach>
-
 		</div>
 	</div>
+
+	<form name="updateReviewForm" action="/review/update/form">
+		<input type="hidden" name="meetingId" value="${regular.meetingId}">
+		<input type="hidden" name="scoreSum" value="${scoreSum}">
+	</form>
+
+	<form name="writeReviewForm" action="/review/write/form">
+		<input type="hidden" name="meetingId" value="${regular.meetingId}">
+		<input type="hidden" name="scoreSum" value="${scoreSum}">
+	</form>
 </body>
 
 </html>
