@@ -10,6 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>irregularInfo</title>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <style>
 .container {
 	width: 65%;
@@ -408,10 +409,10 @@ h3, h4 {
 		                        <div class="member_list_td">
 		                            <div>
 		                                <div class="member">${creatorMember.name} / ${creatorMember.studentNumber} / ${creatorMember.major} / ${creatorMember.phone}</div>
-		                                <div class="member_good_btn">
+		                                <div class="member_good_btn" onClick="rateMember('${irregular.creatorId}','like')">
 		                                	<img src="../../../img/좋아요.png">
 		                                </div>
-		                                <div class="member_bad_btn">
+		                                <div class="member_bad_btn" onClick="rateMember('${irregular.creatorId}','dislike')">
 		                                	<img src="../../../img/싫어요.png">
 		                                </div>
 		                            </div>
@@ -429,10 +430,10 @@ h3, h4 {
 								<c:forEach var="joinMember" items="${joinMemberList}">
 									<div>
 										<div class="member">${joinMember.name} / ${joinMember.studentNumber} / ${joinMember.major} / ${joinMember.phone}</div>
-										<div class="member_good_btn">
+										<div class="member_good_btn" onClick="rateMember('${joinMember.memberId}','like')">
 											<img src="../../../img/좋아요.png">
 										</div>
-										<div class="member_bad_btn">
+										<div class="member_bad_btn" onClick="rateMember('${joinMember.memberId}','dislike')">
 											<img src="../../../img/싫어요.png">
 										</div>
 										<c:if test="${irregular.close eq 0 || irregular.cancel eq 0}">
@@ -584,6 +585,29 @@ h3, h4 {
 			function memberOut(applyMemberId) {
 				document.getElementById("memberOut").value = applyMemberId;
 				document.getElementById("memberOutForm").submit();
+			}
+			
+			function rateMember(evaluatedMember, type) {
+				var rater = '${memberSession.memberId}';
+				var meetingId = ${irregular.meetingId};
+				
+				$.ajax({
+					url : "/member/rating",
+					type : "post",
+					data : {"rater" : rater,
+							"evaluatedMember" : evaluatedMember,
+							"meetingId" : meetingId,
+							"type" : type }, 
+					success : function(data){
+						if(data == "rated") {
+							alert("이미 평가를 완료한 회원입니다");
+						} else if (data == "likeSuccess"){
+							alert("좋아요 성공");
+						} else {
+							alert("싫어요 성공");
+						}
+					}
+				})
 			}
 	</script>
 </body>

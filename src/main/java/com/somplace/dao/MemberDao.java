@@ -15,4 +15,8 @@ public interface MemberDao {
 	public void updateMember(MemberCommand memberComm) throws DataAccessException;
 	
 	public int deleteMember(String memberId) throws DataAccessException;
+	
+	public void updateMemberGood(String memberId) throws DataAccessException;
+	
+	public void updateMemberBad(String memberId) throws DataAccessException;
 }

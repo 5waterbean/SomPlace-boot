@@ -2,14 +2,12 @@ package com.somplace.controller.member;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -64,10 +62,12 @@ public class LoginController {
 			mc.setToday(now.getDayOfMonth()); // 오늘
 			mc.setLastDate(now.lengthOfMonth()); // 해당 월의 마지막 날짜 ex)28, 30, 31
 			mc.setFirstDay(now.withDayOfMonth(1).getDayOfWeek().getValue()); // 해당 월의 시작 요일
+			
+			// 내가 속한 모임아이디 리스트 + 내가 생성한 모임아이디 리스트
 			List<Integer> myMeetingIdList = new ArrayList<Integer>();
 			myMeetingIdList.addAll(joinMeetingIdList);
 			myMeetingIdList.addAll(meetingService.getMadeMeetingId(memberId));
-			if(joinMeetingIdList.size() != 0) {
+			if(myMeetingIdList.size() != 0) {
 				mc.setMyJoinIrregularList(irregularService.getMyJoinIrregularList(myMeetingIdList));
 				mc.setMyJoinRegularList(regularService.getMyJoinRegularList(myMeetingIdList));
 			}

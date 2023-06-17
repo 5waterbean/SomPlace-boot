@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.somplace.dao.mybatis.mapper.RatingMapper">
+	<cache/>
+	
+	<select id="ratingCheck" resultType="int"> 
+		SELECT COUNT(*)
+		FROM RATING
+		WHERE RATER = #{rater} AND EVALUATEDMEMBER = #{evaluatedMember} AND MEETINGID = #{meetingId}
+	</select>
+	
+	<insert id="likeMember"> 
+		INSERT INTO RATING
+		VALUES (#{rater}, #{evaluatedMember}, #{meetingId}, 1, 0)
+	</insert>
+	
+	<insert id="dislikeMember"> 
+		INSERT INTO RATING
+		VALUES (#{rater}, #{evaluatedMember}, #{meetingId}, 0, 1)
+	</insert>
+</mapper>

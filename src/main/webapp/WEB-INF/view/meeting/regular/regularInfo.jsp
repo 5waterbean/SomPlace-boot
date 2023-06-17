@@ -459,7 +459,7 @@ h3, h4 {
 				</tr>
 
 				<!-- 회원들만 모임장 정보 보이게 -->
-				<c:if test="${irregular.creatorId ne memberSession.memberId}">
+				<c:if test="${regular.creatorId ne memberSession.memberId}">
 					<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
 		                <tr> 
 		                    <th>모임장 정보</th>
@@ -467,10 +467,10 @@ h3, h4 {
 		                        <div class="member_list_td">
 		                            <div>
 		                                <div class="member">${creatorMember.name} / ${creatorMember.studentNumber} / ${creatorMember.major} / ${creatorMember.phone}</div>
-		                                <div class="member_good_btn">
+		                                <div class="member_good_btn" onClick="rateMember('${regular.creatorId}','like')">
 		                                	<img src="../../../img/좋아요.png">
 		                                </div>
-		                                <div class="member_bad_btn">
+		                                <div class="member_bad_btn" onClick="rateMember('${regular.creatorId}','dislike')">
 		                                	<img src="../../../img/싫어요.png">
 		                                </div>
 		                            </div>
@@ -489,10 +489,10 @@ h3, h4 {
 								<c:forEach var="joinMember" items="${joinMemberList}">
 									<div>
 										<div class="member">${joinMember.name} / ${joinMember.studentNumber} / ${joinMember.major} / ${joinMember.phone}</div>
-										<div class="member_good_btn">
+										<div class="member_good_btn" onClick="rateMember('${joinMember.memberId}','like')">
 											<img src="../../img/좋아요.png">
 										</div>
-										<div class="member_bad_btn">
+										<div class="member_bad_btn" onClick="rateMember('${joinMember.memberId}','dislike')">
 											<img src="../../img/싫어요.png">
 										</div>
 										<c:if test="${regular.close eq 0 || regular.cancel eq 0}">
@@ -658,6 +658,29 @@ h3, h4 {
 		function memberOut(applyMemberId) {
 			document.getElementById("memberOut").value = applyMemberId;
 			document.getElementById("memberOutForm").submit();
+		}
+		
+		function rateMember(evaluatedMember, type) {
+			var rater = '${memberSession.memberId}';
+			var meetingId = ${regular.meetingId};
+			
+			$.ajax({
+				url : "/member/rating",
+				type : "post",
+				data : {"rater" : rater,
+						"evaluatedMember" : evaluatedMember,
+						"meetingId" : meetingId,
+						"type" : type }, 
+				success : function(data){
+					if(data == "rated") {
+						alert("이미 평가를 완료한 회원입니다");
+					} else if (data == "likeSuccess"){
+						alert("좋아요 성공");
+					} else {
+						alert("싫어요 성공");
+					}
+				}
+			})
 		}
 	</script>
 	
