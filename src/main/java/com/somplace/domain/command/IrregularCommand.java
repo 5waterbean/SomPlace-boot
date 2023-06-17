@@ -2,9 +2,10 @@ package com.somplace.domain.command;
 
 import java.sql.Timestamp;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
 public class IrregularCommand extends MeetingCommand {
 	private Timestamp irregularMeetingDay;
 	private String irregularMeetingDate;

@@ -5,9 +5,10 @@ import java.sql.Date;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
 public class RegularCommand extends MeetingCommand {
 	// regular
 	@Size(min = 1, max = 40, message = "10자 이내로 입력해주세요.")
