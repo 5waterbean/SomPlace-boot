@@ -16,4 +16,8 @@ public interface MemberMapper {
 	void updateMember(MemberCommand memberComm);
 	
 	int deleteMember(String memberId);
+	
+	void updateMemberGood(String memberId);
+	
+	void updateMemberBad(String memberId);
 }

@@ -33,4 +33,12 @@ public class MybatisMemberDao implements MemberDao {
 	public int deleteMember(String memberId) throws DataAccessException {
 		return memberMapper.deleteMember(memberId);
 	}
+	
+	public void updateMemberGood(String memberId) throws DataAccessException {
+		memberMapper.updateMemberGood(memberId);
+	}
+	
+	public void updateMemberBad(String memberId) throws DataAccessException {
+		memberMapper.updateMemberBad(memberId);
+	}
 }

@@ -9,12 +9,12 @@
 		WHERE ID = #{memberId}
 	</select>
 	
-	<select id="createMember" parameterType="com.somplace.domain.command.MemberCommand"> 
+	<insert id="createMember" parameterType="com.somplace.domain.command.MemberCommand"> 
 		INSERT INTO MEMBER
 		VALUES (#{memberId}, #{pw}, #{name}, 
 				#{studentNumberIntType}, #{major}, #{phone}, 
 				#{birth}, 0, 0)
-	</select>
+	</insert>
 
 	<select id="memberIdCheck" resultType="int"> 
 		SELECT COUNT(*)
@@ -29,6 +29,18 @@
 			MAJOR = #{major},
 			PHONE = #{phone}
 		WHERE ID = #{memberId}
+	</update>
+	
+	<update id="updateMemberGood">
+		UPDATE MEMBER
+		SET good = good + 1
+		WHERE id = #{memberId}
+	</update>
+	
+	<update id="updateMemberBad">
+		UPDATE MEMBER
+		SET bad = bad + 1
+		WHERE id = #{memberId}
 	</update>
 	
 	<delete id="deleteMember">
