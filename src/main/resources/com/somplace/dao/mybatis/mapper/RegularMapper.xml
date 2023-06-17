@@ -24,23 +24,31 @@
 	<sql id="selectRegularView_fragment">
 		SELECT MEETINGID, MEETINGTITLE, NUMOFPEOPLE, MAXPEOPLE,
 		MEETINGPLACE,
-		MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL, CREATORID,
+		MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL,
+		CREATORID,
 		MEETINGNAME, MEETINGDAY, STARTDAY, MEETINGTIME
-		FROM regularmeeting_view m
+		FROM
+		regularmeeting_view m
 	</sql>
 
 	<sql id="selectRegularJoin_fragment">
 		SELECT m.meetingid AS MEETINGID, m.meetingtitle AS
 		MEETINGTITLE, m.numofpeople AS NUMOFPEOPLE,
-		m.maxpeople AS MAXPEOPLE, m.meetingplace AS MEETINGPLACE, m.memo AS MEMO,
-		m.meetinginfo AS MEETINGINFO,
-		m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS CLOSE, m.cancel AS CANCEL,
+		m.maxpeople AS MAXPEOPLE,
+		m.meetingplace AS MEETINGPLACE, m.memo AS MEMO,
+		m.meetinginfo AS
+		MEETINGINFO,
+		m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS
+		CLOSE, m.cancel AS CANCEL,
 		m.creatorid AS CREATORID,
-		m.meetingname AS MEETINGNAME, m.meetingday AS MEETINGDAY, m.startday AS STARTDAY,
+		m.meetingname AS
+		MEETINGNAME, m.meetingday AS MEETINGDAY, m.startday AS STARTDAY,
 		m.meetingtime AS MEETINGTIME,
-		count(case when mm.heart = 1 then 1 end) AS heart
+		count(case when mm.heart = 1 then 1 end)
+		AS heart
 		FROM regularmeeting_view m LEFT
-		OUTER JOIN member_meeting mm ON m.meetingid = mm.meetingid
+		OUTER JOIN member_meeting mm ON
+		m.meetingid = mm.meetingid
 	</sql>
 
 	<!-- 정기적모임 조회 -->
@@ -53,7 +61,8 @@
 	<insert id="createRegular"
 		parameterType="com.somplace.domain.command.RegularCommand">
 		INSERT INTO regularMeeting VALUES
-		(#{meetingName}, #{regularMeetingDay, jdbcType=VARCHAR}, #{meetingId}, #{startDay},
+		(#{meetingName},
+		#{regularMeetingDay, jdbcType=VARCHAR}, #{meetingId}, #{startDay},
 		#{meetingTime})
 	</insert>
 
@@ -100,7 +109,8 @@
 		GROUP BY m.meetingid, m.meetingtitle,
 		m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
 		m.meetinginfodetail,
-		m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday, m.startday,
+		m.creatorid, m.close, m.cancel, m.meetingname,
+		m.meetingday, m.startday,
 		m.meetingtime
 		ORDER BY count(mm.heart) DESC
 	</select>
@@ -122,7 +132,8 @@
 		GROUP BY m.meetingid, m.meetingtitle,
 		m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
 		m.meetinginfodetail,
-		m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday, m.startday,
+		m.creatorid, m.close, m.cancel, m.meetingname,
+		m.meetingday, m.startday,
 		m.meetingtime
 		ORDER BY count(mm.heart) DESC
 	</select>

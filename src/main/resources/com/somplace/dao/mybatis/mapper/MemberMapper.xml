@@ -4,10 +4,12 @@
 	<cache />
 
 	<select id="getMember" resultType="Member">
-		SELECT ID as memberId, PW, NAME, STUDENTNUMBER, MAJOR, PHONE, GOOD, BAD,
+		SELECT ID as memberId, PW,
+		NAME, STUDENTNUMBER, MAJOR, PHONE, GOOD, BAD,
 		BIRTH
 		FROM MEMBER
-		WHERE ID = #{memberId}
+		WHERE ID
+		= #{memberId}
 	</select>
 
 	<insert id="createMember"
@@ -29,7 +31,8 @@
 		UPDATE MEMBER
 		SET PW = #{pw},
 		NAME = #{name},
-		MAJOR = #{major},
+		MAJOR =
+		#{major},
 		PHONE = #{phone}
 		WHERE ID = #{memberId}
 	</update>

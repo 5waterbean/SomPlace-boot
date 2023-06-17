@@ -5,18 +5,23 @@
 	<sql id="selectMeeting_fragment">
 		SELECT MEETINGID, MEETINGTITLE, NUMOFPEOPLE, MAXPEOPLE,
 		MEETINGPLACE,
-		MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL, CREATORID
+		MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL,
+		CREATORID
 		FROM MEETING
 	</sql>
 
 	<sql id="selectJoin_fragment">
 		SELECT m.meetingid AS MEETINGID, m.meetingtitle AS
 		MEETINGTITLE, m.numofpeople AS NUMOFPEOPLE,
-		m.maxpeople AS MAXPEOPLE, m.meetingplace AS MEETINGPLACE, m.memo AS MEMO,
-		m.meetinginfo AS MEETINGINFO,
-		m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS CLOSE, m.cancel AS CANCEL,
+		m.maxpeople AS MAXPEOPLE,
+		m.meetingplace AS MEETINGPLACE, m.memo AS MEMO,
+		m.meetinginfo AS
+		MEETINGINFO,
+		m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS
+		CLOSE, m.cancel AS CANCEL,
 		m.creatorid AS CREATORID,
-		count(case when mm.heart = 1 then 1 end) AS heart
+		count(case when
+		mm.heart = 1 then 1 end) AS heart
 		FROM meeting m LEFT OUTER JOIN
 		member_meeting mm ON m.meetingid = mm.meetingid
 	</sql>
@@ -109,14 +114,16 @@
 		meetingTitle=#{meetingTitle} AND maxPeople=#{maxPeople} AND
 		meetingPlace=#{meetingPlace} AND (memo=#{memo} OR memo is null) AND
 		meetingInfo=#{meetingInfo} AND
-		meetingInfoDetail=#{meetingInfoDetail} AND creatorId=#{creatorId}
+		meetingInfoDetail=#{meetingInfoDetail}
+		AND creatorId=#{creatorId}
 	</select>
 
 	<!-- 모임 생성 -->
 	<insert id="createMeeting"
 		parameterType="com.somplace.domain.command.MeetingCommand">
 		INSERT INTO meeting VALUES
-		(meetingid_seq.nextval, #{meetingTitle}, 1, #{maxPeople}, #{meetingPlace}, #{memo},
+		(meetingid_seq.nextval,
+		#{meetingTitle}, 1, #{maxPeople}, #{meetingPlace}, #{memo},
 		#{meetingInfo}, #{meetingInfoDetail}, #{creatorId}, 0, 0)
 	</insert>
 
@@ -133,7 +140,8 @@
 	<!-- 현재인원 수정 -->
 	<update id="updateNumOfPeople" parameterType="map">
 		UPDATE meeting
-		SET numOfPeople = #{count}
+		SET
+		numOfPeople = #{count}
 		WHERE meetingId = #{meetingId}
 	</update>
 

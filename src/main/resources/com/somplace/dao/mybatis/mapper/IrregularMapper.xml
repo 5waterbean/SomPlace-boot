@@ -22,7 +22,8 @@
 	<sql id="selectIrregular_view_fragment">
 		SELECT meetingId, meetingTitle, meetingDate, numOfPeople,
 		maxPeople, meetingPlace, memo,
-		meetingInfo, meetingInfoDetail, creatorId, close, cancel
+		meetingInfo, meetingInfoDetail,
+		creatorId, close, cancel
 		FROM irregularmeeting_view
 	</sql>
 
@@ -58,16 +59,22 @@
 		SELECT vi.meetingid,
 		vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace,
 		vi.memo,
-		vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingdate, vi.close,
+		vi.meetinginfo, vi.meetinginfodetail, vi.creatorid,
+		vi.meetingdate, vi.close,
 		vi.cancel
-		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting
+		FROM irregularmeeting_view vi LEFT
+		OUTER JOIN member_meeting
 		mm ON vi.meetingid = mm.meetingid
-		GROUP BY vi.meetingid,
-		vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace,
+		GROUP BY
+		vi.meetingid,
+		vi.meetingtitle, vi.numofpeople, vi.maxpeople,
+		vi.meetingplace,
 		vi.memo,
-		vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingdate, vi.close,
+		vi.meetinginfo, vi.meetinginfodetail,
+		vi.creatorid, vi.meetingdate, vi.close,
 		vi.cancel
-		ORDER BY count(mm.heart) DESC
+		ORDER BY
+		count(mm.heart) DESC
 	</select>
 
 	<!-- 일시적모임 카테고리별 최신순 정렬 -->
@@ -81,15 +88,20 @@
 	<select resultMap="irregularResultSet"
 		id="sortIrregularCategoryByHeart">
 		SELECT vi.meetingid,
-		vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace,
+		vi.meetingtitle, vi.numofpeople, vi.maxpeople,
+		vi.meetingplace,
 		vi.memo,
-		vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingdate, vi.close,
+		vi.meetinginfo, vi.meetinginfodetail,
+		vi.creatorid, vi.meetingdate, vi.close,
 		vi.cancel
-		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting
-		mm ON vi.meetingid = mm.meetingid
+		FROM
+		irregularmeeting_view vi LEFT OUTER JOIN member_meeting
+		mm ON
+		vi.meetingid = mm.meetingid
 		WHERE meetingInfo = #{category}
 		GROUP
-		BY vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople,
+		BY
+		vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople,
 		vi.maxpeople, vi.meetingplace, vi.memo, vi.meetinginfo,
 		vi.meetinginfodetail, vi.creatorid, vi.close, vi.cancel
 		ORDER BY
@@ -109,16 +121,23 @@
 		id="sortIrregularByKeyHeart">
 		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople,
 		vi.meetingplace, vi.memo,
-		vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingdate, vi.close,
+		vi.meetinginfo, vi.meetinginfodetail,
+		vi.creatorid, vi.meetingdate, vi.close,
 		vi.cancel
-		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting
-		mm ON vi.meetingid = mm.meetingid
+		FROM
+		irregularmeeting_view vi LEFT OUTER JOIN member_meeting
+		mm ON
+		vi.meetingid = mm.meetingid
 		WHERE (meetingTitle LIKE
-		'%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+		'%'||#{key}||'%' OR
+		memo LIKE '%'||#{key}||'%') and close = 0
 		GROUP BY
-		vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople,
-		vi.maxpeople, vi.meetingplace, vi.memo, vi.meetinginfo,
-		vi.meetinginfodetail, vi.creatorid, vi.close, vi.cancel
+		vi.meetingid,
+		vi.meetingtitle, vi.meetingdate, vi.numofpeople,
+		vi.maxpeople,
+		vi.meetingplace, vi.memo, vi.meetinginfo,
+		vi.meetinginfodetail,
+		vi.creatorid, vi.close, vi.cancel
 		ORDER BY
 		count(mm.heart) DESC
 	</select>
@@ -129,7 +148,8 @@
 		<include refid="selectIrregular_view_fragment" />
 		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
 		'%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
-		ORDER BY meetingId DESC
+		ORDER BY
+		meetingId DESC
 	</select>
 
 	<!-- 일시적모임 카테고리별(키워드) 검색, 인기순 정렬 -->
@@ -138,18 +158,25 @@
 		SELECT
 		vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople,
 		vi.meetingplace, vi.memo,
-		vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.meetingdate, vi.close,
+		vi.meetinginfo, vi.meetinginfodetail,
+		vi.creatorid, vi.meetingdate, vi.close,
 		vi.cancel
-		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting
-		mm ON vi.meetingid = mm.meetingid
+		FROM
+		irregularmeeting_view vi LEFT OUTER JOIN member_meeting
+		mm ON
+		vi.meetingid = mm.meetingid
 		WHERE (meetingTitle LIKE
-		'%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and
+		'%'||#{key}||'%' OR
+		memo LIKE '%'||#{key}||'%') and close = 0 and
 		meetingInfo=#{category}
 		GROUP BY vi.meetingid, vi.meetingtitle,
-		vi.meetingdate, vi.numofpeople, vi.maxpeople, vi.meetingplace,
-		vi.memo, vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.close,
+		vi.meetingdate, vi.numofpeople,
+		vi.maxpeople, vi.meetingplace,
+		vi.memo, vi.meetinginfo,
+		vi.meetinginfodetail, vi.creatorid, vi.close,
 		vi.cancel
-		ORDER BY count(mm.heart) DESC
+		ORDER BY
+		count(mm.heart) DESC
 	</select>
 
 	<!-- 내가 속한 일시적 모임 조회 -->

@@ -38,13 +38,15 @@
 
 	<!-- 모임 신청 (찜하기 안했을 경우) -->
 	<insert id="insertApplyMeeting" parameterType="map">
-		INSERT INTO member_meeting
+		INSERT INTO
+		member_meeting
 		VALUES (#{memberId}, #{meetingId}, 1, 0)
 	</insert>
 
 	<!-- 모임 찜하기 (모임 신청 안했을 경우) -->
 	<insert id="insertHeartMeeting" parameterType="map">
-		INSERT INTO member_meeting
+		INSERT INTO
+		member_meeting
 		VALUES (#{memberId}, #{meetingId}, -1, 1)
 	</insert>
 

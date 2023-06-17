@@ -88,7 +88,7 @@
 		<div class="divTable">
 			<table id="calendar">
 				<tr style="border: 0px;">
-					<th colspan="7">${myCalendar.month}월 일정</th>
+					<th colspan="7">${myCalendar.month}월일정</th>
 				</tr>
 
 				<c:set var="num" value="1" />
