@@ -2,11 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.somplace.dao.mybatis.mapper.ReviewMapper">
 	<cache />
-	<!-- <resultMap type="com.somplace.domain.Review" id="reviewResultSet"> 
-		<result column="REVIEWID" property="reviewId" /> <result column="STAR" property="star" 
-		/> <result column="REVIEWMEMO" property="reviewMemo" /> <result column="ID" 
-		property="id" /> <result column="MEETINGID" property="meetingId" /> </resultMap> -->
-
 	<!-- 후기 생성 -->
 	<insert id="createReview"
 		parameterType="com.somplace.domain.command.ReviewCommand">
