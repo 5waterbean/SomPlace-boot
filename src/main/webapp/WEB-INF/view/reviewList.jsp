@@ -82,29 +82,21 @@
 				</div>
 			</div>
 
-			<c:if test="${fn:contains(joinMemberIdList, currentMemberId)}">
-				<!--<c:if test="${fn:contains(reviewMemberIdList, currentMemberId) eq true}">
-					<div class="right_review_btn" onClick="updateReviewForm.submit();">후기
-							수정하기</div>
-				</c:if>
-				
-				<c:if test="${fn:contains(reviewMemberIdList, currentMemberId) eq false}">
-					<div class="right_review_btn" onClick="writeReviewForm.submit();">후기
-							작성하기</div>
-				</c:if>-->
-				
+			<c:forEach var="memberId" items="${joinMemberIdList}">
+				<c:if test="${memberId == currentMemberId }">
 				<c:choose>
-					<c:when test="${fn:contains(reviewMemberIdList, currentMemberId)}">
-						<div class="right_review_btn" onClick="updateReviewForm.submit();">후기
-							수정하기</div>
-					</c:when>
+						<c:when test="${fn:contains(reviewMemberIdList, currentMemberId)}">
+							<div class="right_review_btn"
+								onClick="updateReviewForm.submit();">후기 수정하기</div>
+						</c:when>
 
-					<c:otherwise>
+						<c:otherwise>
 						<div class="right_review_btn" onClick="writeReviewForm.submit();">후기
 							작성하기</div>
 					</c:otherwise>
 				</c:choose>
-			</c:if>
+				</c:if>
+			</c:forEach>
 		</div>
 
 		<br>
