@@ -168,9 +168,9 @@
 	<div class="container">
 		<table>
 			<tr>
-				<c:set var="study" value="../../img/read.png" />
-				<c:set var="meal" value="../../img/english-breakfast.png" />
-				<c:set var="hobby" value="../../img/lifestyle.png" />
+				<c:set var="study" value="../../../img/read.png" />
+				<c:set var="meal" value="../../../img/english-breakfast.png" />
+				<c:set var="hobby" value="../../../img/lifestyle.png" />
 				<c:forEach var="meeting" items="${myMeetingList}">
 					<td>
 						<form id="${meeting.meetingId}" action="/meeting/info"
