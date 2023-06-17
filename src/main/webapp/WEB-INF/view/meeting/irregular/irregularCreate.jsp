@@ -156,7 +156,8 @@ button {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	
 	<div class="container">
-		<form:form action="/meeting/irregular/create" method="post" modelAttribute="meetingCommand">
+		<form:form action="/meeting/irregular/create" method="post" modelAttribute="meetingCommand"
+						onsubmit="return create(this)">
 			<div>
 				<h2>일시적 모임 만들기</h2>
 			</div>
@@ -185,7 +186,7 @@ button {
 				<tr>
 					<th>제목</th>
 					<td colspan="3"><input type="text" id="title" name="meetingTitle"
-						size="90" value ="${meetingCommand.meetingTitle}" required></td>
+						size="90" value ="${meetingCommand.meetingTitle}" pattern=".{1,15}" required title="15자 이내로 작성해주세요."></td>
 				</tr>
 
 				<tr>
@@ -199,7 +200,7 @@ button {
 				<tr>
 					<th>모임 장소</th>
 					<td colspan="3"><input type="text" id="meetingPlace"
-						name="meetingPlace" size="30" value ="${meetingCommand.meetingPlace}" required></td>
+						name="meetingPlace" size="30" value ="${meetingCommand.meetingPlace}" pattern=".{1,15}" required title="15자 이내로 작성해주세요."></td>
 				</tr>
 				<tr>
 					<th>모임 날짜/시간</th>
@@ -210,8 +211,8 @@ button {
 				</tr>
 				<tr>
 					<th>모임 메모</th>
-					<td colspan="3"><textarea class="regular_memo" id="memo" name="memo"
-							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요."></textarea></td>
+					<td colspan="3"><textarea class="irregular_memo" id="memo" name="memo"
+							placeholder="모임 상세 정보 등을 60자 이내로 자유롭게 작성해주세요."></textarea></td>
 				</tr>
 				<tr>
 					<th>카테고리</th>
@@ -317,7 +318,7 @@ button {
 					<td></td>
 					<td></td>
 					<td>
-						<button type="submit" onclick="create()">생성하기</button>
+						<button type="submit">생성하기</button>
 					</td>
 					<td>
 						<div class="irregular_back_btn" onclick="location.href='/meeting/sort/all';">취소하기</div>
@@ -328,26 +329,15 @@ button {
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
-	let d = new Date();
-	let date = d.toISOString().substring(0, 10);
-	let hr = d.getHours();
-	let min = d.getMinutes();
-	let time = hr + ':' + min;
-	document.querySelector('input[type="date"]').min = date;
+	document.querySelector('input[type="date"]').min = new Date()
+	.toISOString().substring(0, 10);
 	
-	function compareDate(cd) {
-		console.log(document.querySelector('input[type="time"]').value);
-		if (cd == date) {
-			document.querySelector('input[type="time"]').min = time;
-		}
-	}
-	
-	let mealEtc = document.querySelector("#mealEtc");
-	let mealEtcTextDetail = document.querySelector('#mealEtcTextDetail');
-	let studyEtc = document.querySelector("#studyEtc");
-	let studyEtcTextDetail = document.querySelector('#studyEtcTextDetail');
-	let hobbyEtc = document.querySelector("#hobbyEtc");
-	let hobbyEtcTextDetail = document.querySelector('#hobbyEtcTextDetail');
+	var mealEtc = document.querySelector("#mealEtc");
+	var mealEtcTextDetail = document.querySelector('#mealEtcTextDetail');
+	var studyEtc = document.querySelector("#studyEtc");
+	var studyEtcTextDetail = document.querySelector('#studyEtcTextDetail');
+	var hobbyEtc = document.querySelector("#hobbyEtc");
+	var hobbyEtcTextDetail = document.querySelector('#hobbyEtcTextDetail');
 	
 	function create() {
         if (mealEtc.checked) {
@@ -371,6 +361,20 @@ button {
         		detailValue.value = hobbyEtcTextDetail.value;
         	}
         }
+        
+        var obj = document.getElementById("memo").value;
+        var text_len = obj.length;
+        if(text_len >= 60) {
+        	alert("60자 이내로 작성해주세요.");
+        	document.getElementById("memo").focus();
+        	return false;
+        }
+        
+        var r = confirm("생성하시겠습니까?");
+        if (r == true) {
+            alert("생성되었습니다.")
+        } 
+        return r;
     }
 	
 	$(document).ready(function() {
@@ -378,9 +382,9 @@ button {
 		document.getElementById("hobbyDetail").style.display = "none";
 	});
 	
-	let allMeal = document.querySelectorAll('#mealDetail > div > input[type="checkbox"]');
-	let allStudy = document.querySelectorAll('#studyDetail > div > input[type="checkbox"]');
-	let allHobby = document.querySelectorAll('#hobbyDetail > div > input[type="checkbox"]');
+	var allMeal = document.querySelectorAll('#mealDetail > div > input[type="checkbox"]');
+	var allStudy = document.querySelectorAll('#studyDetail > div > input[type="checkbox"]');
+	var allHobby = document.querySelectorAll('#hobbyDetail > div > input[type="checkbox"]');
 	
 	function showDetail(infoId) {
 		if (infoId == "meal") {
@@ -388,11 +392,11 @@ button {
 			document.getElementById("studyDetail").style.display = "none";
 			document.getElementById("hobbyDetail").style.display = "none";
 			
-	        for (let i = 0; i < allStudy.length; i++) {
+	        for (var i = 0; i < allStudy.length; i++) {
 	            allStudy[i].checked = false;
 	        }
 	        
-	        for (let i = 0; i < allHobby.length; i++) {
+	        for (var i = 0; i < allHobby.length; i++) {
 	            allHobby[i].checked = false;
 	        }
 	        
@@ -401,11 +405,11 @@ button {
 			document.getElementById("studyDetail").style.display = "";
 			document.getElementById("hobbyDetail").style.display = "none";
 			
-	        for (let i = 0; i < allMeal.length; i++) {
+	        for (var i = 0; i < allMeal.length; i++) {
 	            allMeal[i].checked = false;
 	        }
 	        
-	        for (let i = 0; i < allHobby.length; i++) {
+	        for (var i = 0; i < allHobby.length; i++) {
 	            allHobby[i].checked = false;
 	        }
 		} else {
@@ -413,15 +417,16 @@ button {
 			document.getElementById("studyDetail").style.display = "none";
 			document.getElementById("hobbyDetail").style.display = "";
 			
-	        for (let i = 0; i < allMeal.length; i++) {
+	        for (var i = 0; i < allMeal.length; i++) {
 	            allMeal[i].checked = false;
 	        }
 	        
-	        for (let i = 0; i < allStudy.length; i++) {
+	        for (var i = 0; i < allStudy.length; i++) {
 	            allStudy[i].checked = false;
 	        }
 		}
 	}
+
 	</script>
 </body>
 

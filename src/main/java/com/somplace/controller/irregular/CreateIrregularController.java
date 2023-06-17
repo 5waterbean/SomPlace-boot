@@ -49,7 +49,6 @@ public class CreateIrregularController {
 			meetingDate = itr.nextToken().trim() + "/" + itr.nextToken().trim() + "/" + itr.nextToken().trim();
 			String meetingTime = meetingCommand.getIrregularMeetingTime();
 			String meetingDay = meetingDate + " " + meetingTime;
-			System.out.println(meetingTime);
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 			LocalDateTime localDateTime = LocalDateTime.parse(meetingDay, formatter);
