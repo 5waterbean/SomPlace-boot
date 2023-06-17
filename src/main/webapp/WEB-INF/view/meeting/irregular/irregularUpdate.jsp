@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -151,7 +152,7 @@ button {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 	
 	<div class="container">
-		<form action="/meeting/irregular/update" method="post">
+		<form:form action="/meeting/irregular/update" method="post" onsubmit="return update(this)">
 			<div>
 				<h2>일시적모임 수정하기</h2>
 			</div>
@@ -178,7 +179,7 @@ button {
 				<tr>
 					<th>제목</th>
 					<td colspan="3"><input type="text" id="title" name="meetingTitle"
-						size="90" required value="${irregular.meetingTitle}"></td>
+						size="90" value="${irregular.meetingTitle}" pattern=".{1,15}" required title="15자 이내로 작성해주세요."></td>
 				</tr>
 
 				<tr>
@@ -191,7 +192,7 @@ button {
 				<tr>
 					<th>모임 장소</th>
 					<td colspan="3"><input type="text" id="meetingPlace"
-						name="meetingPlace" size="30" required value="${irregular.meetingPlace}"></td>
+						name="meetingPlace" size="30" value="${irregular.meetingPlace}" pattern=".{1,15}" required title="15자 이내로 작성해주세요."></td>
 				</tr>
 
 				<tr>
@@ -204,7 +205,7 @@ button {
 
 				<tr>
 					<th>모임 메모</th>
-					<td colspan="3"><textarea class="regular_memo" name="memo"
+					<td colspan="3"><textarea class="irregular_memo" name="memo" id="memo"
 							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요.">${irregular.memo}</textarea>
 					</td>
 				</tr>
@@ -265,7 +266,7 @@ button {
 	                           </div>
 	                           <div>
 	                               <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"  disabled
-	                               	<c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>>
+	                               	<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
 	                                <label for="etc">
 	                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력" disabled value="${detailValue}">
 	                               </label>
@@ -298,7 +299,7 @@ button {
                             </div>
                             <div>
                                 <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)" disabled
-                                	<c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>>
+                                	<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
                                 <label for="etc">
                                     <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력" disabled value="${detailValue}">
                                 </label>
@@ -325,7 +326,7 @@ button {
 							</div>
 							<div>
 								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)" disabled
-									<c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>> 
+									<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>> 
 								<label for="etc">
 									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요." disabled value="${detailValue}">
 								</label>
@@ -339,24 +340,24 @@ button {
 					<td></td>
 					<td></td>
 					<td>
-						<button type="submit" onclick="update()">수정하기</button>
+						<button type="submit">수정하기</button>
 					</td>
 					<td>
 						<div class="irregular_back_btn" onclick="history.back();">취소하기</div>
 					</td>
 				</tr>
 			</table>
-		</form>
+		</form:form>
 	</div>
 
 	<script>
 		document.querySelector('input[type="date"]').min = new Date()
 				.toISOString().substring(0, 10);
 
- 		let etc = document.querySelector("#etc");
-    	let etcTextDetail = document.querySelector('#etcTextDetail');
+ 		var etc = document.querySelector("#etc");
+    	var etcTextDetail = document.querySelector('#etcTextDetail');
     	
-    	let category = document.querySelector("#category");
+    	var category = document.querySelector("#category");
 
 		function update() {
     		if (etc.checked) {
@@ -364,45 +365,20 @@ button {
             		etc.value = etcTextDetail.value;
         		}
     		}
-		}
-
-    	$(document).ready(function() {
-    		if (category.equals("식사")) {
-    			document.getElementById("studyDetail").style.display = "none";
-    			document.getElementById("hobbyDetail").style.display = "none";
-    		}
-    		else if (category.equals("스터디")) {
-    			document.getElementById("mealDetail").style.display = "none";
-    			document.getElementById("hobbyDetail").style.display = "none";
-    		}
-    		else {
-    			document.getElementById("mealDetail").style.display = "none";
-    			document.getElementById("studyDetail").style.display = "none";
-    		}
-		});
-	
-		function showDetail(infoId) {
-			if (infoId == "meal") {
-				document.getElementById("mealDetail").style.display = "";
-				document.getElementById("studyDetail").style.display = "none";
-				document.getElementById("hobbyDetail").style.display = "none";
-			} else if (infoId == "study") {
-				document.getElementById("mealDetail").style.display = "none";
-				document.getElementById("studyDetail").style.display = "";
-				document.getElementById("hobbyDetail").style.display = "none";
-			} else {
-				document.getElementById("mealDetail").style.display = "none";
-				document.getElementById("studyDetail").style.display = "none";
-				document.getElementById("hobbyDetail").style.display = "";
-			}
-		}
-	
-		function etcVal(etc) {
-			var etcText = regularCreateForm.etcTextDetail.value;
-			alert(etcText);
-			if (etc.checked) {
-				$('#etc').attr('value', etcText);
-			}
+    		
+    		var obj = document.getElementById("memo").value;
+            var text_len = obj.length;
+            if(text_len >= 60) {
+            	alert("60자 이내로 작성해주세요.");
+            	document.getElementById("memo").focus();
+            	return false;
+            }
+            
+            var r = confirm("수정하시겠습니까?");
+            if (r == true) {
+                alert("수정되었습니다.")
+            } 
+            return r;
 		}
 	</script>
 </body>

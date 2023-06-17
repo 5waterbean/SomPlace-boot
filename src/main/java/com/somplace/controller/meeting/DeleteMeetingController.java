@@ -20,7 +20,6 @@ public class DeleteMeetingController {
 		ModelAndView mav = new ModelAndView("redirect:/meeting/info");
 		mav.addObject("checkedById", meetingId);
 		meetingService.deleteMeeting(meetingId);
-		System.out.println("delete");
 		return mav;
 	}
 }

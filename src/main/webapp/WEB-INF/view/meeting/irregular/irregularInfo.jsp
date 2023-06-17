@@ -120,7 +120,7 @@ h3, h4 {
 .member_list_td {
 	border: 1px solid gray;
 	border-radius: 20px;
-	height: 150px;
+	height: 250px;
 	overflow-y: scroll;
 	resize: none;
 }
@@ -271,7 +271,7 @@ h3, h4 {
 				</tr>
 				<tr>
 					<th>모임 메모</th>
-					<td colspan="3"><textarea class="regular_memo" disabled>${irregular.memo}</textarea>
+					<td colspan="3"><textarea class="irregular_memo" disabled>${irregular.memo}</textarea>
 					</td>
 				</tr>
 				<tr>
@@ -329,7 +329,7 @@ h3, h4 {
 	                           </div>
 	                           <div>
 	                               <input type="checkbox" id="etc" name="meetingInfoDetail" disabled 
-	                               		<c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>>
+	                               		<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
 	                                <label for="etc">
 	                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
 	                                   	 disabled value="${detailValue}">
@@ -362,7 +362,7 @@ h3, h4 {
                                 <label for="license">자격증</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail" disabled <c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>>
+                                <input type="checkbox" id="etc" name="meetingInfoDetail" disabled <c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
                                 <label for="etc">
                                     <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력"
                                      disabled value="${detailValue}">
@@ -389,7 +389,7 @@ h3, h4 {
 								<label for="it">IT</label>
 							</div>
 							<div>
-								<input type="checkbox" id="etc" name="meetingInfoDetail" disabled <c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>> 
+								<input type="checkbox" id="etc" name="meetingInfoDetail" disabled <c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>> 
 								<label for="etc">
 									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요." disabled value="${detailValue}">
 								</label>
@@ -503,7 +503,7 @@ h3, h4 {
 						<!-- 모임 생성자만 보이게 -->
 						<c:if test="${irregular.creatorId eq memberSession.memberId}">
 							<c:if test="${irregular.cancel eq 0}">
-								<div class="irregular_delete_btn" onclick="deleteForm.submit()">모임 삭제하기</div> <!--생성자만-->
+								<div class="irregular_delete_btn" onclick="deleteMeeting()">모임 삭제하기</div> <!--생성자만-->
 							</c:if>
 						</c:if>
 					</td>
@@ -578,13 +578,23 @@ h3, h4 {
 	        }
 			
 			function memberIn(applyMemberId) {
-				document.getElementById("memberIn").value = applyMemberId;
-				document.getElementById("memberInForm").submit();
+				var r = confirm("이 회원을 수락하시겠습니까?");
+		        if (r == true) {
+		        	document.getElementById("memberIn").value = applyMemberId;
+					document.getElementById("memberInForm").submit();
+		            alert("수락했습니다.")
+		        } 
+		        return r;
 			}
 			
 			function memberOut(applyMemberId) {
-				document.getElementById("memberOut").value = applyMemberId;
-				document.getElementById("memberOutForm").submit();
+				var r = confirm("이 회원을 내보내시겠습니까?");
+		        if (r == true) {
+		        	document.getElementById("memberOut").value = applyMemberId;
+					document.getElementById("memberOutForm").submit();
+		            alert("내보냈습니다.")
+		        } 
+		        return r;
 			}
 			
 			function rateMember(evaluatedMember, type) {
@@ -608,6 +618,15 @@ h3, h4 {
 						}
 					}
 				})
+			}
+			
+			function deleteMeeting() {
+				 var r = confirm("삭제하시겠습니까?");
+			        if (r == true) {
+			        	deleteForm.submit();
+			            alert("삭제되었습니다.")
+			        } 
+			        return r;
 			}
 	</script>
 </body>
