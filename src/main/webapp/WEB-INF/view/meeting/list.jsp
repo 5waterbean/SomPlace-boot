@@ -194,7 +194,6 @@ label {
 											onclick="event.stopPropagation();">🤍</label>
 										<script>
 											var id = "h" + "<c:out value='${meeting.meetingId}'/>";
-											console.log(id);
 											if(document.getElementById(id).checked == true){
 												document.getElementById(id).nextElementSibling.innerHTML = "❤️";
 											}

@@ -103,26 +103,43 @@
 	cursor: pointer;
 }
 </style>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script>
+	function addLike(like) {
+		let heartLabel = like.nextElementSibling;
+		let checkedById = like.id.slice(1);
+		
+		if (like.checked) {
+			$.ajax({
+				url : "/meeting/like",
+				type : "post",
+				data : {"checkedById" : checkedById}, 
+				success : function(data){
+					if(data == 1) {
+						alert("모임 찜하기 성공!");
+						heartLabel.innerHTML = "❤️";
+					} 
+				}
+			})
+		} else {
+			$.ajax({
+				url : "/meeting/like",
+				type : "post",
+				data : {"checkedById" : checkedById}, 
+				success : function(data){
+					if(data == -1) {
+						alert("모임 찜하기 취소!");
+						heartLabel.innerHTML = "🤍";
+					} 
+				}
+			})
+		}
+		location.reload();
+	}
+</script>
 </head>
 
-<body>
-	<script>
-        function addLike(like) {
-            const heartLabel = like.nextElementSibling;
-
-            console.log(heartLabel)
-            if (like.checked) {
-                heartLabel.innerHTML = "❤️";
-            } else {
-                heartLabel.innerHTML = "🤍";
-            }
-        }
-        
-        function findInfo(id) {
-    		document.getElementById(id).submit();
-    	}
-    </script>
-    
+<body>    
     <jsp:include page="/WEB-INF/view/leftTopBar.jsp" />
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 
@@ -151,33 +168,55 @@
 	<div class="container">
 		<table>
 			<tr>
-			<c:set var="study" value="../../../img/read.png" />
-			<c:set var="meal" value="../../../img/english-breakfast.png" />
-			<c:set var="hobby" value="../../../img/lifestyle.png" />
-			<c:forEach var="meeting" items="${myMeetingList}">
-				<td>
-					<form id="${meeting.meetingId}" action="/meeting/info" method="POST">
-						<input type="hidden" name="checkedById" value="${meeting.meetingId}">
-					</form>
-					<div onclick="findInfo(${meeting.meetingId})">
-						<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>
-						<c:choose>
-							<c:when test="${meeting.meetingInfo eq '식사'}">
-								<img src='<c:out value="${meal}"/>' alt="">
-							</c:when>
-							<c:when test="${meeting.meetingInfo eq '스터디'}">
-								<img src='<c:out value="${study}"/>' alt="">
-							</c:when>
-							<c:otherwise>
-								<img src='<c:out value="${hobby}"/>' alt="">
-							</c:otherwise>
-						</c:choose>
-						<div>${meeting.meetingTitle}</div>
-						<div>${meeting.meetingInfo}</div>
-						<div>${meeting.meetingInfoDetail}</div>
-						<div style="height:50px;">
+				<c:set var="study" value="../../img/read.png" />
+				<c:set var="meal" value="../../img/english-breakfast.png" />
+				<c:set var="hobby" value="../../img/lifestyle.png" />
+				<c:forEach var="meeting" items="${myMeetingList}">
+					<td>
+						<form id="${meeting.meetingId}" action="/meeting/info"
+							method="POST">
+							<input type="hidden" name="checkedById"
+								value="${meeting.meetingId}">
+								<!-- 신청o, 찜하기o -->
+								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)
+													&& fn:contains(memberSession.applyMeetingIdList, meeting.meetingId)}">
+									<input type="hidden" name="heart" value="1">
+									<input type="hidden" name="apply" value="1">
+								</c:if>
+								<!-- 신청o, 찜하기x -->
+								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId) eq false
+													&& fn:contains(memberSession.applyMeetingIdList, meeting.meetingId)}">
+									<input type="hidden" name="heart" value="0">	
+									<input type="hidden" name="apply" value="1">							
+								</c:if>
+								<!-- 신청x, 찜하기o -->
+								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)
+													&& fn:contains(memberSession.applyMeetingIdList, meeting.meetingId) eq false}">
+									<input type="hidden" name="heart" value="1">	
+									<input type="hidden" name="apply" value="-1">							
+								</c:if>
+								<!-- 신청x, 찜하기x는 default -1 값으로 -->
+						</form> <!-- this.previousElementSibling.submit(); findInfo(${meeting.meetingId}) -->
+						<div onclick="this.previousElementSibling.submit();">
+							<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>
 							<c:choose>
-								<c:when test="${meeting.close eq 1}">
+								<c:when test="${meeting.meetingInfo eq '식사'}">
+									<img src='<c:out value="${meal}"/>' alt="">
+								</c:when>
+								<c:when test="${meeting.meetingInfo eq '스터디'}">
+									<img src='<c:out value="${study}"/>' alt="">
+								</c:when>
+								<c:otherwise>
+									<img src='<c:out value="${hobby}"/>' alt="">
+								</c:otherwise>
+							</c:choose>
+							<div>${meeting.meetingTitle}</div>
+							<div>${meeting.meetingInfo}</div>
+							<div>${meeting.meetingInfoDetail}</div>
+
+							<div style="height:50px;">
+							<c:choose>
+								<c:when test="${meeting.cancel eq 1}">
 									<font color="gray" size="2">삭제된 모임입니다</font>
 								</c:when>
 								<c:otherwise>
@@ -188,7 +227,6 @@
 											onclick="event.stopPropagation();">🤍</label>
 										<script>
 											var id = "h" + "<c:out value='${meeting.meetingId}'/>";
-											console.log(id);
 											if(document.getElementById(id).checked == true){
 												document.getElementById(id).nextElementSibling.innerHTML = "❤️";
 											}
@@ -197,9 +235,9 @@
 								</c:otherwise>
 							</c:choose>
 							</div>
-					</div>
-				</td>
-		    </c:forEach>
+						</div>
+					</td>
+				</c:forEach>
 		    </tr>
 		</table>
 	</div>
