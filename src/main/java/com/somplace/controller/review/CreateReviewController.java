@@ -20,8 +20,6 @@ import com.somplace.domain.command.ReviewCommand;
 import com.somplace.service.RegularService;
 import com.somplace.service.ReviewService;
 
-import lombok.Builder.Default;
-
 @Controller
 @RequestMapping("/review/write")
 public class CreateReviewController {
