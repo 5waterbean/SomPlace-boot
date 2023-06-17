@@ -28,8 +28,13 @@
             height: 100%;
         }
 
-        h1 {
-            text-align: center;
+        .bg_logo {
+        	background-image: url("../../../img/logo.png");
+        	background-position: center;
+        	background-repeat: no-repeat;
+        	background-size: cover;
+        	height: 100px;
+        	width: 30%;
         }
 
         .container {
@@ -110,7 +115,7 @@
 </head>
 
 <body>
-    <h1>솜솜이 놀이터</h1>
+    <div class="bg_logo"></div>
 
     <div class="container">
         <img src="../../../img/somsom.png" alt="" width="200px" height="200px">
