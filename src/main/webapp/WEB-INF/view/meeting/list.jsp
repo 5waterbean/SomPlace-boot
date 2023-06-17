@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -131,7 +131,7 @@ label {
 	<jsp:include page="/WEB-INF/view/leftTopBar.jsp" />
 	<jsp:include page="/WEB-INF/view/searchBox.jsp" />
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
-	
+
 	<div class="container">
 		<table>
 			<tr>
@@ -144,25 +144,28 @@ label {
 							method="POST">
 							<input type="hidden" name="checkedById"
 								value="${meeting.meetingId}">
-								<!-- 신청o, 찜하기o -->
-								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)
+							<!-- 신청o, 찜하기o -->
+							<c:if
+								test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)
 													&& fn:contains(memberSession.applyMeetingIdList, meeting.meetingId)}">
-									<input type="hidden" name="heart" value="1">
-									<input type="hidden" name="apply" value="1">
-								</c:if>
-								<!-- 신청o, 찜하기x -->
-								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId) eq false
+								<input type="hidden" name="heart" value="1">
+								<input type="hidden" name="apply" value="1">
+							</c:if>
+							<!-- 신청o, 찜하기x -->
+							<c:if
+								test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId) eq false
 													&& fn:contains(memberSession.applyMeetingIdList, meeting.meetingId)}">
-									<input type="hidden" name="heart" value="0">	
-									<input type="hidden" name="apply" value="1">							
-								</c:if>
-								<!-- 신청x, 찜하기o -->
-								<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)
+								<input type="hidden" name="heart" value="0">
+								<input type="hidden" name="apply" value="1">
+							</c:if>
+							<!-- 신청x, 찜하기o -->
+							<c:if
+								test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)
 													&& fn:contains(memberSession.applyMeetingIdList, meeting.meetingId) eq false}">
-									<input type="hidden" name="heart" value="1">	
-									<input type="hidden" name="apply" value="-1">							
-								</c:if>
-								<!-- 신청x, 찜하기x는 default -1 값으로 -->
+								<input type="hidden" name="heart" value="1">
+								<input type="hidden" name="apply" value="-1">
+							</c:if>
+							<!-- 신청x, 찜하기x는 default -1 값으로 -->
 						</form> <!-- this.previousElementSibling.submit(); findInfo(${meeting.meetingId}) -->
 						<div onclick="this.previousElementSibling.submit();">
 							<div>${meeting.numOfPeople}<font>/</font>${meeting.maxPeople}</div>
@@ -181,26 +184,28 @@ label {
 							<div>${meeting.meetingInfo}</div>
 							<div>${meeting.meetingInfoDetail}</div>
 
-							<div style="height:50px;">
-							<c:choose>
-								<c:when test="${meeting.cancel eq 1}">
-									<font color="gray" size="2">삭제된 모임입니다</font>
-								</c:when>
-								<c:otherwise>
-									<c:if test="${memberSession.memberId ne meeting.creatorId}">
-										<input type="checkbox" id="h${meeting.meetingId}" onclick="event.stopPropagation();" 
-											<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)}">checked</c:if> oninput="addLike(this)">
-										<label for="h${meeting.meetingId}"
-											onclick="event.stopPropagation();">🤍</label>
-										<script>
+							<div style="height: 50px;">
+								<c:choose>
+									<c:when test="${meeting.cancel eq 1}">
+										<font color="gray" size="2">삭제된 모임입니다</font>
+									</c:when>
+									<c:otherwise>
+										<c:if test="${memberSession.memberId ne meeting.creatorId}">
+											<input type="checkbox" id="h${meeting.meetingId}"
+												onclick="event.stopPropagation();"
+												<c:if test="${fn:contains(memberSession.likeMeetingIdList, meeting.meetingId)}">checked</c:if>
+												oninput="addLike(this)">
+											<label for="h${meeting.meetingId}"
+												onclick="event.stopPropagation();">🤍</label>
+											<script>
 											var id = "h" + "<c:out value='${meeting.meetingId}'/>";
 											if(document.getElementById(id).checked == true){
 												document.getElementById(id).nextElementSibling.innerHTML = "❤️";
 											}
 										</script>
-									</c:if>
-								</c:otherwise>
-							</c:choose>
+										</c:if>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 					</td>

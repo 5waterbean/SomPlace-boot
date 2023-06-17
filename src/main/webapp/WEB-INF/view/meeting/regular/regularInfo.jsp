@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -181,7 +181,8 @@ h3, h4 {
 
 .regular_update_btn:hover, .member_out_btn:hover, .member_in_btn:hover,
 	.member_good_btn:hover, .member_bad_btn:hover, .regular_delete_btn:hover,
-	.regular_close_btn:hover, .regular_apply_btn:hover, .regular_applyCancel_btn:hover {
+	.regular_close_btn:hover, .regular_apply_btn:hover,
+	.regular_applyCancel_btn:hover {
 	background-color: rgb(174, 220, 175);
 	cursor: pointer;
 }
@@ -194,7 +195,6 @@ h3, h4 {
 	background-color: rgb(244, 243, 243);
 	font-size: 14px;
 }
-
 </style>
 </head>
 
@@ -206,8 +206,8 @@ h3, h4 {
 	<div class="container" id="container">
 		<form name="updateForm" action="/meeting/regular/update/form">
 			<div>
-				<h2>${regular.meetingTitle} 상세정보</h2>
-				
+				<h2>${regular.meetingTitle}상세정보</h2>
+
 				<c:if test="${regular.cancel eq 1}">
 					<font color="red" size="4">삭제된 모임입니다.</font>
 				</c:if>
@@ -216,14 +216,16 @@ h3, h4 {
 				</c:if>
 				<c:if test="${regular.creatorId eq memberSession.memberId}">
 					<c:if test="${regular.cancel eq 0}">
-						<div class="regular_update_btn"  onClick="updateForm.submit()">모임 수정하기</div>
+						<div class="regular_update_btn" onClick="updateForm.submit()">모임
+							수정하기</div>
 					</c:if>
 				</c:if>
-				
+
 				<input type="hidden" name="checkedById" value="${regular.meetingId}">
 				<input type="hidden" name="detailValue" value="${detailValue}">
-				<input type="hidden" name="close" id="close" value="${regular.close}">
-				<input type="hidden" name="cancel" id="cancel" value="${regular.cancel}">
+				<input type="hidden" name="close" id="close"
+					value="${regular.close}"> <input type="hidden"
+					name="cancel" id="cancel" value="${regular.cancel}">
 			</div>
 
 			<hr>
@@ -239,7 +241,8 @@ h3, h4 {
 
 				<div class="creator">
 					<h3>모임장</h3>
-					<div class="creator_info">&nbsp; ${creatorMember.major} / ${creatorMember.studentNumber} &nbsp;</div>
+					<div class="creator_info">&nbsp; ${creatorMember.major} /
+						${creatorMember.studentNumber} &nbsp;</div>
 				</div>
 			</div>
 
@@ -254,11 +257,12 @@ h3, h4 {
 
 				<tr>
 					<th>모임 이름</th>
-					<td><input type="text" name="meetingName" size="70" maxlength="40"
-						value="${regular.meetingName}" disabled required></td>
+					<td><input type="text" name="meetingName" size="70"
+						maxlength="40" value="${regular.meetingName}" disabled required></td>
 					<td style="text-align: right;"><strong>현재 인원/모집 인원</strong></td>
 					<td><input type="text" name="numOfPeople" size="10"
-						value="${regular.numOfPeople} / ${regular.maxPeople}" disabled required> <strong>명</strong></td>
+						value="${regular.numOfPeople} / ${regular.maxPeople}" disabled
+						required> <strong>명</strong></td>
 				</tr>
 
 				<tr>
@@ -276,21 +280,28 @@ h3, h4 {
 							</div>
 
 							<div>
-								<c:set var="meetingdayList" value="${meetingdayList}"/>
-								<input type="checkbox" id="regularDay" value="월" 
-									<c:if test="${fn:contains(meetingdayList, '월')}" > checked</c:if> disabled>월&nbsp;&nbsp; 
-								<input type="checkbox" id="regularDay" value="화" 
-									<c:if test="${fn:contains(meetingdayList, '화')}" > checked</c:if> disabled>화&nbsp;&nbsp; 
-								<input type="checkbox" id="regularDay" value="수" 
-									<c:if test="${fn:contains(meetingdayList, '수')}" > checked</c:if> disabled>수&nbsp;&nbsp;
-								<input type="checkbox" id="regularDay" value="목" 
-									<c:if test="${fn:contains(meetingdayList, '목')}" > checked</c:if> disabled>목&nbsp;&nbsp;
-								<input type="checkbox" id="regularDay" value="금" 
-									<c:if test="${fn:contains(meetingdayList, '금')}" > checked</c:if> disabled>금&nbsp;&nbsp; 
-								<input type="checkbox" id="regularDay" value="토" 
-									<c:if test="${fn:contains(meetingdayList, '토')}" > checked</c:if> disabled>토&nbsp;&nbsp; 
-								<input type="checkbox" id="regularDay" value="일" 
-									<c:if test="${fn:contains(meetingdayList, '일')}" > checked</c:if> disabled>일&nbsp;&nbsp;
+								<c:set var="meetingdayList" value="${meetingdayList}" />
+								<input type="checkbox" id="regularDay" value="월"
+									<c:if test="${fn:contains(meetingdayList, '월')}" > checked</c:if>
+									disabled>월&nbsp;&nbsp; <input type="checkbox"
+									id="regularDay" value="화"
+									<c:if test="${fn:contains(meetingdayList, '화')}" > checked</c:if>
+									disabled>화&nbsp;&nbsp; <input type="checkbox"
+									id="regularDay" value="수"
+									<c:if test="${fn:contains(meetingdayList, '수')}" > checked</c:if>
+									disabled>수&nbsp;&nbsp; <input type="checkbox"
+									id="regularDay" value="목"
+									<c:if test="${fn:contains(meetingdayList, '목')}" > checked</c:if>
+									disabled>목&nbsp;&nbsp; <input type="checkbox"
+									id="regularDay" value="금"
+									<c:if test="${fn:contains(meetingdayList, '금')}" > checked</c:if>
+									disabled>금&nbsp;&nbsp; <input type="checkbox"
+									id="regularDay" value="토"
+									<c:if test="${fn:contains(meetingdayList, '토')}" > checked</c:if>
+									disabled>토&nbsp;&nbsp; <input type="checkbox"
+									id="regularDay" value="일"
+									<c:if test="${fn:contains(meetingdayList, '일')}" > checked</c:if>
+									disabled>일&nbsp;&nbsp;
 							</div>
 
 							<br>
@@ -300,15 +311,19 @@ h3, h4 {
 							</div>
 
 							<div>
-								<c:set var="meetingTimeList" value="${meetingTimeList}"/>
-								<input id="regularTime" type="checkbox" value="06-12" 
-									<c:if test="${fn:contains(meetingTimeList, '06-12')}" > checked</c:if> disabled>06-12&nbsp;&nbsp;
-								<input id="regularTime" type="checkbox" value="12-18"
-									<c:if test="${fn:contains(meetingTimeList, '12-18')}" > checked</c:if> disabled>12-18&nbsp;&nbsp; 
-								<input id="regularTime" type="checkbox" value="18-24"
-									<c:if test="${fn:contains(meetingTimeList, '18-24')}" > checked</c:if> disabled>18-24&nbsp;&nbsp; 
-								<input id="regularTime" type="checkbox" value="00-06" 
-									<c:if test="${fn:contains(meetingTimeList, '00-06')}" > checked</c:if> disabled>00-06&nbsp;&nbsp;
+								<c:set var="meetingTimeList" value="${meetingTimeList}" />
+								<input id="regularTime" type="checkbox" value="06-12"
+									<c:if test="${fn:contains(meetingTimeList, '06-12')}" > checked</c:if>
+									disabled>06-12&nbsp;&nbsp; <input id="regularTime"
+									type="checkbox" value="12-18"
+									<c:if test="${fn:contains(meetingTimeList, '12-18')}" > checked</c:if>
+									disabled>12-18&nbsp;&nbsp; <input id="regularTime"
+									type="checkbox" value="18-24"
+									<c:if test="${fn:contains(meetingTimeList, '18-24')}" > checked</c:if>
+									disabled>18-24&nbsp;&nbsp; <input id="regularTime"
+									type="checkbox" value="00-06"
+									<c:if test="${fn:contains(meetingTimeList, '00-06')}" > checked</c:if>
+									disabled>00-06&nbsp;&nbsp;
 							</div>
 
 							<br>
@@ -318,7 +333,8 @@ h3, h4 {
 							</div>
 
 							<div class="start_day">
-								<fmt:formatDate value="${regular.startDay}" pattern="yyyy년 MM월 dd일"/> 
+								<fmt:formatDate value="${regular.startDay}"
+									pattern="yyyy년 MM월 dd일" />
 								<input type="hidden" name="startDay" value="${regular.startDay}">
 							</div>
 							<br>
@@ -330,15 +346,15 @@ h3, h4 {
 					<th>카테고리</th>
 					<td>
 						<div>
-							<input type="radio" id="meal" name="meetingInfo" value="식사" 
-								<c:if test="${regular.meetingInfo eq '식사'}" > checked</c:if> disabled> 
-							<label for="meal">식사</label> 
-							<input type="radio" id="study" name="meetingInfo" value="스터디" 
-								<c:if test="${regular.meetingInfo eq '스터디'}" > checked</c:if> disabled> 
-							<label for="study">스터디</label> 
-							<input type="radio" id="hobby" name="meetingInfo" value="취미" 
-							 	<c:if test="${regular.meetingInfo eq '취미'}" > checked</c:if> disabled> 
-							<label for="hobby">취미</label>
+							<input type="radio" id="meal" name="meetingInfo" value="식사"
+								<c:if test="${regular.meetingInfo eq '식사'}" > checked</c:if>
+								disabled> <label for="meal">식사</label> <input
+								type="radio" id="study" name="meetingInfo" value="스터디"
+								<c:if test="${regular.meetingInfo eq '스터디'}" > checked</c:if>
+								disabled> <label for="study">스터디</label> <input
+								type="radio" id="hobby" name="meetingInfo" value="취미"
+								<c:if test="${regular.meetingInfo eq '취미'}" > checked</c:if>
+								disabled> <label for="hobby">취미</label>
 						</div>
 					</td>
 					<td><strong>모임 메모</strong></td>
@@ -347,172 +363,201 @@ h3, h4 {
 
 				<tr>
 					<td></td>
-					<td>
-					<c:set var="detailList" value="${detailList}"/>
-					<c:choose>
-						<c:when test="${regular.meetingInfo eq '식사'}">
-	                        <div class="meeting_info_detail_td" id="mealDetail">
-	                           <div>
-	                               <input type="checkbox" id="western" name="meetingInfoDetail" value="양식"
-	                               	 <c:if test="${fn:contains(detailList, '양식')}" > checked</c:if> disabled>
-	                               <label for="western">양식</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="japanese" name="meetingInfoDetail" value="일식"
-	                               	<c:if test="${fn:contains(detailList, '일식')}" > checked</c:if> disabled>
-	                               <label for="japanese">일식</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="chinese" name="meetingInfoDetail" value="중식"
-	                               <c:if test="${fn:contains(detailList, '중식')}" > checked</c:if> disabled>
-	                               <label for="chinese">중식</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="korean" name="meetingInfoDetail" value="한식"
-	                               <c:if test="${fn:contains(detailList, '한식')}" > checked</c:if> disabled>
-	                               <label for="korean">한식</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="flour_based" name="meetingInfoDetail" value="분식"
-	                               <c:if test="${fn:contains(detailList, '분식')}" > checked</c:if> disabled>
-	                               <label for="flour_based">분식</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="alcohol" name="meetingInfoDetail" value="술"
-	                               <c:if test="${fn:contains(detailList, '술')}" > checked</c:if> disabled>
-	                               <label for="alcohol">술</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="etc" name="meetingInfoDetail" disabled
-										<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
-	                                <label for="etc">
-	                                   <input type="text" id="etcTextDetail" name="etcText" size="15" value="${detailValue}" disabled>
-	                               </label>
-	                           </div>
-	                        </div>
-	                    </c:when>
-	
-						<c:when test="${regular.meetingInfo eq '스터디'}">
-	                        
-							<div class="meeting_info_detail_td" id="studyDetail">
-	                            <div>
-	                                <input type="checkbox" id="task" name="meetingInfoDetail" value="과제"
-	                                	<c:if test="${fn:contains(detailList, '과제')}" > checked</c:if> disabled>
-	                                <label for="task">과제</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교시험"
-	                                	<c:if test="${fn:contains(detailList, '학교시험')}" > checked</c:if> disabled>
-	                                <label for="exam">학교시험</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비"
-	                                	<c:if test="${fn:contains(detailList, '취업준비')}" > checked</c:if> disabled>
-	                                <label for="prepare_employment">취업준비</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="license" name="meetingInfoDetail" value="자격증"
-	                                	<c:if test="${fn:contains(detailList, '자격증')}" > checked</c:if> disabled>
-	                                <label for="license">자격증</label>
-	                            </div>
-	                            <div>
-	                                <input type="checkbox" id="etc" name="meetingInfoDetail" disabled
-										<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if> >
-										
-	                                <label for="etc">
-	                                    <input type="text" id="etcTextDetail" name="etcText" size="15" value="${detailValue}" disabled>
-	                                </label>
-	                            </div>
-	                        </div>
-	                    </c:when>
-	                    
-	                    <c:otherwise>
-							
-							<div class="meeting_info_detail_td" id="hobbyDetail">
-								<div>
-									<input type="checkbox" id="sports" name="meetingInfoDetail" value="스포츠"
-										<c:if test="${fn:contains(detailList, '스포츠')}" > checked</c:if> disabled> 
-									<label for="sports">스포츠</label>
+					<td><c:set var="detailList" value="${detailList}" /> <c:choose>
+							<c:when test="${regular.meetingInfo eq '식사'}">
+								<div class="meeting_info_detail_td" id="mealDetail">
+									<div>
+										<input type="checkbox" id="western" name="meetingInfoDetail"
+											value="양식"
+											<c:if test="${fn:contains(detailList, '양식')}" > checked</c:if>
+											disabled> <label for="western">양식</label>
+									</div>
+									<div>
+										<input type="checkbox" id="japanese" name="meetingInfoDetail"
+											value="일식"
+											<c:if test="${fn:contains(detailList, '일식')}" > checked</c:if>
+											disabled> <label for="japanese">일식</label>
+									</div>
+									<div>
+										<input type="checkbox" id="chinese" name="meetingInfoDetail"
+											value="중식"
+											<c:if test="${fn:contains(detailList, '중식')}" > checked</c:if>
+											disabled> <label for="chinese">중식</label>
+									</div>
+									<div>
+										<input type="checkbox" id="korean" name="meetingInfoDetail"
+											value="한식"
+											<c:if test="${fn:contains(detailList, '한식')}" > checked</c:if>
+											disabled> <label for="korean">한식</label>
+									</div>
+									<div>
+										<input type="checkbox" id="flour_based"
+											name="meetingInfoDetail" value="분식"
+											<c:if test="${fn:contains(detailList, '분식')}" > checked</c:if>
+											disabled> <label for="flour_based">분식</label>
+									</div>
+									<div>
+										<input type="checkbox" id="alcohol" name="meetingInfoDetail"
+											value="술"
+											<c:if test="${fn:contains(detailList, '술')}" > checked</c:if>
+											disabled> <label for="alcohol">술</label>
+									</div>
+									<div>
+										<input type="checkbox" id="etc" name="meetingInfoDetail"
+											disabled
+											<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
+										<label for="etc"> <input type="text"
+											id="etcTextDetail" name="etcText" size="15"
+											value="${detailValue}" disabled>
+										</label>
+									</div>
 								</div>
-								<div>
-									<input type="checkbox" id="art" name="meetingInfoDetail" value="예술"
-										<c:if test="${fn:contains(detailList, '예술')}" > checked</c:if> disabled> 
-									<label for="art">예술</label>
+							</c:when>
+
+							<c:when test="${regular.meetingInfo eq '스터디'}">
+
+								<div class="meeting_info_detail_td" id="studyDetail">
+									<div>
+										<input type="checkbox" id="task" name="meetingInfoDetail"
+											value="과제"
+											<c:if test="${fn:contains(detailList, '과제')}" > checked</c:if>
+											disabled> <label for="task">과제</label>
+									</div>
+									<div>
+										<input type="checkbox" id="exam" name="meetingInfoDetail"
+											value="학교시험"
+											<c:if test="${fn:contains(detailList, '학교시험')}" > checked</c:if>
+											disabled> <label for="exam">학교시험</label>
+									</div>
+									<div>
+										<input type="checkbox" id="prepare_employment"
+											name="meetingInfoDetail" value="취업준비"
+											<c:if test="${fn:contains(detailList, '취업준비')}" > checked</c:if>
+											disabled> <label for="prepare_employment">취업준비</label>
+									</div>
+									<div>
+										<input type="checkbox" id="license" name="meetingInfoDetail"
+											value="자격증"
+											<c:if test="${fn:contains(detailList, '자격증')}" > checked</c:if>
+											disabled> <label for="license">자격증</label>
+									</div>
+									<div>
+										<input type="checkbox" id="etc" name="meetingInfoDetail"
+											disabled
+											<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
+
+										<label for="etc"> <input type="text"
+											id="etcTextDetail" name="etcText" size="15"
+											value="${detailValue}" disabled>
+										</label>
+									</div>
 								</div>
-								<div>
-									<input type="checkbox" id="it" name="meetingInfoDetail" value="IT"
-										<c:if test="${fn:contains(detailList, 'IT')}" > checked</c:if> disabled> 
-									<label for="it">IT</label>
+							</c:when>
+
+							<c:otherwise>
+
+								<div class="meeting_info_detail_td" id="hobbyDetail">
+									<div>
+										<input type="checkbox" id="sports" name="meetingInfoDetail"
+											value="스포츠"
+											<c:if test="${fn:contains(detailList, '스포츠')}" > checked</c:if>
+											disabled> <label for="sports">스포츠</label>
+									</div>
+									<div>
+										<input type="checkbox" id="art" name="meetingInfoDetail"
+											value="예술"
+											<c:if test="${fn:contains(detailList, '예술')}" > checked</c:if>
+											disabled> <label for="art">예술</label>
+									</div>
+									<div>
+										<input type="checkbox" id="it" name="meetingInfoDetail"
+											value="IT"
+											<c:if test="${fn:contains(detailList, 'IT')}" > checked</c:if>
+											disabled> <label for="it">IT</label>
+									</div>
+									<div>
+										<input type="checkbox" id="etc" name="meetingInfoDetail"
+											disabled
+											<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
+
+										<label for="etc"> <input type="text"
+											id="etcTextDetail" name="etcText" size="15"
+											value="${detailValue}" disabled>
+										</label>
+									</div>
 								</div>
-								<div>
-									<input type="checkbox" id="etc" name="meetingInfoDetail" disabled
-										<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if> >
-										
-	                                <label for="etc">
-	                                    <input type="text" id="etcTextDetail" name="etcText" size="15" value="${detailValue}" disabled>
-	                                </label>
-								</div>
-							</div>
-						</c:otherwise>
-					</c:choose>
-					</td>
-					<td colspan="2"><textarea class="regular_memo" name="memo" disabled>${regular.memo}</textarea></td>
+							</c:otherwise>
+						</c:choose></td>
+					<td colspan="2"><textarea class="regular_memo" name="memo"
+							disabled>${regular.memo}</textarea></td>
 				</tr>
 
 				<!-- 회원들만 모임장 정보 보이게 -->
 				<c:if test="${regular.creatorId ne memberSession.memberId}">
-					<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
-		                <tr> 
-		                    <th>모임장 정보</th>
-		                    <td colspan="3">
-		                        <div class="member_list_td">
-		                            <div>
-		                                <div class="member">${creatorMember.name} / ${creatorMember.studentNumber} / ${creatorMember.major} / ${creatorMember.phone}</div>
-		                                <div class="member_good_btn" onClick="rateMember('${regular.creatorId}','like')">
-		                                	<img src="../../../img/좋아요.png">
-		                                </div>
-		                                <div class="member_bad_btn" onClick="rateMember('${regular.creatorId}','dislike')">
-		                                	<img src="../../../img/싫어요.png">
-		                                </div>
-		                            </div>
-		                        </div>
-		                    </td> 
-		                </tr>
-                	</c:if>
-		        </c:if>
-				
+					<c:if
+						test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+						<tr>
+							<th>모임장 정보</th>
+							<td colspan="3">
+								<div class="member_list_td">
+									<div>
+										<div class="member">${creatorMember.name}/
+											${creatorMember.studentNumber} / ${creatorMember.major} /
+											${creatorMember.phone}</div>
+										<div class="member_good_btn"
+											onClick="rateMember('${regular.creatorId}','like')">
+											<img src="../../../img/좋아요.png">
+										</div>
+										<div class="member_bad_btn"
+											onClick="rateMember('${regular.creatorId}','dislike')">
+											<img src="../../../img/싫어요.png">
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</c:if>
+				</c:if>
+
 				<!-- 모임 생성자만 보이게 -->
-				<c:if test="${regular.creatorId eq memberSession.memberId}"> 
+				<c:if test="${regular.creatorId eq memberSession.memberId}">
 					<tr>
-						<th>회원 목록</th>	
+						<th>회원 목록</th>
 						<td colspan="3">
 							<div class="member_list_td">
 								<c:forEach var="joinMember" items="${joinMemberList}">
 									<div>
-										<div class="member">${joinMember.name} / ${joinMember.studentNumber} / ${joinMember.major} / ${joinMember.phone}</div>
-										<div class="member_good_btn" onClick="rateMember('${joinMember.memberId}','like')">
+										<div class="member">${joinMember.name}/
+											${joinMember.studentNumber} / ${joinMember.major} /
+											${joinMember.phone}</div>
+										<div class="member_good_btn"
+											onClick="rateMember('${joinMember.memberId}','like')">
 											<img src="../../img/좋아요.png">
 										</div>
-										<div class="member_bad_btn" onClick="rateMember('${joinMember.memberId}','dislike')">
+										<div class="member_bad_btn"
+											onClick="rateMember('${joinMember.memberId}','dislike')">
 											<img src="../../img/싫어요.png">
 										</div>
 										<c:if test="${regular.close eq 0 || regular.cancel eq 0}">
-											<div class="member_out_btn" id="${joinMember.memberId}" onclick="memberOut(this.id)">내보내기</div>
+											<div class="member_out_btn" id="${joinMember.memberId}"
+												onclick="memberOut(this.id)">내보내기</div>
 										</c:if>
 									</div>
 								</c:forEach>
 							</div>
 						</td>
 					</tr>
-					
-	
+
+
 					<tr>
 						<th>신청 목록</th>
 						<td colspan="6">
 							<div class="member_list_td">
 								<c:forEach var="applyMember" items="${applyMemberList}">
 									<div>
-										<div class="member">${applyMember.name} / ${applyMember.studentNumber} / ${applyMember.major} / ${applyMember.phone}</div>
+										<div class="member">${applyMember.name}/
+											${applyMember.studentNumber} / ${applyMember.major} /
+											${applyMember.phone}</div>
 										<div class="member_good">
 											<img src="../../img/좋아요.png">&nbsp;${applyMember.good}
 										</div>
@@ -520,7 +565,8 @@ h3, h4 {
 											<img src="../../img/싫어요.png">&nbsp;${applyMember.bad}
 										</div>
 										<c:if test="${regular.close eq 0 && regular.cancel eq 0}">
-											<div class="member_in_btn" id="${applyMember.memberId}" onclick="memberIn(this.id)">수락하기</div>
+											<div class="member_in_btn" id="${applyMember.memberId}"
+												onclick="memberIn(this.id)">수락하기</div>
 										</c:if>
 									</div>
 								</c:forEach>
@@ -528,91 +574,93 @@ h3, h4 {
 						</td>
 					</tr>
 				</c:if>
-				
+
 				<tr>
 					<td></td>
 					<td></td>
 					<td>
-						<!-- 모임 생성자만 보이게 -->
-						<c:if test="${regular.creatorId eq memberSession.memberId}"> 
+						<!-- 모임 생성자만 보이게 --> <c:if
+							test="${regular.creatorId eq memberSession.memberId}">
 							<c:if test="${regular.cancel eq 0 }">
-								<div class="regular_delete_btn"  onClick="deleteMeeting()">모임 삭제하기</div>
+								<div class="regular_delete_btn" onClick="deleteMeeting()">모임
+									삭제하기</div>
 							</c:if>
 						</c:if>
 					</td>
-					<c:if test="${regular.cancel eq 0 && regular.close eq 0}"><td>
-						
-							<c:if test="${regular.creatorId eq memberSession.memberId}"> 
-								<div class="regular_close_btn" onclick="closeForm.submit()">모집 마감하기</div> 
-							</c:if>
-						
-							<!-- 비회원만 보이게(신청X) -->
-							<c:if test="${regular.creatorId ne memberSession.memberId}">
-								<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
-									<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
+					<c:if test="${regular.cancel eq 0 && regular.close eq 0}">
+						<td><c:if
+								test="${regular.creatorId eq memberSession.memberId}">
+								<div class="regular_close_btn" onclick="closeForm.submit()">모집
+									마감하기</div>
+							</c:if> <!-- 비회원만 보이게(신청X) --> <c:if
+								test="${regular.creatorId ne memberSession.memberId}">
+								<c:if
+									test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
+									<c:if
+										test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
 										<div class="regular_apply_btn" onclick="applyForm.submit()">신청하기</div>
 									</c:if>
 								</c:if>
-							</c:if>
-								
-							<!-- 신청한 사람들만 (수락X) 보이게 -->
-							<c:if test="${regular.creatorId ne memberSession.memberId}">
-								<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
-									<div class="regular_applyCancel_btn" onclick="applyCancelForm.submit()">신청 취소하기</div>
+							</c:if> <!-- 신청한 사람들만 (수락X) 보이게 --> <c:if
+								test="${regular.creatorId ne memberSession.memberId}">
+								<c:if
+									test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+									<div class="regular_applyCancel_btn"
+										onclick="applyCancelForm.submit()">신청 취소하기</div>
 								</c:if>
-							</c:if>
-						
-					</td></c:if>
-					<td>	
-						<c:if test="${regular.cancel eq 0 && regular.close eq 1}">
+							</c:if></td>
+					</c:if>
+					<td><c:if test="${regular.cancel eq 0 && regular.close eq 1}">
 							<c:if test="${regular.creatorId eq memberSession.memberId}">
 								<c:if test="${regular.numOfPeople lt regular.maxPeople}">
-									<div class="regular_applyCancel_btn" onclick="closeCancelForm.submit()">다시 모집하기</div>
-								</c:if> 
+									<div class="regular_applyCancel_btn"
+										onclick="closeCancelForm.submit()">다시 모집하기</div>
+								</c:if>
 							</c:if>
-						</c:if>
-					</td>
-					
+						</c:if></td>
+
 				</tr>
 			</table>
 		</form>
 		<!-- 멤버 내보내기 -->
 		<form name="memberOutForm" id="memberOutForm" action="/meeting/join">
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
-			<input type="hidden" name="applyMemberId" id="memberOut">
-			<input type="hidden" name="inOrOut" value="0">
-			<input type="hidden" name="count" value="${regular.numOfPeople}">
+			<input type="hidden" name="applyMemberId" id="memberOut"> <input
+				type="hidden" name="inOrOut" value="0"> <input type="hidden"
+				name="count" value="${regular.numOfPeople}">
 		</form>
 		<!-- 멤버 수락 -->
 		<form name="memberInForm" id="memberInForm" action="/meeting/join">
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
-			<input type="hidden" name="applyMemberId" id="memberIn">
-			<input type="hidden" name="inOrOut" value="1">
-			<input type="hidden" name="count" value="${regular.numOfPeople}">
+			<input type="hidden" name="applyMemberId" id="memberIn"> <input
+				type="hidden" name="inOrOut" value="1"> <input type="hidden"
+				name="count" value="${regular.numOfPeople}">
 		</form>
-		
+
 		<form name="deleteForm" action="/meeting/delete" method="post">
 			<input type="hidden" name="meetingId" value="${regular.meetingId}">
 		</form>
-		
+
 		<form name="closeForm" action="/meeting/regular/info">
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
 			<input type="hidden" name="close" value="1">
 		</form>
-		
+
 		<form name="closeCancelForm" action="/meeting/regular/info">
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
 			<input type="hidden" name="close" value="0">
 		</form>
-		
+
 		<form name="applyForm" action="/meeting/join">
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
 			<input type="hidden" name="checkedApply" value="1">
 			<c:choose>
-				<c:when test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+				<c:when
+					test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
 					<input type="hidden" name="apply" value="1">
 				</c:when>
-				<c:when test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+				<c:when
+					test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
 					<input type="hidden" name="apply" value="0">
 				</c:when>
 				<c:otherwise>
@@ -621,15 +669,17 @@ h3, h4 {
 			</c:choose>
 			<input type="hidden" name="heart" value="${heart}">
 		</form>
-		
+
 		<form name="applyCancelForm" action="/meeting/join">
 			<input type="hidden" name="checkedById" value="${regular.meetingId}">
 			<input type="hidden" name="checkedApply" value="0">
 			<c:choose>
-				<c:when test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+				<c:when
+					test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
 					<input type="hidden" name="apply" value="1">
 				</c:when>
-				<c:when test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
+				<c:when
+					test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
 					<input type="hidden" name="apply" value="0">
 				</c:when>
 				<c:otherwise>
@@ -639,7 +689,7 @@ h3, h4 {
 			<input type="hidden" name="heart" value="${heart}">
 		</form>
 	</div>
-	
+
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>			
 		init();
@@ -703,7 +753,7 @@ h3, h4 {
 			})
 		}
 	</script>
-	
+
 </body>
 
 </html>

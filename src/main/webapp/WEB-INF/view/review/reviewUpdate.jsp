@@ -58,8 +58,7 @@ input[type="text"] {
 	border: 2px solid black;
 }
 
-input[type="button"],
-input[type="submit"] {
+input[type="button"], input[type="submit"] {
 	text-align: center;
 	width: 100%;
 	padding: 5px;
@@ -74,8 +73,7 @@ input:hover {
 	cursor: pointer;
 }
 
-input[type="button"]:hover,
-input[type="submit"]:hover {
+input[type="button"]:hover, input[type="submit"]:hover {
 	background-color: rgb(174, 220, 175);
 }
 
@@ -157,9 +155,8 @@ input[type="submit"]:hover {
 
 				<tr>
 					<td colspan="2"></td>
-					<td style="width: 15%;">
-					<input type="button" value="뒤로가기" onclick="history.back();">
-					</td>
+					<td style="width: 15%;"><input type="button" value="뒤로가기"
+						onclick="history.back();"></td>
 					<td style="width: 15%;"><input type="submit" value="수정하기">
 					</td>
 				</tr>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +46,7 @@
 
 .right table tr {
 	border-top: 1px solid black;
-	vertical-align : top;
+	vertical-align: top;
 }
 
 .right table td {
@@ -64,7 +64,6 @@
 	border-bottom-right-radius: 20px;
 	border-botton-left-radius: 20px;
 }
-
 </style>
 </head>
 
@@ -82,37 +81,40 @@
 	</script>
 
 	<div class="right">
-		<div class="create_btn" onClick="location.href='/meeting/irregular/create/form';">모임 만들기</div>
+		<div class="create_btn"
+			onClick="location.href='/meeting/irregular/create/form';">모임
+			만들기</div>
 		<br>
 		<div class="divTable">
 			<table id="calendar">
-				<tr style="border:0px;">
+				<tr style="border: 0px;">
 					<th colspan="7">${myCalendar.month}월 일정</th>
 				</tr>
 
-				<c:set var="num" value="1"/>
+				<c:set var="num" value="1" />
 				<c:forEach begin="1" end="${myCalendar.firstDay}" varStatus="status">
 					<c:if test="${num % 7 == 1}">
 						<tr>
 					</c:if>
-					<td> </td>
+					<td></td>
 					<c:set var="num" value="${num + 1}" />
 				</c:forEach>
-				
+
 				<c:forEach begin="1" end="${myCalendar.lastDate}" varStatus="status">
 					<c:if test="${num % 7 == 1}">
 						<tr>
 					</c:if>
-					<td onClick="alertSchedule(${status.index})" style='background-color:<c:if test="${myCalendar.today == status.index}">rgb(220, 220, 220)</c:if>'>
-						<font class="${num % 7}" color='
+					<td onClick="alertSchedule(${status.index})"
+						style='background-color:<c:if test="${myCalendar.today == status.index}">rgb(220, 220, 220)</c:if>'>
+						<font class="${num % 7}"
+						color='
 							<c:choose>
 								<c:when test="${num % 7 == 1}">red</c:when>
 								<c:when test="${num % 7 == 0}">blue</c:when>
 								<c:otherwise>black</c:otherwise>
 							</c:choose>'>${status.index}</font>
-						<br>
-						<font size="1" id="${status.index}"></font>
-						<input id="input${status.index}" type="hidden" value="" />
+						<br> <font size="1" id="${status.index}"></font> <input
+						id="input${status.index}" type="hidden" value="" />
 					</td>
 					<c:if test="${num % 7 == 0}">
 						</tr>
@@ -120,13 +122,14 @@
 					<c:set var="num" value="${num + 1}" />
 				</c:forEach>
 				<tr>
-					<td class="schedule" colspan="7" style="height:5px;background-color:rgb(254, 251, 191);border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;">
+					<td class="schedule" colspan="7"
+						style="height: 5px; background-color: rgb(254, 251, 191); border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;">
 						<font size="2" id="scheduleAlert">등록된 일정이 없습니다</font>
 					</td>
 				</tr>
 			</table>
 		</div>
-		
+
 		<script>
 			<c:forEach var='regular' items='${myCalendar.myJoinRegularList}'>
 				var day = "<c:out value='${regular.meetingDay}'/>";

@@ -1,39 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.somplace.dao.mybatis.mapper.RegularMapper">
-	<cache/>
-	<resultMap id="regularResultSet" type="com.somplace.domain.Regular">
-		<result column="MEETINGID" property="meetingId"/>
-		<result column="MEETINGTITLE" property="meetingTitle"/>
-		<result column="NUMOFPEOPLE" property="numOfPeople"/>
-		<result column="MAXPEOPLE" property="maxPeople"/>
-		<result column="MEETINGPLACE" property="meetingPlace"/>
-		<result column="MEMO" property="memo"/>
-		<result column="MEETINGINFO" property="meetingInfo"/>
-		<result column="MEETINGINFODETAIL" property="meetingInfoDetail"/>
-		<result column="CLOSE" property="close"/>
-		<result column="CANCEL" property="cancel"/>
-		<result column="CREATORID" property="creatorId"/>
-		<result column="MEETINGNAME" property="meetingName"/>
-		<result column="MEETINGDAY" property="meetingDay"/>
-		<result column="STARTDAY" property="startDay"/>
-		<result column="MEETINGTIME" property="meetingTime"/>
+	<cache />
+	<resultMap id="regularResultSet"
+		type="com.somplace.domain.Regular">
+		<result column="MEETINGID" property="meetingId" />
+		<result column="MEETINGTITLE" property="meetingTitle" />
+		<result column="NUMOFPEOPLE" property="numOfPeople" />
+		<result column="MAXPEOPLE" property="maxPeople" />
+		<result column="MEETINGPLACE" property="meetingPlace" />
+		<result column="MEMO" property="memo" />
+		<result column="MEETINGINFO" property="meetingInfo" />
+		<result column="MEETINGINFODETAIL" property="meetingInfoDetail" />
+		<result column="CLOSE" property="close" />
+		<result column="CANCEL" property="cancel" />
+		<result column="CREATORID" property="creatorId" />
+		<result column="MEETINGNAME" property="meetingName" />
+		<result column="MEETINGDAY" property="meetingDay" />
+		<result column="STARTDAY" property="startDay" />
+		<result column="MEETINGTIME" property="meetingTime" />
 	</resultMap>
- 
+
 	<sql id="selectRegularView_fragment">
-		SELECT MEETINGID, MEETINGTITLE, NUMOFPEOPLE, MAXPEOPLE, MEETINGPLACE, 
-			MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL, CREATORID, 
-            MEETINGNAME, MEETINGDAY, STARTDAY, MEETINGTIME
-        FROM regularmeeting_view m
+		SELECT MEETINGID, MEETINGTITLE, NUMOFPEOPLE, MAXPEOPLE,
+		MEETINGPLACE,
+		MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL, CREATORID,
+		MEETINGNAME, MEETINGDAY, STARTDAY, MEETINGTIME
+		FROM regularmeeting_view m
 	</sql>
 
 	<sql id="selectRegularJoin_fragment">
-		SELECT m.meetingid AS MEETINGID, m.meetingtitle AS MEETINGTITLE, m.numofpeople AS NUMOFPEOPLE, 
-			m.maxpeople AS MAXPEOPLE, m.meetingplace AS MEETINGPLACE, m.memo AS MEMO, m.meetinginfo AS MEETINGINFO, 
-			m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS CLOSE, m.cancel AS CANCEL, m.creatorid AS CREATORID,
-            m.meetingname AS MEETINGNAME, m.meetingday AS MEETINGDAY, m.startday AS STARTDAY, m.meetingtime AS MEETINGTIME,
-			count(case when mm.heart = 1 then 1 end) AS heart
-		FROM regularmeeting_view m LEFT OUTER JOIN member_meeting mm ON m.meetingid = mm.meetingid
+		SELECT m.meetingid AS MEETINGID, m.meetingtitle AS
+		MEETINGTITLE, m.numofpeople AS NUMOFPEOPLE,
+		m.maxpeople AS MAXPEOPLE, m.meetingplace AS MEETINGPLACE, m.memo AS MEMO,
+		m.meetinginfo AS MEETINGINFO,
+		m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS CLOSE, m.cancel AS CANCEL,
+		m.creatorid AS CREATORID,
+		m.meetingname AS MEETINGNAME, m.meetingday AS MEETINGDAY, m.startday AS STARTDAY,
+		m.meetingtime AS MEETINGTIME,
+		count(case when mm.heart = 1 then 1 end) AS heart
+		FROM regularmeeting_view m LEFT
+		OUTER JOIN member_meeting mm ON m.meetingid = mm.meetingid
 	</sql>
 
 	<!-- 정기적모임 조회 -->
@@ -43,85 +50,114 @@
 	</select>
 
 	<!-- 정기적모임 생성 -->
-	<insert id="createRegular" parameterType="com.somplace.domain.command.RegularCommand">
-		INSERT INTO regularMeeting VALUES 
-		(#{meetingName}, #{regularMeetingDay, jdbcType=VARCHAR}, #{meetingId}, #{startDay}, #{meetingTime})
+	<insert id="createRegular"
+		parameterType="com.somplace.domain.command.RegularCommand">
+		INSERT INTO regularMeeting VALUES
+		(#{meetingName}, #{regularMeetingDay, jdbcType=VARCHAR}, #{meetingId}, #{startDay},
+		#{meetingTime})
 	</insert>
-	
+
 	<!-- 정기적모임 수정 -->
-	<update id="updateRegular" parameterType="com.somplace.domain.command.RegularCommand">
+	<update id="updateRegular"
+		parameterType="com.somplace.domain.command.RegularCommand">
 		UPDATE regularMeeting
-		SET meetingName=#{meetingName}, meetingDay=#{regularMeetingDay}, startDay=#{startDay}, meetingTime=#{meetingTime}
+		SET meetingName=#{meetingName},
+		meetingDay=#{regularMeetingDay}, startDay=#{startDay},
+		meetingTime=#{meetingTime}
 		WHERE meetingId = #{meetingId}
 	</update>
-	
+
 	<!-- 정기적 최신순 정렬 -->
-	<select resultMap="regularResultSet" id="sortRegularByOrder" >
+	<select resultMap="regularResultSet" id="sortRegularByOrder">
 		<include refid="selectRegularView_fragment" />
 		ORDER BY MEETINGID DESC
 	</select>
-	
+
 	<!-- 정기적 인기순 정렬 -->
-	<select resultMap="regularResultSet" id="sortRegularByHeart" >
+	<select resultMap="regularResultSet" id="sortRegularByHeart">
 		<include refid="selectRegularJoin_fragment" />
-		GROUP BY m.meetingid, m.meetingtitle, m.meetingname, m.meetingday, m.meetingid, m.startday, m.meetingtime, m.numofpeople, m.maxpeople,
-			m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday, m.startday, m.meetingtime
+		GROUP BY m.meetingid, m.meetingtitle, m.meetingname, m.meetingday,
+		m.meetingid, m.startday, m.meetingtime, m.numofpeople, m.maxpeople,
+		m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail,
+		m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday,
+		m.startday, m.meetingtime
 		ORDER BY count(mm.heart) DESC
 	</select>
-	
+
 	<!-- 정기적 모임 카테고리별 최신순 정렬 -->
-	<select resultMap="regularResultSet" id="sortRegularCategoryByOrder" >
+	<select resultMap="regularResultSet"
+		id="sortRegularCategoryByOrder">
 		<include refid="selectRegularView_fragment" />
 		WHERE meetingInfo = #{category}
 		ORDER BY MEETINGID DESC
 	</select>
 
 	<!-- 정기적 모임 카테고리별 인기순 정렬 -->
-	<select resultMap="regularResultSet" id="sortRegularCategoryByHeart" >
+	<select resultMap="regularResultSet"
+		id="sortRegularCategoryByHeart">
 		<include refid="selectRegularJoin_fragment" />
 		WHERE meetingInfo = #{category}
-		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, 
-				m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday, m.startday, m.meetingtime
+		GROUP BY m.meetingid, m.meetingtitle,
+		m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
+		m.meetinginfodetail,
+		m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday, m.startday,
+		m.meetingtime
 		ORDER BY count(mm.heart) DESC
 	</select>
-	
+
 	<!-- 정기적모임(키워드) 검색, 최신순 정렬 -->
-	<select resultMap="regularResultSet" id="searchRegularByKeyOrder">
+	<select resultMap="regularResultSet"
+		id="searchRegularByKeyOrder">
 		<include refid="selectRegularView_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
+		'%'||#{key}||'%') and close = 0
 		ORDER BY meetingId DESC
 	</select>
-	
+
 	<!-- 정기적모임(키워드) 검색, 인기순 정렬 -->
 	<select resultMap="regularResultSet" id="sortRegularByKeyHeart">
 		<include refid="selectRegularJoin_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
-		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, 
-			m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday, m.startday, m.meetingtime
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
+		'%'||#{key}||'%') and close = 0
+		GROUP BY m.meetingid, m.meetingtitle,
+		m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
+		m.meetinginfodetail,
+		m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday, m.startday,
+		m.meetingtime
 		ORDER BY count(mm.heart) DESC
 	</select>
-	
+
 	<!-- 정기적모임 카테고리별(키워드) 검색, 최신순 정렬 -->
-	<select resultMap="regularResultSet" id="searchRegularCategoryByKeyOrder" parameterType="map"> 
+	<select resultMap="regularResultSet"
+		id="searchRegularCategoryByKeyOrder" parameterType="map">
 		<include refid="selectRegularView_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
-		ORDER BY meetingId DESC
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
+		'%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
+		ORDER BY
+		meetingId DESC
 	</select>
-	
+
 	<!-- 정기적모임 카테고리별(키워드) 검색, 인기순 정렬 -->
-	<select resultMap="regularResultSet" id="sortRegularCategoryByKeyHeart" parameterType="map"> 
+	<select resultMap="regularResultSet"
+		id="sortRegularCategoryByKeyHeart" parameterType="map">
 		<include refid="selectRegularJoin_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
-		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail, 
-			m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday, m.startday, m.meetingtime
-		ORDER BY count(mm.heart) DESC 
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
+		'%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
+		GROUP BY
+		m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople,
+		m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail,
+		m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday,
+		m.startday, m.meetingtime
+		ORDER BY count(mm.heart) DESC
 	</select>
 
 	<!-- 내가 속한 정기적 모임 조회 -->
-	<select resultMap="regularResultSet" id="getMyJoinRegularList" parameterType="java.util.List">
+	<select resultMap="regularResultSet" id="getMyJoinRegularList"
+		parameterType="java.util.List">
 		<include refid="selectRegularView_fragment" />
 		WHERE MEETINGID IN
-		<foreach collection="meetingIdList" item="item" separator="," open="(" close=")">
+		<foreach collection="meetingIdList" item="item" separator=","
+			open="(" close=")">
 			#{item}
 		</foreach>
 	</select>

@@ -1,102 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.somplace.dao.mybatis.mapper.MemberMeetingMapper">
-	<cache/>
-	
+<mapper
+	namespace="com.somplace.dao.mybatis.mapper.MemberMeetingMapper">
+	<cache />
+
 	<!-- 회원 리스트 조회 -->
 	<select resultType="String" id="findJoinMemberIdList">
 		SELECT ID
 		FROM MEMBER_MEETING
 		WHERE meetingId=#{meetingId} AND apply=0
 	</select>
-	
+
 	<!-- 신청자 리스트 조회 -->
 	<select resultType="String" id="findApplyMemberIdList">
 		SELECT ID
 		FROM MEMBER_MEETING
 		WHERE meetingId=#{meetingId} AND apply=1
 	</select>
-	
+
 	<!-- heart값 가져오기 -->
 	<select resultType="Integer" id="getHeart" parameterType="map">
-		SELECT heart
+		SELECT
+		heart
 		FROM member_meeting
-		WHERE id=#{memberId} AND meetingId=#{meetingId}
+		WHERE id=#{memberId} AND
+		meetingId=#{meetingId}
 	</select>
 
 	<!-- apply값 가져오기 -->
 	<select resultType="Integer" id="getApply" parameterType="map">
-		SELECT apply
+		SELECT
+		apply
 		FROM member_meeting
-		WHERE id=#{memberId} AND meetingId=#{meetingId}
+		WHERE id=#{memberId} AND
+		meetingId=#{meetingId}
 	</select>
-	
+
 	<!-- 모임 신청 (찜하기 안했을 경우) -->
-	<insert id="insertApplyMeeting" parameterType="map"> 
-		INSERT INTO member_meeting 
+	<insert id="insertApplyMeeting" parameterType="map">
+		INSERT INTO member_meeting
 		VALUES (#{memberId}, #{meetingId}, 1, 0)
 	</insert>
-	
+
 	<!-- 모임 찜하기 (모임 신청 안했을 경우) -->
-	<insert id="insertHeartMeeting" parameterType="map"> 
+	<insert id="insertHeartMeeting" parameterType="map">
 		INSERT INTO member_meeting
 		VALUES (#{memberId}, #{meetingId}, -1, 1)
 	</insert>
-	
+
 	<!-- 모임 신청 (찜하기 되어있을 경우) -->
 	<update id="updateApplyMeeting" parameterType="map">
-		UPDATE member_meeting SET apply = 1
-		WHERE id = #{memberId} AND meetingId = #{meetingId}
-	</update> 
-	
+		UPDATE
+		member_meeting SET apply = 1
+		WHERE id = #{memberId} AND meetingId =
+		#{meetingId}
+	</update>
+
 	<!-- 모임 찜하기 (신청, 수락 되어 있을 경우) -->
 	<update id="updateHeartMeeting" parameterType="map">
-		UPDATE member_meeting SET heart = 1
-		WHERE id = #{memberId} AND meetingId = #{meetingId}
-	</update> 
-	
-	<!-- 모임 신청 취소 (찜하기 되어 있을 경우)  -->
+		UPDATE
+		member_meeting SET heart = 1
+		WHERE id = #{memberId} AND meetingId =
+		#{meetingId}
+	</update>
+
+	<!-- 모임 신청 취소 (찜하기 되어 있을 경우) -->
 	<update id="updateApplyCancelMeeting" parameterType="map">
-		UPDATE member_meeting SET apply = -1
-		WHERE id = #{memberId} AND meetingId = #{meetingId}
-	</update> 
-	
+		UPDATE
+		member_meeting SET apply = -1
+		WHERE id = #{memberId} AND meetingId =
+		#{meetingId}
+	</update>
+
 	<!-- 모임 찜하기 취소 (신청, 수락 되어 있을 경우) -->
 	<update id="updateHeartCancelMeeting" parameterType="map">
-		UPDATE member_meeting SET heart = 0
-		WHERE id = #{memberId} AND meetingId = #{meetingId}
-	</update> 
-	
-	<!-- 내가 생성한 모임 회원 수락 (신청이 되어있을 때)  -->
+		UPDATE
+		member_meeting SET heart = 0
+		WHERE id = #{memberId} AND meetingId =
+		#{meetingId}
+	</update>
+
+	<!-- 내가 생성한 모임 회원 수락 (신청이 되어있을 때) -->
 	<update id="updateConfirmApplyMeeting" parameterType="map">
-		UPDATE member_meeting SET apply=0
-		WHERE id = #{memberId} AND meetingId = #{meetingId}
-	</update> 
-	
-	<!-- 모임 신청 취소 (찜하기 되어 있지 않을 경우), 모임 찜하기 취소 (신청, 수락 되어있지 않을 경우), 내가 생성한 모임 회원 내보내기 -->
+		UPDATE
+		member_meeting SET apply=0
+		WHERE id = #{memberId} AND meetingId =
+		#{meetingId}
+	</update>
+
+	<!-- 모임 신청 취소 (찜하기 되어 있지 않을 경우), 모임 찜하기 취소 (신청, 수락 되어있지 않을 경우), 내가 생성한 모임 
+		회원 내보내기 -->
 	<delete id="deleteMemberMeeting" parameterType="map">
-		DELETE FROM member_meeting
-		WHERE id = #{memberId}  AND meetingId = #{meetingId}
+		DELETE FROM
+		member_meeting
+		WHERE id = #{memberId} AND meetingId = #{meetingId}
 	</delete>
-	
+
 	<!-- 내가 속한 모임 아이디 조회 -->
 	<select resultType="Integer" id="getMyJoinMeetingId">
 		SELECT MEETINGID
-		FROM MEMBER_MEETING
-		WHERE apply = 0 AND ID = #{memberId} 
+		FROM
+		MEMBER_MEETING
+		WHERE apply = 0 AND ID = #{memberId}
 	</select>
-	
+
 	<!-- 내가 찜한 모임 아이디 조회 -->
 	<select resultType="Integer" id="getMyLikeMeetingId">
 		SELECT MEETINGID
-		FROM MEMBER_MEETING
-		WHERE heart = 1 AND ID = #{memberId} 
+		FROM
+		MEMBER_MEETING
+		WHERE heart = 1 AND ID = #{memberId}
 	</select>
-	
+
 	<!-- 내가 신청한 모임 아이디 조회 -->
 	<select resultType="Integer" id="getMyApplyMeetingId">
 		SELECT MEETINGID
-		FROM MEMBER_MEETING
-		WHERE apply = 1 AND ID = #{memberId} 
+		FROM
+		MEMBER_MEETING
+		WHERE apply = 1 AND ID = #{memberId}
 	</select>
 </mapper>

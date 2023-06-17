@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -109,47 +109,52 @@ function deleteMember() {
 			<table>
 				<tr>
 					<th><label for="">아이디 💻</label></th>
-					<td colspan="5"><input type="text" value="${memberSession.memberId}" disabled></td>
+					<td colspan="5"><input type="text"
+						value="${memberSession.memberId}" disabled></td>
 					<td rowspan="7" width="5%"></td>
 				</tr>
 
 				<tr>
 					<th><label for="">이름 📰</label></th>
-					<td colspan="5"><input type="text" value="${memberSession.name}" disabled></td>
+					<td colspan="5"><input type="text"
+						value="${memberSession.name}" disabled></td>
 				</tr>
 
 				<tr>
 					<th><label for="">학번 🏫</label></th>
-					<td colspan="5"><input type="text" value="${memberSession.studentNumber}" disabled></td>
+					<td colspan="5"><input type="text"
+						value="${memberSession.studentNumber}" disabled></td>
 				</tr>
 
 				<tr>
 					<th><label for="">학과 📒</label></th>
-					<td colspan="5">
-						<select name="major" disabled>
+					<td colspan="5"><select name="major" disabled>
 							<option value="${memberSession.major}">${memberSession.major}</option>
-                        </select>
-                    </td>
+					</select></td>
 				</tr>
 
 				<tr class="phone">
 					<th>폰번호 📱</th>
-					<td colspan="5"><input type="text" value="${memberSession.phone}" disabled></td>
+					<td colspan="5"><input type="text"
+						value="${memberSession.phone}" disabled></td>
 				</tr>
 
 				<tr>
 					<th><label for="">생년월일 🎂</label></th>
-					<td colspan="5">
-						<input type="date" disabled
-							value="<fmt:formatDate value='${memberSession.birth}' pattern='yyyy-MM-dd'/>">
+					<td colspan="5"><input type="date" disabled
+						value="<fmt:formatDate value='${memberSession.birth}' pattern='yyyy-MM-dd'/>">
 					</td>
 				</tr>
 
 				<tr>
 					<td colspan="3"></td>
-					<td class="buttonTd"><input type="button" style="background-color:rgb(255, 186, 173);" value="탈퇴하기" onClick="deleteMember()"></td>
-					<td class="buttonTd"><input type="button" value="뒤로 가기" onClick="location.href='/meeting/sort/all'"></td>
-					<td class="lastTd"><input type="button" value="내 정보 수정하기📝" onClick="location.href='/member/myInfo/update'"></td>
+					<td class="buttonTd"><input type="button"
+						style="background-color: rgb(255, 186, 173);" value="탈퇴하기"
+						onClick="deleteMember()"></td>
+					<td class="buttonTd"><input type="button" value="뒤로 가기"
+						onClick="location.href='/meeting/sort/all'"></td>
+					<td class="lastTd"><input type="button" value="내 정보 수정하기📝"
+						onClick="location.href='/member/myInfo/update'"></td>
 				</tr>
 			</table>
 		</form>

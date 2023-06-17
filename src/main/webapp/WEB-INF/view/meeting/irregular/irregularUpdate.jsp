@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-	<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -150,9 +150,10 @@ button {
 <body>
 	<jsp:include page="/WEB-INF/view/leftTopBar.jsp" />
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
-	
+
 	<div class="container">
-		<form:form action="/meeting/irregular/update" method="post" onsubmit="return update(this)">
+		<form:form action="/meeting/irregular/update" method="post"
+			onsubmit="return update(this)">
 			<div>
 				<h2>일시적모임 수정하기</h2>
 			</div>
@@ -169,172 +170,191 @@ button {
 				<div class="creator">
 					<h3>모임장</h3>
 					<input type="text" id="creatorId"
-						value=" ${memberSession.major} / ${memberSession.studentNumber} " readonly>
+						value=" ${memberSession.major} / ${memberSession.studentNumber} "
+						readonly>
 				</div>
 			</div>
 
 			<br>
-			<input type="hidden" id ="checkedById" name="checkedById" value="${irregular.meetingId}"></input>
+			<input type="hidden" id="checkedById" name="checkedById"
+				value="${irregular.meetingId}"></input>
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" id="title" name="meetingTitle"
-						size="90" value="${irregular.meetingTitle}" pattern=".{1,15}" required title="15자 이내로 작성해주세요."></td>
+					<td colspan="3"><input type="text" id="title"
+						name="meetingTitle" size="90" value="${irregular.meetingTitle}"
+						pattern=".{1,15}" required title="15자 이내로 작성해주세요."></td>
 				</tr>
 
 				<tr>
 					<th>모집인원</th>
 					<td colspan="3"><input type="text" id="maxPeople"
-						name="maxPeople" size="3" required value="${irregular.maxPeople}"> <strong>명</strong>
-					</td>
+						name="maxPeople" size="3" required value="${irregular.maxPeople}">
+						<strong>명</strong></td>
 				</tr>
 
 				<tr>
 					<th>모임 장소</th>
 					<td colspan="3"><input type="text" id="meetingPlace"
-						name="meetingPlace" size="30" value="${irregular.meetingPlace}" pattern=".{1,15}" required title="15자 이내로 작성해주세요."></td>
+						name="meetingPlace" size="30" value="${irregular.meetingPlace}"
+						pattern=".{1,15}" required title="15자 이내로 작성해주세요."></td>
 				</tr>
 
 				<tr>
 					<th>모임 날짜/시간</th>
 					<td colspan="3"><input type="date" id="meetingDate"
-						name="irregularMeetingDate" value ="${meetingDay}" required> <input type="time"
-						id="meetingTime" name="irregularMeetingTime" value ="${meetingTime}" required>
-					</td>
+						name="irregularMeetingDate" value="${meetingDay}" required>
+						<input type="time" id="meetingTime" name="irregularMeetingTime"
+						value="${meetingTime}" required></td>
 				</tr>
 
 				<tr>
 					<th>모임 메모</th>
-					<td colspan="3"><textarea class="irregular_memo" name="memo" id="memo"
-							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요.">${irregular.memo}</textarea>
+					<td colspan="3"><textarea class="irregular_memo" name="memo"
+							id="memo" placeholder="모임 상세 정보 등을 자유롭게 작성해주세요.">${irregular.memo}</textarea>
 					</td>
 				</tr>
 
 				<tr>
 					<th>카테고리</th>
-					
-					<td>
-						<input type="radio" id="meal" name="meetingInfo" disabled
-							<c:if test="${irregular.meetingInfo eq '식사'}">checked</c:if>>
-							<label for="meal">식사</label> 
-						<input type="radio" id="study" name="meetingInfo" disabled
-							<c:if test="${irregular.meetingInfo eq '스터디'}">checked</c:if>> 
-							<label for="study">스터디</label>
-						<input type="radio" id="hobby" name="meetingInfo" disabled
-							<c:if test="${irregular.meetingInfo eq '취미'}">checked</c:if>>
-							<label for="hobby">취미</label>
-					</td>
+
+					<td><input type="radio" id="meal" name="meetingInfo" disabled
+						<c:if test="${irregular.meetingInfo eq '식사'}">checked</c:if>>
+						<label for="meal">식사</label> <input type="radio" id="study"
+						name="meetingInfo" disabled
+						<c:if test="${irregular.meetingInfo eq '스터디'}">checked</c:if>>
+						<label for="study">스터디</label> <input type="radio" id="hobby"
+						name="meetingInfo" disabled
+						<c:if test="${irregular.meetingInfo eq '취미'}">checked</c:if>>
+						<label for="hobby">취미</label></td>
 				</tr>
 
 				<tr>
-                    <th></th>
-                    <td colspan="3">
-                        <c:set var="detailList" value="${detailList}"/>
-                        <c:choose>
-                        
-                        <c:when test="${irregular.meetingInfo eq '식사'}">
-	                        <div class="meeting_info_detail_td" id="mealDetail">
-	                           <div>
-	                               <input type="checkbox" id="western" name="meetingInfoDetail" value="양식" disabled
-	                               	<c:if test="${fn:contains(detailList, '양식')}">checked</c:if>>
-	                               <label for="western">양식</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="japanese" name="meetingInfoDetail" value="일식" disabled
-	                               	<c:if test="${fn:contains(detailList, '일식')}">checked</c:if>>
-	                               <label for="japanese">일식</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="chinese" name="meetingInfoDetail" value="중식" disabled
-	                               	<c:if test="${fn:contains(detailList, '중식')}">checked</c:if>>
-	                               <label for="chinese">중식</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="korean" name="meetingInfoDetail" value="한식" disabled
-	                               	<c:if test="${fn:contains(detailList, '한식')}">checked</c:if>>
-	                               <label for="korean">한식</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="flour_based" name="meetingInfoDetail" value="분식" disabled
-	                               	<c:if test="${fn:contains(detailList, '분식')}">checked</c:if>>
-	                               <label for="flour_based">분식</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="alcohol" name="meetingInfoDetail" value="술" disabled
-	                               	<c:if test="${fn:contains(detailList, '술')}">checked</c:if>>
-	                               <label for="alcohol">술</label>
-	                           </div>
-	                           <div>
-	                               <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"  disabled
-	                               	<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
-	                                <label for="etc">
-	                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력" disabled value="${detailValue}">
-	                               </label>
-	                           </div>
-	                        </div>
-                        </c:when>
+					<th></th>
+					<td colspan="3"><c:set var="detailList" value="${detailList}" />
+						<c:choose>
 
-						<c:when test="${irregular.meetingInfo eq '스터디'}">
-                        
-						<div class="meeting_info_detail_td" id="studyDetail">
-                            <div>
-                                <input type="checkbox" id="task" name="meetingInfoDetail" value="과제" disabled
-                                	<c:if test="${fn:contains(detailList, '과제')}">checked</c:if>>
-                                <label for="task">과제</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교시험" disabled
-                                	<c:if test="${fn:contains(detailList, '학교시험')}">checked</c:if>>
-                                <label for="exam">학교 시험</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비" disabled
-                                	<c:if test="${fn:contains(detailList, '취업준비')}">checked</c:if>>
-                                <label for="prepare_employment">취업준비</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="license" name="meetingInfoDetail" value="자격증" disabled
-                                	<c:if test="${fn:contains(detailList, '자격증')}">checked</c:if>>
-                                <label for="license">자격증</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)" disabled
-                                	<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
-                                <label for="etc">
-                                    <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력" disabled value="${detailValue}">
-                                </label>
-                            </div>
-                        </div>
-                        </c:when>
-                    
-                    	<c:when test="${irregular.meetingInfo eq '취미'}">
-						<div class="meeting_info_detail_td" id="hobbyDetail">
-							<div>
-								<input type="checkbox" id="sports" name="meetingInfoDetail" value="스포츠" disabled
-									<c:if test="${fn:contains(detailList, '스포츠')}">checked</c:if>> 
-								<label for="sports">스포츠</label>
-							</div>
-							<div>
-								<input type="checkbox" id="art" name="meetingInfoDetail" value="예술" disabled
-									<c:if test="${fn:contains(detailList, '예술')}">checked</c:if>> 
-								<label for="art">예술</label>
-							</div>
-							<div>
-								<input type="checkbox" id="it" name="meetingInfoDetail" value="IT" disabled
-									<c:if test="${fn:contains(detailList, 'IT')}">checked</c:if>> 
-								<label for="it">IT</label>
-							</div>
-							<div>
-								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)" disabled
-									<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>> 
-								<label for="etc">
-									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요." disabled value="${detailValue}">
-								</label>
-							</div>
-						</div>
-						</c:when>
-						</c:choose>
-					</td>
+							<c:when test="${irregular.meetingInfo eq '식사'}">
+								<div class="meeting_info_detail_td" id="mealDetail">
+									<div>
+										<input type="checkbox" id="western" name="meetingInfoDetail"
+											value="양식" disabled
+											<c:if test="${fn:contains(detailList, '양식')}">checked</c:if>>
+										<label for="western">양식</label>
+									</div>
+									<div>
+										<input type="checkbox" id="japanese" name="meetingInfoDetail"
+											value="일식" disabled
+											<c:if test="${fn:contains(detailList, '일식')}">checked</c:if>>
+										<label for="japanese">일식</label>
+									</div>
+									<div>
+										<input type="checkbox" id="chinese" name="meetingInfoDetail"
+											value="중식" disabled
+											<c:if test="${fn:contains(detailList, '중식')}">checked</c:if>>
+										<label for="chinese">중식</label>
+									</div>
+									<div>
+										<input type="checkbox" id="korean" name="meetingInfoDetail"
+											value="한식" disabled
+											<c:if test="${fn:contains(detailList, '한식')}">checked</c:if>>
+										<label for="korean">한식</label>
+									</div>
+									<div>
+										<input type="checkbox" id="flour_based"
+											name="meetingInfoDetail" value="분식" disabled
+											<c:if test="${fn:contains(detailList, '분식')}">checked</c:if>>
+										<label for="flour_based">분식</label>
+									</div>
+									<div>
+										<input type="checkbox" id="alcohol" name="meetingInfoDetail"
+											value="술" disabled
+											<c:if test="${fn:contains(detailList, '술')}">checked</c:if>>
+										<label for="alcohol">술</label>
+									</div>
+									<div>
+										<input type="checkbox" id="etc" name="meetingInfoDetail"
+											onclick="etcVal(this.id)" disabled
+											<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
+										<label for="etc"> <input type="text"
+											id="etcTextDetail" name="etcText" size="15"
+											placeholder="기타항목 입력" disabled value="${detailValue}">
+										</label>
+									</div>
+								</div>
+							</c:when>
+
+							<c:when test="${irregular.meetingInfo eq '스터디'}">
+
+								<div class="meeting_info_detail_td" id="studyDetail">
+									<div>
+										<input type="checkbox" id="task" name="meetingInfoDetail"
+											value="과제" disabled
+											<c:if test="${fn:contains(detailList, '과제')}">checked</c:if>>
+										<label for="task">과제</label>
+									</div>
+									<div>
+										<input type="checkbox" id="exam" name="meetingInfoDetail"
+											value="학교시험" disabled
+											<c:if test="${fn:contains(detailList, '학교시험')}">checked</c:if>>
+										<label for="exam">학교 시험</label>
+									</div>
+									<div>
+										<input type="checkbox" id="prepare_employment"
+											name="meetingInfoDetail" value="취업준비" disabled
+											<c:if test="${fn:contains(detailList, '취업준비')}">checked</c:if>>
+										<label for="prepare_employment">취업준비</label>
+									</div>
+									<div>
+										<input type="checkbox" id="license" name="meetingInfoDetail"
+											value="자격증" disabled
+											<c:if test="${fn:contains(detailList, '자격증')}">checked</c:if>>
+										<label for="license">자격증</label>
+									</div>
+									<div>
+										<input type="checkbox" id="etc" name="meetingInfoDetail"
+											onclick="etcVal(this.id)" disabled
+											<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
+										<label for="etc"> <input type="text"
+											id="etcTextDetail" name="etcText" size="15"
+											placeholder="기타항목 입력" disabled value="${detailValue}">
+										</label>
+									</div>
+								</div>
+							</c:when>
+
+							<c:when test="${irregular.meetingInfo eq '취미'}">
+								<div class="meeting_info_detail_td" id="hobbyDetail">
+									<div>
+										<input type="checkbox" id="sports" name="meetingInfoDetail"
+											value="스포츠" disabled
+											<c:if test="${fn:contains(detailList, '스포츠')}">checked</c:if>>
+										<label for="sports">스포츠</label>
+									</div>
+									<div>
+										<input type="checkbox" id="art" name="meetingInfoDetail"
+											value="예술" disabled
+											<c:if test="${fn:contains(detailList, '예술')}">checked</c:if>>
+										<label for="art">예술</label>
+									</div>
+									<div>
+										<input type="checkbox" id="it" name="meetingInfoDetail"
+											value="IT" disabled
+											<c:if test="${fn:contains(detailList, 'IT')}">checked</c:if>>
+										<label for="it">IT</label>
+									</div>
+									<div>
+										<input type="checkbox" id="etc" name="meetingInfoDetail"
+											onclick="etcVal(this.id)" disabled
+											<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
+										<label for="etc"> <input type="text"
+											id="etcTextDetail" name="etcTextDetail"
+											placeholder="기타항목을 입력하세요." disabled value="${detailValue}">
+										</label>
+									</div>
+								</div>
+							</c:when>
+						</c:choose></td>
 				</tr>
 				<tr>
 					<td></td>

@@ -52,7 +52,7 @@ body {
 	justify-content: space-evenly;
 	align-items: center;
 	font-size: large;
-            font-weight: bolder;
+	font-weight: bolder;
 }
 
 div.active {
@@ -154,7 +154,8 @@ div.active {
 
 <body>
 	<div class="top">
-		<img src="../../../img/logo.png" onclick="location.href='/meeting/sort/all'">
+		<img src="../../../img/logo.png"
+			onclick="location.href='/meeting/sort/all'">
 
 		<div>
 			<div id="meal" onclick="setCategory(this.id)">식사</div>
@@ -165,7 +166,8 @@ div.active {
 
 	<form:form name="categoryForm" action="/meeting/sort/all">
 		<input type="hidden" id="hiddenId" name="category"></input>
-		<input type="hidden" id="meetingType" name="meetingType" value="${meetingType}"></input>
+		<input type="hidden" id="meetingType" name="meetingType"
+			value="${meetingType}"></input>
 		<input type="hidden" id="key" name="key" value="${checkedKey}"></input>
 	</form:form>
 
@@ -197,10 +199,13 @@ div.active {
 
 		<div class="list">
 			<div onClick="location.href='/member/myMeeting/made'">내가 생성한 모임</div>
-			<div onClick="location.href='/member/myMeeting/join/irregular'">내가 속한 일시적 모임</div>
-			<div onClick="location.href='/member/myMeeting/join/regular'">내가 속한 정기적 모임</div>
+			<div onClick="location.href='/member/myMeeting/join/irregular'">내가
+				속한 일시적 모임</div>
+			<div onClick="location.href='/member/myMeeting/join/regular'">내가
+				속한 정기적 모임</div>
 			<div onClick="location.href='/member/myMeeting/like'">내가 찜한 모임</div>
-			<div onClick="location.href='/member/myMeeting/apply'">내가 신청한 모임</div>
+			<div onClick="location.href='/member/myMeeting/apply'">내가 신청한
+				모임</div>
 		</div>
 	</div>
 	<script>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -147,17 +147,16 @@ button {
 	font-size: 16px;
 	height: 33px;
 }
-
 </style>
 </head>
 
 <body>
 	<jsp:include page="/WEB-INF/view/leftTopBar.jsp" />
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
-	
+
 	<div class="container">
-		<form:form action="/meeting/irregular/create" method="post" modelAttribute="meetingCommand"
-						onsubmit="return create(this)">
+		<form:form action="/meeting/irregular/create" method="post"
+			modelAttribute="meetingCommand" onsubmit="return create(this)">
 			<div>
 				<h2>일시적 모임 만들기</h2>
 			</div>
@@ -167,152 +166,155 @@ button {
 			<div class="irregular_create_first">
 				<div>
 					<input type="radio" id="irregularRadio" name="sort" checked>
-					<label for="irregularRadio">일시적</label> 
-					<input type="radio" id="regularRadio" name="sort" value="regularRadio" 
-						onclick="location.href='/meeting/regular/create/form';"> 
-					<label for="regularRadio">정기적</label>
+					<label for="irregularRadio">일시적</label> <input type="radio"
+						id="regularRadio" name="sort" value="regularRadio"
+						onclick="location.href='/meeting/regular/create/form';"> <label
+						for="regularRadio">정기적</label>
 				</div>
 
 				<div class="creator">
 					<h3>모임장</h3>
 					<input type="text" id="creatorInfo"
-						value=" ${memberSession.major} / ${memberSession.studentNumber} " readonly> 
+						value=" ${memberSession.major} / ${memberSession.studentNumber} "
+						readonly>
 				</div>
 			</div>
-			<input type="hidden" name="creatorId" value="${memberSession.memberId}">
+			<input type="hidden" name="creatorId"
+				value="${memberSession.memberId}">
 			<br>
-			
+
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" id="title" name="meetingTitle"
-						size="90" value ="${meetingCommand.meetingTitle}" pattern=".{1,15}" required title="15자 이내로 작성해주세요."></td>
+					<td colspan="3"><input type="text" id="title"
+						name="meetingTitle" size="90"
+						value="${meetingCommand.meetingTitle}" pattern=".{1,15}" required
+						title="15자 이내로 작성해주세요."></td>
 				</tr>
 
 				<tr>
 					<th>모집인원</th>
-					<td colspan="3">
-					<input type="number" id="maxPeople"
-						name="maxPeople" size="3" min="2" max="10" value ="${meetingCommand.maxPeople}" required> 
-						<strong>명</strong>
+					<td colspan="3"><input type="number" id="maxPeople"
+						name="maxPeople" size="3" min="2" max="10"
+						value="${meetingCommand.maxPeople}" required> <strong>명</strong>
 					</td>
 				</tr>
 				<tr>
 					<th>모임 장소</th>
 					<td colspan="3"><input type="text" id="meetingPlace"
-						name="meetingPlace" size="30" value ="${meetingCommand.meetingPlace}" pattern=".{1,15}" required title="15자 이내로 작성해주세요."></td>
+						name="meetingPlace" size="30"
+						value="${meetingCommand.meetingPlace}" pattern=".{1,15}" required
+						title="15자 이내로 작성해주세요."></td>
 				</tr>
 				<tr>
 					<th>모임 날짜/시간</th>
-					<td colspan="3">
-						<input type="date" id="meetingDate" name="irregularMeetingDate" value ="${meetingCommand.irregularMeetingDate}" oninput="compareDate(this)" required> 
-						<input type="time" id="meetingTime" name="irregularMeetingTime" value ="${meetingCommand.irregularMeetingTime}" required>
-					</td>
+					<td colspan="3"><input type="date" id="meetingDate"
+						name="irregularMeetingDate"
+						value="${meetingCommand.irregularMeetingDate}"
+						oninput="compareDate(this)" required> <input type="time"
+						id="meetingTime" name="irregularMeetingTime"
+						value="${meetingCommand.irregularMeetingTime}" required></td>
 				</tr>
 				<tr>
 					<th>모임 메모</th>
-					<td colspan="3"><textarea class="irregular_memo" id="memo" name="memo"
-							placeholder="모임 상세 정보 등을 60자 이내로 자유롭게 작성해주세요."></textarea></td>
+					<td colspan="3"><textarea class="irregular_memo" id="memo"
+							name="memo" placeholder="모임 상세 정보 등을 60자 이내로 자유롭게 작성해주세요."></textarea></td>
 				</tr>
 				<tr>
 					<th>카테고리</th>
-					<td>
-						<input type="radio" id="meal" name="meetingInfo" value="식사" onclick="showDetail(this.id)" checked>
-							<label for="meal">식사</label> 
-						<input type="radio" id="study" name="meetingInfo" value="스터디" onclick="showDetail(this.id)"> 
-							<label for="study">스터디</label> 
-						<input type="radio" id="hobby" name="meetingInfo" value="취미" onclick="showDetail(this.id)"> 
-							<label for="hobby">취미</label>
-					</td>
+					<td><input type="radio" id="meal" name="meetingInfo"
+						value="식사" onclick="showDetail(this.id)" checked> <label
+						for="meal">식사</label> <input type="radio" id="study"
+						name="meetingInfo" value="스터디" onclick="showDetail(this.id)">
+						<label for="study">스터디</label> <input type="radio" id="hobby"
+						name="meetingInfo" value="취미" onclick="showDetail(this.id)">
+						<label for="hobby">취미</label></td>
 				</tr>
 
-                <tr>
-                    <th></th>
-                    <td colspan="3">
-                    <font color="red" size="2"><form:errors path="meetingInfoDetail" /></font>
-                        <!-- 식사선택시 -->
-                        <div class="meeting_info_detail_td" id="mealDetail">
-                           <div>
-                               <input type="checkbox" id="western" name="meetingInfoDetail" value="양식">
-                               <label for="western">양식</label>
-                           </div>
-                           <div>
-                               <input type="checkbox" id="japanese" name="meetingInfoDetail" value="일식">
-                               <label for="japanese">일식</label>
-                           </div>
-                           <div>
-                               <input type="checkbox" id="chinese" name="meetingInfoDetail" value="중식">
-                               <label for="chinese">중식</label>
-                           </div>
-                           <div>
-                               <input type="checkbox" id="korean" name="meetingInfoDetail" value="한식">
-                               <label for="korean">한식</label>
-                           </div>
-                           <div>
-                               <input type="checkbox" id="flour_based" name="meetingInfoDetail" value="분식">
-                               <label for="flour_based">분식</label>
-                           </div>
-                           <div>
-                               <input type="checkbox" id="alcohol" name="meetingInfoDetail" value="술">
-                               <label for="alcohol">술</label>
-                           </div>
-                           <div>
-                               <input type="checkbox" id="mealEtc" name="meetingInfoDetail">
-                                <label for="mealEtc">
-                                   <input type="text" id="mealEtcTextDetail" name="mealEtcText" size="15" placeholder="기타항목 입력">
-                               </label>
-                           </div>
-                        </div>
-
-                        <!-- 스터디선택시 -->
-						<div class="meeting_info_detail_td" id="studyDetail">
-                            <div>
-                                <input type="checkbox" id="task" name="meetingInfoDetail" value="과제">
-                                <label for="task">과제</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="exam" name="meetingInfoDetail" value="학교시험">
-                                <label for="exam">학교시험</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="prepare_employment" name="meetingInfoDetail" value="취업준비">
-                                <label for="prepare_employment">취업준비</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="license" name="meetingInfoDetail" value="자격증">
-                                <label for="license">자격증</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="studyEtc" name="meetingInfoDetail">
-                                <label for="studyEtc">
-                                    <input type="text" id="studyEtcTextDetail" name="studyEtcText" size="15" placeholder="기타항목 입력"
-                                    >
-                                </label>
-                            </div>
-                        </div>
-                    
-						<!-- 취미선택시 -->
-						<div class="meeting_info_detail_td" id="hobbyDetail">
+				<tr>
+					<th></th>
+					<td colspan="3"><font color="red" size="2"><form:errors
+								path="meetingInfoDetail" /></font> <!-- 식사선택시 -->
+						<div class="meeting_info_detail_td" id="mealDetail">
 							<div>
-								<input type="checkbox" id="sports" name="meetingInfoDetail" value="스포츠"> 
-								<label for="sports">스포츠</label>
+								<input type="checkbox" id="western" name="meetingInfoDetail"
+									value="양식"> <label for="western">양식</label>
 							</div>
 							<div>
-								<input type="checkbox" id="art" name="meetingInfoDetail" value="예술"> 
-								<label for="art">예술</label>
+								<input type="checkbox" id="japanese" name="meetingInfoDetail"
+									value="일식"> <label for="japanese">일식</label>
 							</div>
 							<div>
-								<input type="checkbox" id="it" name="meetingInfoDetail" value="IT"> 
-								<label for="it">IT</label>
+								<input type="checkbox" id="chinese" name="meetingInfoDetail"
+									value="중식"> <label for="chinese">중식</label>
 							</div>
 							<div>
-								<input type="checkbox" id="hobbyEtc" name="meetingInfoDetail"> 
-								<label for="hobbyEtc">
-									<input type="text" id="hobbyEtcTextDetail" name="hobbyEtcText" placeholder="기타항목을 입력하세요.">
+								<input type="checkbox" id="korean" name="meetingInfoDetail"
+									value="한식"> <label for="korean">한식</label>
+							</div>
+							<div>
+								<input type="checkbox" id="flour_based" name="meetingInfoDetail"
+									value="분식"> <label for="flour_based">분식</label>
+							</div>
+							<div>
+								<input type="checkbox" id="alcohol" name="meetingInfoDetail"
+									value="술"> <label for="alcohol">술</label>
+							</div>
+							<div>
+								<input type="checkbox" id="mealEtc" name="meetingInfoDetail">
+								<label for="mealEtc"> <input type="text"
+									id="mealEtcTextDetail" name="mealEtcText" size="15"
+									placeholder="기타항목 입력">
 								</label>
 							</div>
-						</div>
-					</td>
+						</div> <!-- 스터디선택시 -->
+						<div class="meeting_info_detail_td" id="studyDetail">
+							<div>
+								<input type="checkbox" id="task" name="meetingInfoDetail"
+									value="과제"> <label for="task">과제</label>
+							</div>
+							<div>
+								<input type="checkbox" id="exam" name="meetingInfoDetail"
+									value="학교시험"> <label for="exam">학교시험</label>
+							</div>
+							<div>
+								<input type="checkbox" id="prepare_employment"
+									name="meetingInfoDetail" value="취업준비"> <label
+									for="prepare_employment">취업준비</label>
+							</div>
+							<div>
+								<input type="checkbox" id="license" name="meetingInfoDetail"
+									value="자격증"> <label for="license">자격증</label>
+							</div>
+							<div>
+								<input type="checkbox" id="studyEtc" name="meetingInfoDetail">
+								<label for="studyEtc"> <input type="text"
+									id="studyEtcTextDetail" name="studyEtcText" size="15"
+									placeholder="기타항목 입력">
+								</label>
+							</div>
+						</div> <!-- 취미선택시 -->
+						<div class="meeting_info_detail_td" id="hobbyDetail">
+							<div>
+								<input type="checkbox" id="sports" name="meetingInfoDetail"
+									value="스포츠"> <label for="sports">스포츠</label>
+							</div>
+							<div>
+								<input type="checkbox" id="art" name="meetingInfoDetail"
+									value="예술"> <label for="art">예술</label>
+							</div>
+							<div>
+								<input type="checkbox" id="it" name="meetingInfoDetail"
+									value="IT"> <label for="it">IT</label>
+							</div>
+							<div>
+								<input type="checkbox" id="hobbyEtc" name="meetingInfoDetail">
+								<label for="hobbyEtc"> <input type="text"
+									id="hobbyEtcTextDetail" name="hobbyEtcText"
+									placeholder="기타항목을 입력하세요.">
+								</label>
+							</div>
+						</div></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -321,7 +323,8 @@ button {
 						<button type="submit">생성하기</button>
 					</td>
 					<td>
-						<div class="irregular_back_btn" onclick="location.href='/meeting/sort/all';">취소하기</div>
+						<div class="irregular_back_btn"
+							onclick="location.href='/meeting/sort/all';">취소하기</div>
 					</td>
 				</tr>
 			</table>

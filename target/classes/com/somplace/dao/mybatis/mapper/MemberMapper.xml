@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.somplace.dao.mybatis.mapper.MemberMapper">
-	<cache/>
+	<cache />
 
-	<select id="getMember" resultType="Member"> 
-		SELECT ID as memberId, PW, NAME, STUDENTNUMBER, MAJOR, PHONE, GOOD, BAD, BIRTH
+	<select id="getMember" resultType="Member">
+		SELECT ID as memberId, PW, NAME, STUDENTNUMBER, MAJOR, PHONE, GOOD, BAD,
+		BIRTH
 		FROM MEMBER
 		WHERE ID = #{memberId}
 	</select>
-	
-	<insert id="createMember" parameterType="com.somplace.domain.command.MemberCommand"> 
+
+	<insert id="createMember"
+		parameterType="com.somplace.domain.command.MemberCommand">
 		INSERT INTO MEMBER
-		VALUES (#{memberId}, #{pw}, #{name}, 
-				#{studentNumberIntType}, #{major}, #{phone}, 
-				#{birth}, 0, 0)
+		VALUES (#{memberId}, #{pw}, #{name},
+		#{studentNumberIntType}, #{major}, #{phone},
+		#{birth}, 0, 0)
 	</insert>
 
-	<select id="memberIdCheck" resultType="int"> 
+	<select id="memberIdCheck" resultType="int">
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE ID = #{memberId}
 	</select>
-	
-	<update id="updateMember" parameterType="com.somplace.domain.command.MemberCommand">
+
+	<update id="updateMember"
+		parameterType="com.somplace.domain.command.MemberCommand">
 		UPDATE MEMBER
 		SET PW = #{pw},
-			NAME = #{name},
-			MAJOR = #{major},
-			PHONE = #{phone}
+		NAME = #{name},
+		MAJOR = #{major},
+		PHONE = #{phone}
 		WHERE ID = #{memberId}
 	</update>
-	
+
 	<update id="updateMemberGood">
 		UPDATE MEMBER
 		SET good = good + 1
-		WHERE id = #{memberId}
+		WHERE id =
+		#{memberId}
 	</update>
-	
+
 	<update id="updateMemberBad">
 		UPDATE MEMBER
 		SET bad = bad + 1
 		WHERE id = #{memberId}
 	</update>
-	
+
 	<delete id="deleteMember">
 		DELETE FROM MEMBER
 		WHERE ID = #{memberId}

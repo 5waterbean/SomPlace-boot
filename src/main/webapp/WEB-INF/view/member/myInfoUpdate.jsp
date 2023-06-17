@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html>
@@ -128,66 +128,72 @@ input[type="button"]:hover {
 	<div class="container">
 		<div class="containerTitle">내정보</div>
 
-		<form:form modelAttribute="memberCommand" action="/member/myInfo/update" onsubmit="return updateMember(this)">
+		<form:form modelAttribute="memberCommand"
+			action="/member/myInfo/update" onsubmit="return updateMember(this)">
 			<table>
 				<tr>
 					<th><label for="">아이디 💻</label></th>
-					<td colspan="5"><input class="noChange" type="text" name="memberId" value="${memberSession.memberId}" readonly></td>
+					<td colspan="5"><input class="noChange" type="text"
+						name="memberId" value="${memberSession.memberId}" readonly></td>
 					<td rowspan="9" width="5%"></td>
 				</tr>
 
 				<tr>
 					<th><label for="">비밀번호 🔒</label></th>
-					<td colspan="5"><input type="password" name="pw" value="${memberSession.pw}" placeholder="4자 이상 15자 이내로 입력해주세요" 
-                    	pattern=".{4,15}" required title="4자 이상 15자 이내로 입력해주세요"></td>
+					<td colspan="5"><input type="password" name="pw"
+						value="${memberSession.pw}" placeholder="4자 이상 15자 이내로 입력해주세요"
+						pattern=".{4,15}" required title="4자 이상 15자 이내로 입력해주세요"></td>
 				</tr>
 
 				<tr>
 					<th><label for="">비밀번호 확인🔒</label></th>
-					<td colspan="5"><input type="password" name="pwConfirm" value="${memberSession.pw}" required></td>
+					<td colspan="5"><input type="password" name="pwConfirm"
+						value="${memberSession.pw}" required></td>
 				</tr>
 
 				<tr>
 					<th><label for="">이름 📰</label></th>
-					<td colspan="5"><input type="text" name="name" value="${memberSession.name}" required></td>
+					<td colspan="5"><input type="text" name="name"
+						value="${memberSession.name}" required></td>
 				</tr>
 
 				<tr>
 					<th><label for="">학번 🏫</label></th>
-					<td colspan="5"><input class="noChange" type="text" name="studentNumber" value="${memberSession.studentNumber}" readonly></td>
+					<td colspan="5"><input class="noChange" type="text"
+						name="studentNumber" value="${memberSession.studentNumber}"
+						readonly></td>
 				</tr>
 
 				<tr>
 					<th><label for="">학과 📒</label></th>
-					<td colspan="5">
-						<select name="major">
-                            <option disabled>선택해주세요</option>
-                            <c:forEach var="major" items="${majorList}">
-                            	<option value="${major}" <c:if test="${memberSession.major == major}">selected</c:if>>${major}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
+					<td colspan="5"><select name="major">
+							<option disabled>선택해주세요</option>
+							<c:forEach var="major" items="${majorList}">
+								<option value="${major}"
+									<c:if test="${memberSession.major == major}">selected</c:if>>${major}</option>
+							</c:forEach>
+					</select></td>
 				</tr>
 
 				<tr>
 					<th>폰번호 📱</th>
-					<td colspan="5">
-						<input type="text" name="phone" value="${memberSession.phone}" placeholder="- 빼고 숫자만 입력해주세요" 
-							pattern="010([0-9]{8})" required title="예)01012341234">
-					</td>
+					<td colspan="5"><input type="text" name="phone"
+						value="${memberSession.phone}" placeholder="- 빼고 숫자만 입력해주세요"
+						pattern="010([0-9]{8})" required title="예)01012341234"></td>
 				</tr>
 
 				<tr>
 					<th><label for="">생년월일 🎂</label></th>
-					<td colspan="5">
-						<input class="noChange" type="date" name="birth" readonly
-							value="<fmt:formatDate value='${memberSession.birth}' pattern='yyyy-MM-dd'/>">
+					<td colspan="5"><input class="noChange" type="date"
+						name="birth" readonly
+						value="<fmt:formatDate value='${memberSession.birth}' pattern='yyyy-MM-dd'/>">
 					</td>
 				</tr>
 
 				<tr>
 					<td colspan="4"></td>
-					<td class="cancelTd"><input type="button" value="취소" onClick="location.href='/member/myInfo'"></td>
+					<td class="cancelTd"><input type="button" value="취소"
+						onClick="location.href='/member/myInfo'"></td>
 					<td class="updateTd"><input type="submit" value="수정"></td>
 				</tr>
 			</table>
