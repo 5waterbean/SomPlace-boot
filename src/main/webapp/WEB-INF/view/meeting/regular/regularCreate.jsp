@@ -153,7 +153,8 @@ button {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 
 	<div class="container">
-		<form:form action="/meeting/regular/create" method="post" modelAttribute="meetingCommand" >
+		<form:form action="/meeting/regular/create" method="post" modelAttribute="meetingCommand" 
+			onSubmit="return create(this)">
 			<div>
 				<h2>정기적 모임 만들기</h2>
 			</div>
@@ -182,13 +183,13 @@ button {
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" id="title" name="meetingTitle" value=""
-						size="120" required></td>
+					<td colspan="3"><input type="text" id="title" name="meetingTitle" title="15자 이내로 입력해주세요"
+						pattern=".{1,15}" size="120" required></td>
 				</tr>
 
 				<tr>
 					<th>모임 이름</th>
-					<td><input type="text" name="meetingName" value="" required>
+					<td><input type="text" name="meetingName" title="15자 이내로 입력해주세요" pattern=".{1,15}" required>
 					<font color="red" size="2"><form:errors path="meetingName" /></font>
 					</td>
 					<td style="text-align: right;"><strong>모집 인원</strong></td>
@@ -198,8 +199,8 @@ button {
 
 				<tr>
 					<th>모임 장소</th>
-					<td colspan="3"><input type="text" id="meetingPlace" name="meetingPlace" value=""
-						size="70" required></td>
+					<td colspan="3"><input type="text" id="meetingPlace" name="meetingPlace" title="15자 이내로 입력해주세요"
+						pattern=".{1,15}" size="70" required></td>
 				</tr>
 
 				<tr>
@@ -300,7 +301,7 @@ button {
                            <div>
                                <input type="checkbox" id="mealEtc" name="meetingInfoDetail">
                                 <label for="mealEtc">
-                                   <input type="text" id="mealEtcTextDetail" name="mealEtcText" size="15" placeholder="기타항목 입력">
+                                   <input type="text" id="mealEtcTextDetail" name="mealEtcText" size="15" placeholder="기타항목 입력" value="">
                                </label>
                            </div>
                         </div>
@@ -324,10 +325,9 @@ button {
                                 <label for="license">자격증</label>
                             </div>
                             <div>
-                                <input type="checkbox" id="StudyEtc" name="meetingInfoDetail">
-                                <label for="StudyEtc">
-                                    <input type="text" id="StudyEtcTextDetail" name="StudyEtcText" size="15" placeholder="기타항목 입력"
-                                    >
+                                <input type="checkbox" id="studyEtc" name="meetingInfoDetail">
+                                <label for="studyEtc">
+                                    <input type="text" id="studyEtcTextDetail" name="studyEtcText" size="15" placeholder="기타항목 입력" value="">
                                 </label>
                             </div>
                         </div>
@@ -349,12 +349,12 @@ button {
 							<div>
 								<input type="checkbox" id="hobbyEtc" name="meetingInfoDetail"> 
 								<label for="hobbyEtc">
-									<input type="text" id="hobbyEtcTextDetail" name="hobbyEtcText" placeholder="기타항목을 입력하세요.">
+									<input type="text" id="hobbyEtcTextDetail" name="hobbyEtcText" placeholder="기타항목을 입력하세요." value="">
 								</label>
 							</div>
 						</div>
 					</td>
-					<td colspan="2"><textarea class="regular_memo" name="memo"
+					<td colspan="2"><textarea class="regular_memo" name="memo" id="memo" 
 							placeholder="모임 상세 정보 등을 자유롭게 작성해주세요."></textarea></td>
 				
 				</tr>
@@ -363,7 +363,7 @@ button {
 					<td></td>
 					<td></td>
 					<td>
-						<button type="submit" onclick="create()">생성하기</button>
+						<button type="submit">생성하기</button>
 					</td>
 					<td>
 						<div class="regular_back_btn" onclick="location.href='/meeting/sort/all'">취소하기</div>
@@ -380,12 +380,12 @@ button {
 		document.querySelector('input[type="date"]').min = new Date()
 			.toISOString().substring(0, 10);
 	
-		let mealEtc = document.querySelector("#mealEtc");
-		let mealEtcTextDetail = document.querySelector('#mealEtcTextDetail');
-		let StudyEtc = document.querySelector("#StudyEtc");
-		let StudyEtcTextDetail = document.querySelector('#StudyEtcTextDetail');
-		let hobbyEtc = document.querySelector("#hobbyEtc");
-		let hobbyEtcTextDetail = document.querySelector('#hobbyEtcTextDetail');
+		var mealEtc = document.querySelector("#mealEtc");
+		var mealEtcTextDetail = document.querySelector('#mealEtcTextDetail');
+		var studyEtc = document.querySelector("#studyEtc");
+		var studyEtcTextDetail = document.querySelector('#studyEtcTextDetail');
+		var hobbyEtc = document.querySelector("#hobbyEtc");
+		var hobbyEtcTextDetail = document.querySelector('#hobbyEtcTextDetail');
 		
 	    function create() {
             if (mealEtc.checked) {
@@ -395,11 +395,11 @@ button {
             		detailValue.value = mealEtcTextDetail.value;
             	}
             }
-            if (StudyEtc.checked) {
-            	StudyEtcTextDetail.required = true;
-            	if (StudyEtc.value != "") {
-            		StudyEtc.value = StudyEtcTextDetail.value;
-            		detailValue.value = StudyEtcTextDetail.value;
+            if (studyEtc.checked) {
+            	studyEtcTextDetail.required = true;
+            	if (studyEtc.value != "") {
+            		studyEtc.value = studyEtcTextDetail.value;
+            		detailValue.value = studyEtcTextDetail.value;
             	}
             }
             if (hobbyEtc.checked) {
@@ -409,6 +409,21 @@ button {
             		detailValue.value = hobbyEtcTextDetail.value;
             	}
             }
+            
+            var text_len = document.getElementById("memo").value.length; //입력한 문자수
+            if (text_len >= 60) {
+            	alert("메모를 60자 이내로 입력해주세요");
+            	return false;
+            }
+            
+            var retVal = confirm("생성하시겠습니까?");
+            if (retVal == true) {
+            	alert("생성되었습니다.");
+            }
+            else {
+            	alert("생성취소되었습니다.");
+            }
+            return retVal;
         }
 	
 	    $(document).ready(function() {
@@ -416,9 +431,9 @@ button {
     		document.getElementById("hobbyDetail").style.display = "none";
     	});
     	
-    	let allMeal = document.querySelectorAll('#mealDetail > div > input[type="checkbox"]');
-        let allStudy = document.querySelectorAll('#studyDetail > div > input[type="checkbox"]');
-        let allHobby = document.querySelectorAll('#hobbyDetail > div > input[type="checkbox"]');
+    	var allMeal = document.querySelectorAll('#mealDetail > div > input[type="checkbox"]');
+        var allStudy = document.querySelectorAll('#studyDetail > div > input[type="checkbox"]');
+        var allHobby = document.querySelectorAll('#hobbyDetail > div > input[type="checkbox"]');
         
     	function showDetail(infoId) {
     		if (infoId == "meal") {
@@ -426,11 +441,11 @@ button {
     			document.getElementById("studyDetail").style.display = "none";
     			document.getElementById("hobbyDetail").style.display = "none";
     			
-    	        for (let i = 0; i < allStudy.length; i++) {
+    	        for (var i = 0; i < allStudy.length; i++) {
     	            allStudy[i].checked = false;
     	        }
     	        
-    	        for (let i = 0; i < allHobby.length; i++) {
+    	        for (var i = 0; i < allHobby.length; i++) {
     	            allHobby[i].checked = false;
     	        }
     	        
@@ -439,11 +454,11 @@ button {
     			document.getElementById("studyDetail").style.display = "";
     			document.getElementById("hobbyDetail").style.display = "none";
     			
-    	        for (let i = 0; i < allMeal.length; i++) {
+    	        for (var i = 0; i < allMeal.length; i++) {
     	            allMeal[i].checked = false;
     	        }
     	        
-    	        for (let i = 0; i < allHobby.length; i++) {
+    	        for (var i = 0; i < allHobby.length; i++) {
     	            allHobby[i].checked = false;
     	        }
     		} else {
@@ -451,11 +466,11 @@ button {
     			document.getElementById("studyDetail").style.display = "none";
     			document.getElementById("hobbyDetail").style.display = "";
     			
-    	        for (let i = 0; i < allMeal.length; i++) {
+    	        for (var i = 0; i < allMeal.length; i++) {
     	            allMeal[i].checked = false;
     	        }
     	        
-    	        for (let i = 0; i < allStudy.length; i++) {
+    	        for (var i = 0; i < allStudy.length; i++) {
     	            allStudy[i].checked = false;
     	        }
     		}

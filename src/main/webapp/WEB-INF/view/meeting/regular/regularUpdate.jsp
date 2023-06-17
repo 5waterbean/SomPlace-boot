@@ -145,7 +145,7 @@ button {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 
 	<div class="container">
-		<form name="updateForm" action="/meeting/regular/update" method="POST">
+		<form:form action="/meeting/regular/update" method="POST" onSubmit="return update(this)">
 			<div>
 				<h2>${regular.meetingTitle} 수정하기</h2>
 				<input type="hidden" name="checkedById" value="${regular.meetingId}">
@@ -174,14 +174,14 @@ button {
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" name="meetingTitle"
-						size="120" value="${regular.meetingTitle}" required></td>
+					<td colspan="3"><input type="text" id="title" name="meetingTitle" title="15자 이내로 입력해주세요"
+						pattern=".{1,15}" size="120" value="${regular.meetingTitle}" required></td>
 				</tr>
 
 				<tr>
 					<th>모임 이름</th>
-					<td><input type="text" name="meetingName" maxlength="40" oninput="handleInputLength(this, 40)"
-						value="${regular.meetingName}" required>
+					<td><input type="text" name="meetingName" placeholder="15자 이내로 입력해주세요"
+						pattern=".{1,15}" value="${regular.meetingName}" required>
 					<td style="text-align: right;"><strong>모집 인원</strong></td>
 					<td><input type="text" name="maxPeople" size="10" max="10"
 						required value="${regular.maxPeople}"> <strong>명</strong></td>
@@ -189,8 +189,8 @@ button {
 
 				<tr>
 					<th>모임 장소</th>
-					<td colspan="3"><input type="text" name="meetingPlace"
-						size="70" required value="${regular.meetingPlace}"></td>
+					<td colspan="3"><input type="text" name="meetingPlace" placeholder="15자 이내로 입력해주세요"
+						pattern=".{1,15}" size="70" required value="${regular.meetingPlace}"></td>
 				</tr>
 
 				<tr>
@@ -314,7 +314,7 @@ button {
 	                           </div>
 	                           <div>
 	                               <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)"  disabled
-	                               	<c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>>
+	                               	<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
 	                                <label for="etc">
 	                                   <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력" disabled value="${detailValue}">
 	                               </label>
@@ -347,7 +347,7 @@ button {
                             </div>
                             <div>
                                 <input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)" disabled
-                                	<c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>>
+                                	<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
                                 <label for="etc">
                                     <input type="text" id="etcTextDetail" name="etcText" size="15" placeholder="기타항목 입력" disabled value="${detailValue}">
                                 </label>
@@ -374,7 +374,7 @@ button {
 							</div>
 							<div>
 								<input type="checkbox" id="etc" name="meetingInfoDetail" onclick="etcVal(this.id)" disabled
-									<c:if test="${fn:contains(detailList, detailValue)}">checked</c:if>> 
+									<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>> 
 								<label for="etc">
 									<input type="text" id="etcTextDetail" name="etcTextDetail" placeholder="기타항목을 입력하세요." disabled value="${detailValue}">
 								</label>
@@ -384,36 +384,39 @@ button {
 						</c:choose>
 					</td>
 
-					<td colspan="2"><textarea class="regular_memo" name="memo">${regular.memo}</textarea></td>
+					<td colspan="2"><textarea class="regular_memo" name="memo" id="memo">${regular.memo}</textarea></td>
 				</tr>
 
 				<tr>
 					<td></td>
 					<td></td>
 					<td>
-						<button type="submit" onclick="update()">수정하기</button>
+						<button type="submit">수정하기</button>
 					</td>
 					<td>
 						<div class="regular_back_btn" onclick="history.back();">취소하기</div>
 					</td>
 				</tr>
 			</table>
-		</form>
+		</form:form>
 	</div>
 	<script>		
-		function update() {
-	        if (etc.checked) {
-	            if (etc.value != "") {
-	                etc.value = etcTextDetail.value;
-	            }
-	        }
-	    }
 		
-		function handleInputLength(el, max) {
-			  if(el.value.length > max) {
-			    el.value = el.value.substr(0, max);
-			  }
-			}
+		function update() {			        
+	        var text_len = document.getElementById("memo").value.length; //입력한 문자수
+            if (text_len >= 60) {
+            	alert("메모를 60자 이내로 입력해주세요");
+            	return false;
+            }
+	        
+            var retVal = confirm("수정하시겠습니까?");
+            if (retVal == true) {
+            	alert("수정되었습니다.");
+            } else {
+            	alert("수정취소되었습니다.");
+            }
+            return retVal;
+	    }
 	</script>
 </body>
 
