@@ -15,7 +15,6 @@ import com.somplace.domain.Member;
 import com.somplace.domain.Regular;
 import com.somplace.service.IrregularService;
 import com.somplace.service.MeetingService;
-import com.somplace.service.MemberMeetingService;
 import com.somplace.service.RegularService;
 
 @Controller
@@ -24,9 +23,6 @@ import com.somplace.service.RegularService;
 public class ViewMyMeetingListController {
 	@Autowired
 	private MeetingService meetingService;
-	
-	@Autowired
-	private MemberMeetingService memberMeetingService;
 	
 	@Autowired
 	private RegularService regularService;
