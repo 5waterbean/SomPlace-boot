@@ -112,7 +112,7 @@ h3, h4 {
 .member_list_td {
 	border: 1px solid gray;
 	border-radius: 20px;
-	height: 150px;
+	height: 250px;
 	overflow-y: scroll;
 	resize: none;
 }
@@ -354,7 +354,7 @@ h3, h4 {
 	                        <div class="meeting_info_detail_td" id="mealDetail">
 	                           <div>
 	                               <input type="checkbox" id="western" name="meetingInfoDetail" value="양식"
-	                               	 <c:if test="${fn:contains(detailList, '식사')}" > checked</c:if> disabled>
+	                               	 <c:if test="${fn:contains(detailList, '양식')}" > checked</c:if> disabled>
 	                               <label for="western">양식</label>
 	                           </div>
 	                           <div>
@@ -383,16 +383,16 @@ h3, h4 {
 	                               <label for="alcohol">술</label>
 	                           </div>
 	                           <div>
-	                               <input type="checkbox" id="etc" name="meetingInfoDetail" 
-										<c:if test="${fn:contains(detailList, detalValue)}" > checked</c:if> disabled>
+	                               <input type="checkbox" id="etc" name="meetingInfoDetail" disabled
+										<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if>>
 	                                <label for="etc">
 	                                   <input type="text" id="etcTextDetail" name="etcText" size="15" value="${detailValue}" disabled>
 	                               </label>
 	                           </div>
 	                        </div>
-	                       </c:when>
+	                    </c:when>
 	
-							<c:when test="${regular.meetingInfo eq '스터디'}">
+						<c:when test="${regular.meetingInfo eq '스터디'}">
 	                        
 							<div class="meeting_info_detail_td" id="studyDetail">
 	                            <div>
@@ -416,8 +416,8 @@ h3, h4 {
 	                                <label for="license">자격증</label>
 	                            </div>
 	                            <div>
-	                                <input type="checkbox" id="etc" name="meetingInfoDetail"
-										<c:if test="${fn:contains(detailList, detalValue)}" > checked</c:if> disabled>
+	                                <input type="checkbox" id="etc" name="meetingInfoDetail" disabled
+										<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if> >
 										
 	                                <label for="etc">
 	                                    <input type="text" id="etcTextDetail" name="etcText" size="15" value="${detailValue}" disabled>
@@ -445,11 +445,12 @@ h3, h4 {
 									<label for="it">IT</label>
 								</div>
 								<div>
-									<input type="checkbox" id="etc" name="meetingInfoDetail" 		
-										<c:if test="${detailValue}" > checked</c:if> disabled> 
-									<label for="etc">
-										<c:if test="${fn:contains(detailList, detalValue)}" > checked</c:if> disabled>
-									</label>
+									<input type="checkbox" id="etc" name="meetingInfoDetail" disabled
+										<c:if test="${!empty detailValue && fn:contains(detailList, detailValue)}">checked</c:if> >
+										
+	                                <label for="etc">
+	                                    <input type="text" id="etcTextDetail" name="etcText" size="15" value="${detailValue}" disabled>
+	                                </label>
 								</div>
 							</div>
 						</c:otherwise>
@@ -535,7 +536,7 @@ h3, h4 {
 						<!-- 모임 생성자만 보이게 -->
 						<c:if test="${regular.creatorId eq memberSession.memberId}"> 
 							<c:if test="${regular.cancel eq 0 }">
-								<div class="regular_delete_btn"  onClick="deleteForm.submit()">모임 삭제하기</div>
+								<div class="regular_delete_btn"  onClick="deleteMeeting()">모임 삭제하기</div>
 							</c:if>
 						</c:if>
 					</td>
@@ -644,21 +645,40 @@ h3, h4 {
 		init();
 		
 		function init() {
-			let close = document.getElementById("close").value;
-			if (close == 1) {
+			let cancel = document.getElementById("cancel").value;
+			if (cancel == 1) {
 				document.getElementById("container").style.backgroundColor = "rgb(244, 243, 243)";
 			}
 		}
 		
 		function memberIn(applyMemberId) {
-			document.getElementById("memberIn").value = applyMemberId;
-			document.getElementById("memberInForm").submit();
+			var retVal = confirm("이 회원을 수락하시겠습니까?");
+            if (retVal == true) {
+            	document.getElementById("memberIn").value = applyMemberId;
+    			document.getElementById("memberInForm").submit();
+            	alert("수락했습니다.");
+            }
+            return retVal;
 		}
 		
 		function memberOut(applyMemberId) {
-			document.getElementById("memberOut").value = applyMemberId;
-			document.getElementById("memberOutForm").submit();
+			var retVal = confirm("이 회원을 내보내시겠습니까?");
+            if (retVal == true) {
+            	document.getElementById("memberOut").value = applyMemberId;
+    			document.getElementById("memberOutForm").submit();
+            	alert("완료되었습니다.");
+            }
+            return retVal;
 		}
+		
+		function deleteMeeting() {
+			var retVal = confirm("삭제하시겠습니까?");
+            if (retVal == true) {
+            	alert("삭제되었습니다.");
+            	deleteForm.submit();
+            }
+            return retVal;
+		} 
 		
 		function rateMember(evaluatedMember, type) {
 			var rater = '${memberSession.memberId}';
