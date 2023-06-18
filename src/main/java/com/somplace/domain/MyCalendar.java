@@ -1,8 +1,6 @@
 package com.somplace.domain;
 
 import java.util.List;
-import com.somplace.domain.Irregular;
-import com.somplace.domain.Regular;
 
 import lombok.Getter;
 import lombok.Setter;
