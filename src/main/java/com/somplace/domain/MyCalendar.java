@@ -1,4 +1,4 @@
-package com.somplace.controller.member;
+package com.somplace.domain;
 
 import java.util.List;
 import com.somplace.domain.Irregular;
