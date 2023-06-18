@@ -27,13 +27,13 @@ public class DeleteMemberController {
 		if(result == 1) {
 			mav.addObject("msg", "탈퇴되었습니다.");
 			mav.addObject("url", "/");
+			session.invalidate();
 		}
 		else {
 			mav.addObject("msg", "탈퇴를 실패했습니다.");
 			mav.addObject("url", "/member/myInfo");
 		}
 		
-		session.invalidate();
 		return mav;
 	}
 }
