@@ -506,7 +506,7 @@ h3, h4 {
 				<tr>
 					<td></td>
 					<td></td>
-					<td><c:if
+					<td style="width: 15%"><c:if
 							test="${irregular.cancel eq 0 && irregular.close eq 0}">
 							<c:if test="${irregular.creatorId eq memberSession.memberId}">
 								<div class="irregular_close_btn" onclick="closeForm.submit()">모집
@@ -540,16 +540,15 @@ h3, h4 {
 								</c:if>
 							</c:if>
 						</c:if></td>
-					<td>
-						<!-- 모임 생성자만 보이게 --> <c:if
-							test="${irregular.creatorId eq memberSession.memberId}">
-							<c:if test="${irregular.cancel eq 0}">
+					<!-- 모임 생성자만 보이게 -->
+					<c:if test="${irregular.creatorId eq memberSession.memberId}">
+						<c:if test="${irregular.cancel eq 0}">
+							<td>
 								<div class="irregular_delete_btn" onclick="deleteMeeting()">모임
-									삭제하기</div>
-								<!--생성자만-->
-							</c:if>
+									삭제하기</div> <!--생성자만-->
+							</td>
 						</c:if>
-					</td>
+					</c:if>
 				</tr>
 			</table>
 		</form>
@@ -621,66 +620,72 @@ h3, h4 {
 	</div>
 
 	<script>
-			init();
-	
-			function init() {
-	    		let cancel = document.getElementById("cancel").value;
-	    		if (cancel == 1) {
-	    			document.getElementById("container").style.backgroundColor = "rgb(244, 243, 243)";
-	    		}
-	        }
-			
-			function memberIn(applyMemberId) {
-				var r = confirm("이 회원을 수락하시겠습니까?");
-		        if (r == true) {
-		        	document.getElementById("memberIn").value = applyMemberId;
-					document.getElementById("memberInForm").submit();
-		            alert("수락했습니다.")
-		        } 
-		        return r;
+		init();
+
+		function init() {
+			let cancel = document.getElementById("cancel").value;
+			if (cancel == 1) {
+				document.getElementById("container").style.backgroundColor = "rgb(244, 243, 243)";
 			}
-			
-			function memberOut(applyMemberId) {
-				var r = confirm("이 회원을 내보내시겠습니까?");
-		        if (r == true) {
-		        	document.getElementById("memberOut").value = applyMemberId;
-					document.getElementById("memberOutForm").submit();
-		            alert("내보냈습니다.")
-		        } 
-		        return r;
+		}
+
+		function memberIn(applyMemberId) {
+			var r = confirm("이 회원을 수락하시겠습니까?");
+			if (r == true) {
+				document.getElementById("memberIn").value = applyMemberId;
+				document.getElementById("memberInForm").submit();
+				alert("수락했습니다.")
 			}
-			
-			function rateMember(evaluatedMember, type) {
-				var rater = '${memberSession.memberId}';
-				var meetingId = ${irregular.meetingId};
-				
-				$.ajax({
-					url : "/member/rating",
-					type : "post",
-					data : {"rater" : rater,
-							"evaluatedMember" : evaluatedMember,
-							"meetingId" : meetingId,
-							"type" : type }, 
-					success : function(data){
-						if(data == "rated") {
-							alert("이미 평가를 완료한 회원입니다");
-						} else if (data == "likeSuccess"){
-							alert("좋아요 성공");
-						} else {
-							alert("싫어요 성공");
-						}
+			return r;
+		}
+
+		function memberOut(applyMemberId) {
+			var r = confirm("이 회원을 내보내시겠습니까?");
+			if (r == true) {
+				document.getElementById("memberOut").value = applyMemberId;
+				document.getElementById("memberOutForm").submit();
+				alert("내보냈습니다.")
+			}
+			return r;
+		}
+
+		function rateMember(evaluatedMember, type) {
+			var rater = '${memberSession.memberId}';
+			var meetingId = $
+			{
+				irregular.meetingId
+			}
+			;
+
+			$.ajax({
+				url : "/member/rating",
+				type : "post",
+				data : {
+					"rater" : rater,
+					"evaluatedMember" : evaluatedMember,
+					"meetingId" : meetingId,
+					"type" : type
+				},
+				success : function(data) {
+					if (data == "rated") {
+						alert("이미 평가를 완료한 회원입니다");
+					} else if (data == "likeSuccess") {
+						alert("좋아요 성공");
+					} else {
+						alert("싫어요 성공");
 					}
-				})
+				}
+			})
+		}
+
+		function deleteMeeting() {
+			var r = confirm("삭제하시겠습니까?");
+			if (r == true) {
+				deleteForm.submit();
+				alert("삭제되었습니다.")
 			}
-			
-			function deleteMeeting() {
-				 var r = confirm("삭제하시겠습니까?");
-			        if (r == true) {
-			        	deleteForm.submit();
-			            alert("삭제되었습니다.")
-			        } 
-			        return r;
-			}
+			return r;
+		}
 	</script>
 </body>
 
