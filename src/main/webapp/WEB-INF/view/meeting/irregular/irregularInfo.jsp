@@ -506,7 +506,8 @@ h3, h4 {
 				<tr>
 					<td></td>
 					<td></td>
-					<td style="width: 15%"><c:if
+					<td style="width: 20%">
+					<c:if
 							test="${irregular.cancel eq 0 && irregular.close eq 0}">
 							<c:if test="${irregular.creatorId eq memberSession.memberId}">
 								<div class="irregular_close_btn" onclick="closeForm.submit()">모집
@@ -531,7 +532,8 @@ h3, h4 {
 										onclick="applyCancelForm.submit()">신청 취소하기</div>
 								</c:if>
 							</c:if>
-						</c:if> <c:if test="${irregular.cancel eq 0 && irregular.close eq 1}">
+						</c:if>
+						<c:if test="${irregular.cancel eq 0 && irregular.close eq 1}">
 							<c:if test="${irregular.creatorId eq memberSession.memberId}">
 								<c:if test="${irregular.numOfPeople lt irregular.maxPeople}">
 									<div class="irregular_cancel_close_btn"
@@ -539,11 +541,12 @@ h3, h4 {
 									<!-- 모임 생성자만 보이게 -->
 								</c:if>
 							</c:if>
-						</c:if></td>
+						</c:if>
+					</td>
 					<!-- 모임 생성자만 보이게 -->
 					<c:if test="${irregular.creatorId eq memberSession.memberId}">
 						<c:if test="${irregular.cancel eq 0}">
-							<td style="width: 15%">
+							<td style="width: 20%">
 								<div class="irregular_delete_btn" onclick="deleteMeeting()">모임
 									삭제하기</div> <!--생성자만-->
 							</td>

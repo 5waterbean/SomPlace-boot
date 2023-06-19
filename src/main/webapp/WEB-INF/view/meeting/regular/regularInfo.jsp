@@ -16,7 +16,7 @@
 	width: 65%;
 	border-radius: 20px;
 	position: absolute;
-	top: 70px;
+	top: 80px;
 	padding: 20px;
 	border: 1px solid black;
 }
@@ -233,8 +233,8 @@ h3, h4 {
 			<div class="regular_create_first">
 				<!--비회원만 보이게-->
 				<div>
-					<input type="radio" id="irregularRadio" name="sort" disabled>
-					<label for="irregularRadio">일시적</label> <input type="radio"
+					<input type="radio" id="regularRadio" name="sort" disabled>
+					<label for="regularRadio">일시적</label> <input type="radio"
 						id="regularRadio" name="sort" disabled checked> <label
 						for="regularRadio">정기적</label>
 				</div>
@@ -251,7 +251,7 @@ h3, h4 {
 			<table>
 				<tr>
 					<th>제목</th>
-					<td colspan="3"><input type="text" name="meetingTitle"
+					<td colspan="4"><input type="text" name="meetingTitle"
 						size="120" value="${regular.meetingTitle}" disabled required></td>
 				</tr>
 
@@ -259,6 +259,7 @@ h3, h4 {
 					<th>모임 이름</th>
 					<td><input type="text" name="meetingName" size="70"
 						maxlength="40" value="${regular.meetingName}" disabled required></td>
+					<td></td>
 					<td style="text-align: right;"><strong>현재 인원/모집 인원</strong></td>
 					<td><input type="text" name="numOfPeople" size="10"
 						value="${regular.numOfPeople} / ${regular.maxPeople}" disabled
@@ -267,13 +268,13 @@ h3, h4 {
 
 				<tr>
 					<th>모임 장소</th>
-					<td colspan="3"><input type="text" name="regularMeetingDay"
+					<td colspan="4"><input type="text" name="regularMeetingDay"
 						size="70" value="${regular.meetingPlace}" disabled required></td>
 				</tr>
 
 				<tr>
 					<th>모임날짜</th>
-					<td colspan="3">
+					<td colspan="4">
 						<div class="regular_dayTime">
 							<div>
 								<h4>- 매주</h4>
@@ -357,6 +358,7 @@ h3, h4 {
 								disabled> <label for="hobby">취미</label>
 						</div>
 					</td>
+					<td></td>
 					<td><strong>모임 메모</strong></td>
 					<td></td>
 				</tr>
@@ -488,6 +490,7 @@ h3, h4 {
 								</div>
 							</c:otherwise>
 						</c:choose></td>
+						<td></td>
 					<td colspan="2"><textarea class="regular_memo" name="memo"
 							disabled>${regular.memo}</textarea></td>
 				</tr>
@@ -498,7 +501,7 @@ h3, h4 {
 						test="${fn:contains(joinMemberIdList, memberSession.memberId)}">
 						<tr>
 							<th>모임장 정보</th>
-							<td colspan="3">
+							<td colspan="4">
 								<div class="member_list_td">
 									<div>
 										<div class="member">${creatorMember.name}/
@@ -523,7 +526,7 @@ h3, h4 {
 				<c:if test="${regular.creatorId eq memberSession.memberId}">
 					<tr>
 						<th>회원 목록</th>
-						<td colspan="3">
+						<td colspan="4">
 							<div class="member_list_td">
 								<c:forEach var="joinMember" items="${joinMemberList}">
 									<div>
@@ -548,10 +551,9 @@ h3, h4 {
 						</td>
 					</tr>
 
-
 					<tr>
 						<th>신청 목록</th>
-						<td colspan="6">
+						<td colspan="4">
 							<div class="member_list_td">
 								<c:forEach var="applyMember" items="${applyMemberList}">
 									<div>
@@ -577,50 +579,52 @@ h3, h4 {
 
 				<tr>
 					<td></td>
-					
-					<td>
-						<c:if test="${regular.cancel eq 0 && regular.close eq 1}">
-							<c:if test="${regular.creatorId eq memberSession.memberId}">
-								<c:if test="${regular.numOfPeople lt regular.maxPeople}">
-									<div class="regular_applyCancel_btn"
-										onclick="closeCancelForm.submit()">다시 모집하기</div>
-								</c:if>
-							</c:if>
-						</c:if>
-					</td>
-					
-					<td>
-						<!-- 모임 생성자만 보이게 --> 
-						<c:if test="${regular.creatorId eq memberSession.memberId}">
-							<c:if test="${regular.cancel eq 0 }">
-								<div class="regular_delete_btn" onClick="deleteMeeting()">모임 삭제하기</div>
-							</c:if>
-						</c:if>
-					</td>
-					
-					
-					
+					<td></td>
+					<td></td>
+					<td style="width: 20%">
 					<c:if test="${regular.cancel eq 0 && regular.close eq 0}">
-						<td>
 							<c:if test="${regular.creatorId eq memberSession.memberId}">
-								<div class="regular_close_btn" onclick="closeForm.submit()">모집 	마감하기</div>
-							</c:if> 
-							<!-- 비회원만 보이게(신청X) --> 
+								<div class="regular_close_btn" onclick="closeForm.submit()">모집 마감하기</div>
+								<!-- 모임 생성자만 보이게 -->
+							</c:if>
+							<!-- 비회원만 보이게(신청X) -->
 							<c:if test="${regular.creatorId ne memberSession.memberId}">
-								<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
-									<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
+								<c:if
+									test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
+									<c:if
+										test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
 										<div class="regular_apply_btn" onclick="applyForm.submit()">신청하기</div>
 									</c:if>
 								</c:if>
-							</c:if> 
-							<!-- 신청한 사람들만 (수락X) 보이게 --> 
+							</c:if>
+							<!-- 신청한 사람들만 (수락X) 보이게 -->
 							<c:if test="${regular.creatorId ne memberSession.memberId}">
-								<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
-									<div class="regular_applyCancel_btn"
+								<c:if
+									test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+									<div class="regular_apply_btn"
 										onclick="applyCancelForm.submit()">신청 취소하기</div>
 								</c:if>
 							</c:if>
-						</td>
+						</c:if>
+						<c:if test="${regular.cancel eq 0 && regular.close eq 1}">
+							<c:if test="${regular.creatorId eq memberSession.memberId}">
+								<c:if test="${regular.numOfPeople lt regular.maxPeople}">
+									<div class="regular_cancel_close_btn"
+										onclick="closeCancelForm.submit()">다시 모집하기</div>
+									<!-- 모임 생성자만 보이게 -->
+								</c:if>
+							</c:if>
+						</c:if>
+					</td>
+					
+					<!-- 모임 생성자만 보이게 -->
+					<c:if test="${regular.creatorId eq memberSession.memberId}">
+						<c:if test="${regular.cancel eq 0 }">
+							<td style="width: 20%">
+								<div class="regular_delete_btn" onClick="deleteMeeting()">모임
+									삭제하기</div>
+							</td>
+						</c:if>
 					</c:if>
 				</tr>
 			</table>

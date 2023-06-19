@@ -19,7 +19,7 @@
 	margin-top: 10px;
 	padding: 10px;
 	position: absolute;
-	top: 60px;
+	top: 80px;
 	left: 0;
 	right: 0;
 	border: 1px solid black;
@@ -122,12 +122,12 @@ input[type="button"]:hover, input[type="submit"]:hover {
 			<table>
 				<tr>
 					<th>모임이름</th>
-					<td><input type="text" value="${regular.meetingTitle}"
+					<td colspan="2"><input type="text" value="${regular.meetingTitle}"
 						disabled></td>
 				</tr>
 				<tr>
 					<th>별점</th>
-					<td>
+					<td colspan="2">
 						<div class="star-rating space-x-4 mx-auto">
 							<input type="radio" id="5stars" name="star" value="5"
 								v-model="ratings"
@@ -150,7 +150,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
 				</tr>
 				<tr>
 					<th>후기</th>
-					<td><textarea name="reviewMemo" id="" rows="10" required>${review.reviewMemo}</textarea></td>
+					<td colspan="2"><textarea name="reviewMemo" id="" rows="10" required>${review.reviewMemo}</textarea></td>
 				</tr>
 
 				<tr>

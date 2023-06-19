@@ -85,7 +85,7 @@
 			<c:forEach var="memberId" items="${joinMemberIdList}">
 				<c:if test="${memberId == currentMemberId }">
 					<c:choose>
-						<c:when test="${fn:contains(reviewMemberIdList, currentMemberId)}">
+						<c:when test="${exist == false}">
 							<div class="right_review_btn"
 								onClick="updateReviewForm.submit();">후기 수정하기</div>
 						</c:when>
