@@ -5,9 +5,8 @@
 	<!-- 후기 생성 -->
 	<insert id="createReview"
 		parameterType="com.somplace.domain.command.ReviewCommand">
-		INSERT INTO REVIEW VALUES
-		(REVIEWID_seq.nextval, #{star},
-		#{reviewMemo}, #{id}, #{meetingId})
+		INSERT INTO REVIEW 
+		VALUES (REVIEWID_seq.nextval, #{star}, #{reviewMemo}, #{id}, #{meetingId})
 	</insert>
 
 	<!-- 후기 전체 목록 조회 -->
@@ -30,8 +29,7 @@
 	<update id="updateReview"
 		parameterType="com.somplace.domain.command.ReviewCommand">
 		UPDATE Review
-		SET star = #{star}, reviewMemo =
-		#{reviewMemo}
+		SET star = #{star}, reviewMemo = #{reviewMemo}
 		WHERE meetingId = #{meetingId} AND id = #{id}
 	</update>
 </mapper>

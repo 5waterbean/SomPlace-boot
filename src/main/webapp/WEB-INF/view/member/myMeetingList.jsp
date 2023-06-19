@@ -118,6 +118,7 @@
 					if(data == 1) {
 						alert("모임 찜하기 성공!");
 						heartLabel.innerHTML = "❤️";
+						location.reload();
 					} 
 				}
 			})
@@ -130,11 +131,11 @@
 					if(data == -1) {
 						alert("모임 찜하기 취소!");
 						heartLabel.innerHTML = "🤍";
+						location.reload();
 					} 
 				}
 			})
 		}
-		location.reload();
 	}
 </script>
 </head>

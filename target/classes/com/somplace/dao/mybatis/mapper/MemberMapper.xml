@@ -4,20 +4,15 @@
 	<cache />
 
 	<select id="getMember" resultType="Member">
-		SELECT ID as memberId, PW,
-		NAME, STUDENTNUMBER, MAJOR, PHONE, GOOD, BAD,
-		BIRTH
-		FROM MEMBER
-		WHERE ID
-		= #{memberId}
+		SELECT ID as memberId, PW, NAME, STUDENTNUMBER, MAJOR, PHONE, GOOD, BAD, BIRTH
+		FROM MEMBER 
+		WHERE ID = #{memberId}
 	</select>
 
 	<insert id="createMember"
 		parameterType="com.somplace.domain.command.MemberCommand">
 		INSERT INTO MEMBER
-		VALUES (#{memberId}, #{pw}, #{name},
-		#{studentNumberIntType}, #{major}, #{phone},
-		#{birth}, 0, 0)
+		VALUES (#{memberId}, #{pw}, #{name}, #{studentNumberIntType}, #{major}, #{phone}, #{birth}, 0, 0)
 	</insert>
 
 	<select id="memberIdCheck" resultType="int">
@@ -29,19 +24,14 @@
 	<update id="updateMember"
 		parameterType="com.somplace.domain.command.MemberCommand">
 		UPDATE MEMBER
-		SET PW = #{pw},
-		NAME = #{name},
-		MAJOR =
-		#{major},
-		PHONE = #{phone}
+		SET PW = #{pw}, NAME = #{name}, MAJOR = #{major}, PHONE = #{phone}
 		WHERE ID = #{memberId}
 	</update>
 
 	<update id="updateMemberGood">
 		UPDATE MEMBER
 		SET good = good + 1
-		WHERE id =
-		#{memberId}
+		WHERE id = #{memberId}
 	</update>
 
 	<update id="updateMemberBad">

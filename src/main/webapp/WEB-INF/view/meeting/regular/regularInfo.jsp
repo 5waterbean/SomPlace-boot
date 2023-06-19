@@ -206,12 +206,12 @@ h3, h4 {
 	<div class="container" id="container">
 		<form name="updateForm" action="/meeting/regular/update/form">
 			<div>
-				<h2>${regular.meetingTitle}상세정보</h2>
+				<h2>&lt;${regular.meetingTitle}&gt; 상세정보</h2>
 
 				<c:if test="${regular.cancel eq 1}">
 					<font color="red" size="4">삭제된 모임입니다.</font>
 				</c:if>
-				<c:if test="${regular.close eq 1 && irregular.cancel eq 0}">
+				<c:if test="${regular.close eq 1 && regular.cancel eq 0}">
 					<font color="red" size="4">모집 마감된 모임입니다.</font>
 				</c:if>
 				<c:if test="${regular.creatorId eq memberSession.memberId}">

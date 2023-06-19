@@ -20,10 +20,8 @@
 	</resultMap>
 
 	<sql id="selectIrregular_view_fragment">
-		SELECT meetingId, meetingTitle, meetingDate, numOfPeople,
-		maxPeople, meetingPlace, memo,
-		meetingInfo, meetingInfoDetail,
-		creatorId, close, cancel
+		SELECT meetingId, meetingTitle, meetingDate, numOfPeople, maxPeople, meetingPlace, memo,
+			meetingInfo, meetingInfoDetail, creatorId, close, cancel
 		FROM irregularmeeting_view
 	</sql>
 
@@ -31,15 +29,13 @@
 	<insert id="createIrregular"
 		parameterType="com.somplace.domain.command.IrregularCommand">
 		INSERT INTO irregularMeeting
-		VALUES
-		(#{irregularMeetingDay}, #{meetingId})
+		VALUES (#{irregularMeetingDay}, #{meetingId})
 	</insert>
 	<!-- 일시적모임 수정 -->
 	<update id="updateIrregular"
 		parameterType="com.somplace.domain.command.IrregularCommand">
 		UPDATE irregularMeeting
-		SET meetingDate =
-		#{irregularMeetingDay}
+		SET meetingDate = #{irregularMeetingDay}
 		WHERE meetingId = #{meetingId}
 	</update>
 
@@ -56,25 +52,14 @@
 	</select>
 	<!-- 일시적모임 인기순 정렬 -->
 	<select resultMap="irregularResultSet" id="sortIrregularByHeart">
-		SELECT vi.meetingid,
-		vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace,
-		vi.memo,
-		vi.meetinginfo, vi.meetinginfodetail, vi.creatorid,
-		vi.meetingdate, vi.close,
-		vi.cancel
-		FROM irregularmeeting_view vi LEFT
-		OUTER JOIN member_meeting
-		mm ON vi.meetingid = mm.meetingid
-		GROUP BY
-		vi.meetingid,
-		vi.meetingtitle, vi.numofpeople, vi.maxpeople,
-		vi.meetingplace,
-		vi.memo,
-		vi.meetinginfo, vi.meetinginfodetail,
-		vi.creatorid, vi.meetingdate, vi.close,
-		vi.cancel
-		ORDER BY
-		count(mm.heart) DESC
+		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople, vi.meetingplace,
+			vi.memo, vi.meetinginfo, vi.meetinginfodetail, vi.creatorid,
+			vi.meetingdate, vi.close, vi.cancel
+		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
+		GROUP BY vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople,
+			vi.meetingplace, vi.memo, vi.meetinginfo, vi.meetinginfodetail,
+			vi.creatorid, vi.meetingdate, vi.close, vi.cancel
+		ORDER BY count(mm.heart) DESC
 	</select>
 
 	<!-- 일시적모임 카테고리별 최신순 정렬 -->
@@ -87,96 +72,57 @@
 	<!-- 일시적모임 카테고리별 인기순 정렬 -->
 	<select resultMap="irregularResultSet"
 		id="sortIrregularCategoryByHeart">
-		SELECT vi.meetingid,
-		vi.meetingtitle, vi.numofpeople, vi.maxpeople,
-		vi.meetingplace,
-		vi.memo,
-		vi.meetinginfo, vi.meetinginfodetail,
-		vi.creatorid, vi.meetingdate, vi.close,
-		vi.cancel
-		FROM
-		irregularmeeting_view vi LEFT OUTER JOIN member_meeting
-		mm ON
-		vi.meetingid = mm.meetingid
+		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople,
+			vi.meetingplace, vi.memo, vi.meetinginfo, vi.meetinginfodetail,
+			vi.creatorid, vi.meetingdate, vi.close, vi.cancel
+		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
 		WHERE meetingInfo = #{category}
-		GROUP
-		BY
-		vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople,
-		vi.maxpeople, vi.meetingplace, vi.memo, vi.meetinginfo,
-		vi.meetinginfodetail, vi.creatorid, vi.close, vi.cancel
-		ORDER BY
-		count(mm.heart) DESC
+		GROUP BY vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople,
+			vi.maxpeople, vi.meetingplace, vi.memo, vi.meetinginfo,
+			vi.meetinginfodetail, vi.creatorid, vi.close, vi.cancel
+		ORDER BY count(mm.heart) DESC
 	</select>
 
 	<!-- 일시적모임(키워드) 검색, 최신순 정렬 -->
 	<select resultMap="irregularResultSet"
 		id="searchIrregularByKeyOrder">
 		<include refid="selectIrregular_view_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
-		'%'||#{key}||'%') and close = 0
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
 		ORDER BY meetingId DESC
 	</select>
 	<!-- 일시적모임(키워드) 검색, 인기순 정렬 -->
 	<select resultMap="irregularResultSet"
 		id="sortIrregularByKeyHeart">
 		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople,
-		vi.meetingplace, vi.memo,
-		vi.meetinginfo, vi.meetinginfodetail,
-		vi.creatorid, vi.meetingdate, vi.close,
-		vi.cancel
-		FROM
-		irregularmeeting_view vi LEFT OUTER JOIN member_meeting
-		mm ON
-		vi.meetingid = mm.meetingid
-		WHERE (meetingTitle LIKE
-		'%'||#{key}||'%' OR
-		memo LIKE '%'||#{key}||'%') and close = 0
-		GROUP BY
-		vi.meetingid,
-		vi.meetingtitle, vi.meetingdate, vi.numofpeople,
-		vi.maxpeople,
-		vi.meetingplace, vi.memo, vi.meetinginfo,
-		vi.meetinginfodetail,
-		vi.creatorid, vi.close, vi.cancel
-		ORDER BY
-		count(mm.heart) DESC
+			vi.meetingplace, vi.memo, vi.meetinginfo, vi.meetinginfodetail,
+			vi.creatorid, vi.meetingdate, vi.close, vi.cancel
+		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+		GROUP BY vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople, vi.maxpeople,
+			vi.meetingplace, vi.memo, vi.meetinginfo, vi.meetinginfodetail, vi.creatorid, vi.close, vi.cancel
+		ORDER BY count(mm.heart) DESC
 	</select>
 
 	<!-- 일시적모임 카테고리별(키워드) 검색, 최신순 정렬 -->
 	<select resultMap="irregularResultSet"
 		id="searchIrregularCategoryByKeyOrder" parameterType="map">
 		<include refid="selectIrregular_view_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
-		'%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
-		ORDER BY
-		meetingId DESC
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
+		ORDER BY meetingId DESC
 	</select>
 
 	<!-- 일시적모임 카테고리별(키워드) 검색, 인기순 정렬 -->
 	<select resultMap="irregularResultSet"
 		id="sortIrregularCategoryByKeyHeart" parameterType="map">
-		SELECT
-		vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople,
-		vi.meetingplace, vi.memo,
-		vi.meetinginfo, vi.meetinginfodetail,
-		vi.creatorid, vi.meetingdate, vi.close,
-		vi.cancel
-		FROM
-		irregularmeeting_view vi LEFT OUTER JOIN member_meeting
-		mm ON
-		vi.meetingid = mm.meetingid
-		WHERE (meetingTitle LIKE
-		'%'||#{key}||'%' OR
-		memo LIKE '%'||#{key}||'%') and close = 0 and
-		meetingInfo=#{category}
-		GROUP BY vi.meetingid, vi.meetingtitle,
-		vi.meetingdate, vi.numofpeople,
-		vi.maxpeople, vi.meetingplace,
-		vi.memo, vi.meetinginfo,
-		vi.meetinginfodetail, vi.creatorid, vi.close,
-		vi.cancel
-		ORDER BY
-		count(mm.heart) DESC
+		SELECT vi.meetingid, vi.meetingtitle, vi.numofpeople, vi.maxpeople,
+			vi.meetingplace, vi.memo, vi.meetinginfo, vi.meetinginfodetail,
+			vi.creatorid, vi.meetingdate, vi.close, vi.cancel
+		FROM irregularmeeting_view vi LEFT OUTER JOIN member_meeting mm ON vi.meetingid = mm.meetingid
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
+		GROUP BY vi.meetingid, vi.meetingtitle, vi.meetingdate, vi.numofpeople,
+			vi.maxpeople, vi.meetingplace, vi.memo, vi.meetinginfo,
+			vi.meetinginfodetail, vi.creatorid, vi.close, vi.cancel
+		ORDER BY count(mm.heart) DESC
 	</select>
 
 	<!-- 내가 속한 일시적 모임 조회 -->
