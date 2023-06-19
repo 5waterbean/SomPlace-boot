@@ -63,7 +63,7 @@ public class InfoIrregularController {
 		if (irregular.getNumOfPeople() == irregular.getMaxPeople()) {
 			meetingService.closeAndCloseCancelMeeting(checkedById, 1);
 		}
-		else if (irregular.getNumOfPeople() < irregular.getMaxPeople()){
+		else if (irregular.getNumOfPeople() < irregular.getMaxPeople() && close != 1){
 			meetingService.closeAndCloseCancelMeeting(checkedById, 0);
 		}
 		irregular = irregularService.getIrregularById(checkedById);
