@@ -19,7 +19,7 @@
 	margin-top: 10px;
 	padding: 10px;
 	position: absolute;
-	top: 60px;
+	top: 80px;
 	left: 0;
 	right: 0;
 	border: 1px solid black;
@@ -58,7 +58,7 @@ input[type="text"] {
 	border: 2px solid black;
 }
 
-input[type="submit"] {
+input[type="button"], input[type="submit"] {
 	width: 100%;
 	padding: 5px;
 	border-radius: 20px;
@@ -72,7 +72,7 @@ input:hover {
 	cursor: pointer;
 }
 
-input[type="submit"]:hover {
+input[type="button"]:hover, input[type="submit"]:hover {
 	background-color: rgb(174, 220, 175);
 }
 
@@ -120,12 +120,12 @@ input[type="submit"]:hover {
 			<table>
 				<tr>
 					<th>모임이름</th>
-					<td><input type="text" value="${regular.meetingTitle}"
-						disabled></td>
+					<td colspan="2"><input type="text"
+						value="${regular.meetingTitle}" disabled></td>
 				</tr>
 				<tr>
 					<th>별점</th>
-					<td>
+					<td colspan="2">
 						<div class="star-rating space-x-4 mx-auto">
 							<input type="radio" id="5stars" name="star" value="5"
 								v-model="ratings" /> <label for="5stars" class="star pr-4">★</label>
@@ -142,14 +142,14 @@ input[type="submit"]:hover {
 				</tr>
 				<tr>
 					<th>후기</th>
-					<td><textarea name="reviewMemo" id="" rows="10" required></textarea></td>
+					<td colspan="2"><textarea name="reviewMemo" id="" rows="10"
+							required></textarea></td>
 				</tr>
 
 				<tr>
 					<td colspan="2"></td>
-					<!-- td style="width: 20%;">
-					<div class="review_back_btn" onclick="location.href='/meeting/regular/info'">뒤로가기</div>
-					</td> -->
+					<td style="width: 20%;"><input type="button" value="뒤로가기"
+						onclick="history.back();"></td>
 					<td style="width: 20%;"><input type="submit" value="제출하기">
 					</td>
 				</tr>
