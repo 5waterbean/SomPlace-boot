@@ -158,7 +158,7 @@
 								dayClass = document.getElementsByClassName(dayArr[i]);
 								for(var j = 0; j < dayClass.length; j++){
 									if(startMonth == ${myCalendar.month}){
-										if(Number(dayClass[j].innerHTML) > startDay) {
+										if(Number(dayClass[j].innerHTML) >= startDay) {
 											document.getElementById("input" + dayClass[j].innerHTML).value += "<c:out value='${regular.meetingTitle}'/><br>";
 											dayClass[j].nextElementSibling.nextElementSibling.innerHTML = "◾";
 										}
