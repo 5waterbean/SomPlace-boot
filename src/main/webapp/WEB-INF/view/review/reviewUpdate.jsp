@@ -155,9 +155,9 @@ input[type="button"]:hover, input[type="submit"]:hover {
 
 				<tr>
 					<td colspan="2"></td>
-					<td style="width: 15%;"><input type="button" value="뒤로가기"
+					<td style="width: 20%;"><input type="button" value="뒤로가기"
 						onclick="history.back();"></td>
-					<td style="width: 15%;"><input type="submit" value="수정하기">
+					<td style="width: 20%;"><input type="submit" value="수정하기">
 					</td>
 				</tr>
 			</table>
