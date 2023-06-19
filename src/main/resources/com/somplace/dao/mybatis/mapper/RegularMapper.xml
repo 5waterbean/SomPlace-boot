@@ -22,33 +22,19 @@
 	</resultMap>
 
 	<sql id="selectRegularView_fragment">
-		SELECT MEETINGID, MEETINGTITLE, NUMOFPEOPLE, MAXPEOPLE,
-		MEETINGPLACE,
-		MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL,
-		CREATORID,
-		MEETINGNAME, MEETINGDAY, STARTDAY, MEETINGTIME
-		FROM
-		regularmeeting_view m
+		SELECT MEETINGID, MEETINGTITLE, NUMOFPEOPLE, MAXPEOPLE, MEETINGPLACE,
+			MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL, CREATORID,
+			MEETINGNAME, MEETINGDAY, STARTDAY, MEETINGTIME
+		FROM regularmeeting_view m
 	</sql>
 
 	<sql id="selectRegularJoin_fragment">
-		SELECT m.meetingid AS MEETINGID, m.meetingtitle AS
-		MEETINGTITLE, m.numofpeople AS NUMOFPEOPLE,
-		m.maxpeople AS MAXPEOPLE,
-		m.meetingplace AS MEETINGPLACE, m.memo AS MEMO,
-		m.meetinginfo AS
-		MEETINGINFO,
-		m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS
-		CLOSE, m.cancel AS CANCEL,
-		m.creatorid AS CREATORID,
-		m.meetingname AS
-		MEETINGNAME, m.meetingday AS MEETINGDAY, m.startday AS STARTDAY,
-		m.meetingtime AS MEETINGTIME,
-		count(case when mm.heart = 1 then 1 end)
-		AS heart
-		FROM regularmeeting_view m LEFT
-		OUTER JOIN member_meeting mm ON
-		m.meetingid = mm.meetingid
+		SELECT m.meetingid AS MEETINGID, m.meetingtitle AS MEETINGTITLE, m.numofpeople AS NUMOFPEOPLE,
+			m.maxpeople AS MAXPEOPLE, m.meetingplace AS MEETINGPLACE, m.memo AS MEMO,
+			m.meetinginfo AS MEETINGINFO, m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS CLOSE, m.cancel AS CANCEL, 
+			m.creatorid AS CREATORID, m.meetingname AS MEETINGNAME, m.meetingday AS MEETINGDAY, m.startday AS STARTDAY, m.meetingtime AS MEETINGTIME,
+			count(case when mm.heart = 1 then 1 end) AS heart
+		FROM regularmeeting_view m LEFT OUTER JOIN member_meeting mm ON m.meetingid = mm.meetingid
 	</sql>
 
 	<!-- 정기적모임 조회 -->
@@ -60,19 +46,15 @@
 	<!-- 정기적모임 생성 -->
 	<insert id="createRegular"
 		parameterType="com.somplace.domain.command.RegularCommand">
-		INSERT INTO regularMeeting VALUES
-		(#{meetingName},
-		#{regularMeetingDay, jdbcType=VARCHAR}, #{meetingId}, #{startDay},
-		#{meetingTime})
+		INSERT INTO regularMeeting 
+		VALUES (#{meetingName}, #{regularMeetingDay, jdbcType=VARCHAR}, #{meetingId}, #{startDay}, #{meetingTime})
 	</insert>
 
 	<!-- 정기적모임 수정 -->
 	<update id="updateRegular"
 		parameterType="com.somplace.domain.command.RegularCommand">
 		UPDATE regularMeeting
-		SET meetingName=#{meetingName},
-		meetingDay=#{regularMeetingDay}, startDay=#{startDay},
-		meetingTime=#{meetingTime}
+		SET meetingName=#{meetingName}, meetingDay=#{regularMeetingDay}, startDay=#{startDay}, meetingTime=#{meetingTime}
 		WHERE meetingId = #{meetingId}
 	</update>
 
@@ -86,10 +68,10 @@
 	<select resultMap="regularResultSet" id="sortRegularByHeart">
 		<include refid="selectRegularJoin_fragment" />
 		GROUP BY m.meetingid, m.meetingtitle, m.meetingname, m.meetingday,
-		m.meetingid, m.startday, m.meetingtime, m.numofpeople, m.maxpeople,
-		m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail,
-		m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday,
-		m.startday, m.meetingtime
+			m.meetingid, m.startday, m.meetingtime, m.numofpeople, m.maxpeople,
+			m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail,
+			m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday,
+			m.startday, m.meetingtime
 		ORDER BY count(mm.heart) DESC
 	</select>
 
@@ -107,11 +89,9 @@
 		<include refid="selectRegularJoin_fragment" />
 		WHERE meetingInfo = #{category}
 		GROUP BY m.meetingid, m.meetingtitle,
-		m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
-		m.meetinginfodetail,
-		m.creatorid, m.close, m.cancel, m.meetingname,
-		m.meetingday, m.startday,
-		m.meetingtime
+			m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
+			m.meetinginfodetail, m.creatorid, m.close, m.cancel, m.meetingname,
+			m.meetingday, m.startday, m.meetingtime
 		ORDER BY count(mm.heart) DESC
 	</select>
 
@@ -119,22 +99,17 @@
 	<select resultMap="regularResultSet"
 		id="searchRegularByKeyOrder">
 		<include refid="selectRegularView_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
-		'%'||#{key}||'%') and close = 0
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
 		ORDER BY meetingId DESC
 	</select>
 
 	<!-- 정기적모임(키워드) 검색, 인기순 정렬 -->
 	<select resultMap="regularResultSet" id="sortRegularByKeyHeart">
 		<include refid="selectRegularJoin_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
-		'%'||#{key}||'%') and close = 0
-		GROUP BY m.meetingid, m.meetingtitle,
-		m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
-		m.meetinginfodetail,
-		m.creatorid, m.close, m.cancel, m.meetingname,
-		m.meetingday, m.startday,
-		m.meetingtime
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
+			m.meetinginfodetail, m.creatorid, m.close, m.cancel, m.meetingname,
+			m.meetingday, m.startday, m.meetingtime
 		ORDER BY count(mm.heart) DESC
 	</select>
 
@@ -142,23 +117,19 @@
 	<select resultMap="regularResultSet"
 		id="searchRegularCategoryByKeyOrder" parameterType="map">
 		<include refid="selectRegularView_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
-		'%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
-		ORDER BY
-		meetingId DESC
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
+		ORDER BY meetingId DESC
 	</select>
 
 	<!-- 정기적모임 카테고리별(키워드) 검색, 인기순 정렬 -->
 	<select resultMap="regularResultSet"
 		id="sortRegularCategoryByKeyHeart" parameterType="map">
 		<include refid="selectRegularJoin_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
-		'%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
-		GROUP BY
-		m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople,
-		m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail,
-		m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday,
-		m.startday, m.meetingtime
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
+		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople,
+			m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail,
+			m.creatorid, m.close, m.cancel, m.meetingname, m.meetingday,
+			m.startday, m.meetingtime
 		ORDER BY count(mm.heart) DESC
 	</select>
 

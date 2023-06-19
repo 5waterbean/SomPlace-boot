@@ -3,27 +3,17 @@
 <mapper namespace="com.somplace.dao.mybatis.mapper.MeetingMapper">
 	<cache />
 	<sql id="selectMeeting_fragment">
-		SELECT MEETINGID, MEETINGTITLE, NUMOFPEOPLE, MAXPEOPLE,
-		MEETINGPLACE,
-		MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL,
-		CREATORID
+		SELECT MEETINGID, MEETINGTITLE, NUMOFPEOPLE, MAXPEOPLE, MEETINGPLACE,
+			MEMO, MEETINGINFO, MEETINGINFODETAIL, CLOSE, CANCEL, CREATORID
 		FROM MEETING
 	</sql>
 
 	<sql id="selectJoin_fragment">
-		SELECT m.meetingid AS MEETINGID, m.meetingtitle AS
-		MEETINGTITLE, m.numofpeople AS NUMOFPEOPLE,
-		m.maxpeople AS MAXPEOPLE,
-		m.meetingplace AS MEETINGPLACE, m.memo AS MEMO,
-		m.meetinginfo AS
-		MEETINGINFO,
-		m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS
-		CLOSE, m.cancel AS CANCEL,
-		m.creatorid AS CREATORID,
-		count(case when
-		mm.heart = 1 then 1 end) AS heart
-		FROM meeting m LEFT OUTER JOIN
-		member_meeting mm ON m.meetingid = mm.meetingid
+		SELECT m.meetingid AS MEETINGID, m.meetingtitle AS MEETINGTITLE, m.numofpeople AS NUMOFPEOPLE,
+			m.maxpeople AS MAXPEOPLE, m.meetingplace AS MEETINGPLACE, m.memo AS MEMO,
+			m.meetinginfo AS MEETINGINFO, m.meetinginfodetail AS MEETINGINFODETAIL, m.close AS CLOSE, m.cancel AS CANCEL,
+			m.creatorid AS CREATORID, count(case when mm.heart = 1 then 1 end) AS heart 
+		FROM meeting m LEFT OUTER JOIN member_meeting mm ON m.meetingid = mm.meetingid
 	</sql>
 
 	<!-- 모임 조회 -->
@@ -34,9 +24,8 @@
 	<!-- 전체 인기순 정렬 -->
 	<select resultType="Meeting" id="sortAllByHeart">
 		<include refid="selectJoin_fragment" />
-		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople,
-		m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail,
-		m.creatorid, m.close, m.cancel
+		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo,
+			m.meetinginfo, m.meetinginfodetail, m.creatorid, m.close, m.cancel
 		ORDER BY count(mm.heart) DESC
 	</select>
 
@@ -50,11 +39,9 @@
 	<select resultType="Meeting" id="sortCategoryByHeart">
 		<include refid="selectJoin_fragment" />
 		WHERE meetingInfo = #{category}
-		GROUP BY m.meetingid, m.meetingtitle,
-		m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
-		m.meetinginfodetail, m.creatorid, m.close, m.cancel
-		ORDER BY
-		count(mm.heart) DESC
+		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
+			m.meetinginfodetail, m.creatorid, m.close, m.cancel
+		ORDER BY count(mm.heart) DESC
 	</select>
 
 	<!-- 카테고리별 최신순 정렬 -->
@@ -67,41 +54,34 @@
 	<!-- 전체(키워드) 검색, 인기순 정렬 -->
 	<select resultType="Meeting" id="sortAllByKeyHeart">
 		<include refid="selectJoin_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
-		'%'||#{key}||'%') and close = 0
-		GROUP BY m.meetingid, m.meetingtitle,
-		m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
-		m.meetinginfodetail, m.creatorid, m.close, m.cancel
-		ORDER BY
-		count(mm.heart) DESC
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
+		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople, m.meetingplace, m.memo, m.meetinginfo,
+			m.meetinginfodetail, m.creatorid, m.close, m.cancel
+		ORDER BY count(mm.heart) DESC
 	</select>
 
 	<!-- 카테고리별(키워드) 검색, 인기순 정렬 -->
 	<select resultType="Meeting" id="sortCategoryByKeyHeart"
 		parameterType="map">
 		<include refid="selectJoin_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
-		'%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
-		GROUP BY
-		m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople,
-		m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail,
-		m.creatorid, m.close, m.cancel
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0 and meetingInfo=#{category}
+		GROUP BY m.meetingid, m.meetingtitle, m.numofpeople, m.maxpeople,
+			m.meetingplace, m.memo, m.meetinginfo, m.meetinginfodetail,
+			m.creatorid, m.close, m.cancel
 		ORDER BY count(mm.heart) DESC
 	</select>
 
 	<!-- 전체(키워드) 검색 -->
 	<select resultType="Meeting" id="searchAllByKey">
 		<include refid="selectMeeting_fragment" />
-		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE
-		'%'||#{key}||'%') and close = 0
+		WHERE (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
 		ORDER BY meetingId DESC
 	</select>
 	<!-- 카테고리(키워드) 검색 -->
 	<select resultType="Meeting" id="searchCategoryByKey"
 		parameterType="map">
 		<include refid="selectMeeting_fragment" />
-		WHERE meetingInfo=#{category} and (meetingTitle LIKE '%'||#{key}||'%'
-		OR memo LIKE '%'||#{key}||'%') and close = 0
+		WHERE meetingInfo=#{category} and (meetingTitle LIKE '%'||#{key}||'%' OR memo LIKE '%'||#{key}||'%') and close = 0
 		ORDER BY meetingId DESC
 	</select>
 
@@ -110,38 +90,30 @@
 		parameterType="com.somplace.domain.command.MeetingCommand">
 		SELECT meetingId
 		FROM meeting
-		WHERE
-		meetingTitle=#{meetingTitle} AND maxPeople=#{maxPeople} AND
-		meetingPlace=#{meetingPlace} AND (memo=#{memo} OR memo is null) AND
-		meetingInfo=#{meetingInfo} AND
-		meetingInfoDetail=#{meetingInfoDetail}
-		AND creatorId=#{creatorId}
+		WHERE meetingTitle=#{meetingTitle} AND maxPeople=#{maxPeople} AND
+			meetingPlace=#{meetingPlace} AND (memo=#{memo} OR memo is null) AND
+			meetingInfo=#{meetingInfo} AND meetingInfoDetail=#{meetingInfoDetail} AND creatorId=#{creatorId}
 	</select>
 
 	<!-- 모임 생성 -->
 	<insert id="createMeeting"
 		parameterType="com.somplace.domain.command.MeetingCommand">
-		INSERT INTO meeting VALUES
-		(meetingid_seq.nextval,
-		#{meetingTitle}, 1, #{maxPeople}, #{meetingPlace}, #{memo},
-		#{meetingInfo}, #{meetingInfoDetail}, #{creatorId}, 0, 0)
+		INSERT INTO meeting VALUES (meetingid_seq.nextval, #{meetingTitle}, 1, #{maxPeople}, #{meetingPlace}, #{memo},
+			#{meetingInfo}, #{meetingInfoDetail}, #{creatorId}, 0, 0)
 	</insert>
 
 	<!-- 모임 수정 -->
 	<update id="updateMeeting"
 		parameterType="com.somplace.domain.command.MeetingCommand">
-		UPDATE meeting
-		SET meetingTitle = #{meetingTitle},
-		maxPeople = #{maxPeople}, meetingPlace = #{meetingPlace}, memo =
-		#{memo}
+		UPDATE meeting 
+		SET meetingTitle = #{meetingTitle}, maxPeople = #{maxPeople}, meetingPlace = #{meetingPlace}, memo = #{memo}
 		WHERE meetingId = #{meetingId}
 	</update>
 
 	<!-- 현재인원 수정 -->
 	<update id="updateNumOfPeople" parameterType="map">
 		UPDATE meeting
-		SET
-		numOfPeople = #{count}
+		SET numOfPeople = #{count}
 		WHERE meetingId = #{meetingId}
 	</update>
 
@@ -152,23 +124,20 @@
 	<update id="deleteMeeting">
 		UPDATE meeting
 		SET cancel = 1
-		WHERE meetingId =
-		#{meetingId}
+		WHERE meetingId = #{meetingId}
 	</update>
 
 	<!-- 모집 마감하기 -->
 	<update id="closeMeeting">
 		UPDATE meeting
 		SET close = 1
-		WHERE meetingId =
-		#{meetingId}
+		WHERE meetingId = #{meetingId}
 	</update>
 	<!-- 다시 모집하기 -->
 	<update id="closeCancelMeeting">
 		UPDATE meeting
 		SET close = 0
-		WHERE meetingId =
-		#{meetingId}
+		WHERE meetingId = #{meetingId}
 	</update>
 
 	<!-- 내가 생성한 모임 목록 조회 -->
@@ -183,8 +152,7 @@
 		SELECT MEETINGID
 		FROM MEETING
 		WHERE CREATORID = #{creatorId}
-		ORDER BY MEETINGID
-		DESC
+		ORDER BY MEETINGID DESC
 	</select>
 
 	<!-- 모임 아이디로 모임 목록 조회 -->
