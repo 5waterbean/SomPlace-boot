@@ -543,7 +543,7 @@ h3, h4 {
 					<!-- 모임 생성자만 보이게 -->
 					<c:if test="${irregular.creatorId eq memberSession.memberId}">
 						<c:if test="${irregular.cancel eq 0}">
-							<td>
+							<td style="width: 15%">
 								<div class="irregular_delete_btn" onclick="deleteMeeting()">모임
 									삭제하기</div> <!--생성자만-->
 							</td>
