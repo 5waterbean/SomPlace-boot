@@ -577,48 +577,51 @@ h3, h4 {
 
 				<tr>
 					<td></td>
-					<td></td>
+					
 					<td>
-						<!-- 모임 생성자만 보이게 --> <c:if
-							test="${regular.creatorId eq memberSession.memberId}">
-							<c:if test="${regular.cancel eq 0 }">
-								<div class="regular_delete_btn" onClick="deleteMeeting()">모임
-									삭제하기</div>
-							</c:if>
-						</c:if>
-					</td>
-					<c:if test="${regular.cancel eq 0 && regular.close eq 0}">
-						<td><c:if
-								test="${regular.creatorId eq memberSession.memberId}">
-								<div class="regular_close_btn" onclick="closeForm.submit()">모집
-									마감하기</div>
-							</c:if> <!-- 비회원만 보이게(신청X) --> <c:if
-								test="${regular.creatorId ne memberSession.memberId}">
-								<c:if
-									test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
-									<c:if
-										test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
-										<div class="regular_apply_btn" onclick="applyForm.submit()">신청하기</div>
-									</c:if>
-								</c:if>
-							</c:if> <!-- 신청한 사람들만 (수락X) 보이게 --> <c:if
-								test="${regular.creatorId ne memberSession.memberId}">
-								<c:if
-									test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
-									<div class="regular_applyCancel_btn"
-										onclick="applyCancelForm.submit()">신청 취소하기</div>
-								</c:if>
-							</c:if></td>
-					</c:if>
-					<td><c:if test="${regular.cancel eq 0 && regular.close eq 1}">
+						<c:if test="${regular.cancel eq 0 && regular.close eq 1}">
 							<c:if test="${regular.creatorId eq memberSession.memberId}">
 								<c:if test="${regular.numOfPeople lt regular.maxPeople}">
 									<div class="regular_applyCancel_btn"
 										onclick="closeCancelForm.submit()">다시 모집하기</div>
 								</c:if>
 							</c:if>
-						</c:if></td>
-
+						</c:if>
+					</td>
+					
+					<td>
+						<!-- 모임 생성자만 보이게 --> 
+						<c:if test="${regular.creatorId eq memberSession.memberId}">
+							<c:if test="${regular.cancel eq 0 }">
+								<div class="regular_delete_btn" onClick="deleteMeeting()">모임 삭제하기</div>
+							</c:if>
+						</c:if>
+					</td>
+					
+					
+					
+					<c:if test="${regular.cancel eq 0 && regular.close eq 0}">
+						<td>
+							<c:if test="${regular.creatorId eq memberSession.memberId}">
+								<div class="regular_close_btn" onclick="closeForm.submit()">모집 	마감하기</div>
+							</c:if> 
+							<!-- 비회원만 보이게(신청X) --> 
+							<c:if test="${regular.creatorId ne memberSession.memberId}">
+								<c:if test="${fn:contains(joinMemberIdList, memberSession.memberId) eq false}">
+									<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId) eq false}">
+										<div class="regular_apply_btn" onclick="applyForm.submit()">신청하기</div>
+									</c:if>
+								</c:if>
+							</c:if> 
+							<!-- 신청한 사람들만 (수락X) 보이게 --> 
+							<c:if test="${regular.creatorId ne memberSession.memberId}">
+								<c:if test="${fn:contains(applyMemberIdList, memberSession.memberId)}">
+									<div class="regular_applyCancel_btn"
+										onclick="applyCancelForm.submit()">신청 취소하기</div>
+								</c:if>
+							</c:if>
+						</td>
+					</c:if>
 				</tr>
 			</table>
 		</form>

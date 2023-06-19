@@ -59,6 +59,15 @@ public class InfoRegularController {
 
 		// 정기적모임 조회
 		Regular regular = regularService.getRegularById(checkedById);
+		
+		// 회원수 == 최대인원 일때 자동 마감
+		if (regular.getNumOfPeople() == regular.getMaxPeople()) {
+			meetingService.closeAndCloseCancelMeeting(checkedById, 1);
+		}
+		else if (regular.getNumOfPeople() < regular.getMaxPeople()){
+			meetingService.closeAndCloseCancelMeeting(checkedById, 0);
+		}
+		regular = regularService.getRegularById(checkedById);
 		mav.addObject("regular", regular);
 
 		// 모임생성자
