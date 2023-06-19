@@ -609,7 +609,7 @@ h3, h4 {
 						<c:if test="${regular.cancel eq 0 && regular.close eq 1}">
 							<c:if test="${regular.creatorId eq memberSession.memberId}">
 								<c:if test="${regular.numOfPeople lt regular.maxPeople}">
-									<div class="regular_cancel_close_btn"
+									<div class="regular_apply_btn"
 										onclick="closeCancelForm.submit()">다시 모집하기</div>
 									<!-- 모임 생성자만 보이게 -->
 								</c:if>
