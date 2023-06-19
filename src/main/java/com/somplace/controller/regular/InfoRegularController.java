@@ -64,7 +64,7 @@ public class InfoRegularController {
 		if (regular.getNumOfPeople() == regular.getMaxPeople()) {
 			meetingService.closeAndCloseCancelMeeting(checkedById, 1);
 		}
-		else if (regular.getNumOfPeople() < regular.getMaxPeople()){
+		else if (regular.getNumOfPeople() < regular.getMaxPeople() && close != 1){
 			meetingService.closeAndCloseCancelMeeting(checkedById, 0);
 		}
 		regular = regularService.getRegularById(checkedById);
