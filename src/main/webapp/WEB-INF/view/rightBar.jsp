@@ -132,55 +132,59 @@
 
 		<script>
 			<c:forEach var='regular' items='${myCalendar.myJoinRegularList}'>
-				var day = "<c:out value='${regular.meetingDay}'/>";
-				var startDate = "<fmt:formatDate pattern='yyyy/MM/dd' value='${regular.startDay}'/>";
-				var startMonth = Number(startDate.slice(-5,-3));
-				var startDay = Number(startDate.slice(-2));
-				var dayStr = '';
-				
-				if(startMonth <= ${myCalendar.month}) {
-					if(day.includes('월'))
-						dayStr += '2';
-					if(day.includes('화'))
-						dayStr += '3';
-					if(day.includes('수'))
-						dayStr += '4';
-					if(day.includes('목'))
-						dayStr += '5';
-					if(day.includes('금'))
-						dayStr += '6';
-					if(day.includes('토'))
-						dayStr += '0';
-					if(day.includes('일'))
-						dayStr += '1';
+				<c:if test='${regular.cancel ne 1}'>
+					var day = "<c:out value='${regular.meetingDay}'/>";
+					var startDate = "<fmt:formatDate pattern='yyyy/MM/dd' value='${regular.startDay}'/>";
+					var startMonth = Number(startDate.slice(-5,-3));
+					var startDay = Number(startDate.slice(-2));
+					var dayStr = '';
 					
-					var dayArr = Array.from(dayStr);
-					for(var i = 0; i < dayArr.length; i++){
-						dayClass = document.getElementsByClassName(dayArr[i]);
-						for(var j = 0; j < dayClass.length; j++){
-							if(startMonth == ${myCalendar.month}){
-								if(Number(dayClass[j].innerHTML) > startDay) {
+					if(startMonth <= ${myCalendar.month}) {
+						if(day.includes('월'))
+							dayStr += '2';
+						if(day.includes('화'))
+							dayStr += '3';
+						if(day.includes('수'))
+							dayStr += '4';
+						if(day.includes('목'))
+							dayStr += '5';
+						if(day.includes('금'))
+							dayStr += '6';
+						if(day.includes('토'))
+							dayStr += '0';
+						if(day.includes('일'))
+							dayStr += '1';
+						
+						var dayArr = Array.from(dayStr);
+						for(var i = 0; i < dayArr.length; i++){
+							dayClass = document.getElementsByClassName(dayArr[i]);
+							for(var j = 0; j < dayClass.length; j++){
+								if(startMonth == ${myCalendar.month}){
+									if(Number(dayClass[j].innerHTML) > startDay) {
+										document.getElementById("input" + dayClass[j].innerHTML).value += "<c:out value='${regular.meetingTitle}'/><br>";
+										dayClass[j].nextElementSibling.nextElementSibling.innerHTML = "◾";
+									}
+								} else {
 									document.getElementById("input" + dayClass[j].innerHTML).value += "<c:out value='${regular.meetingTitle}'/><br>";
 									dayClass[j].nextElementSibling.nextElementSibling.innerHTML = "◾";
 								}
-							} else {
-								document.getElementById("input" + dayClass[j].innerHTML).value += "<c:out value='${regular.meetingTitle}'/><br>";
-								dayClass[j].nextElementSibling.nextElementSibling.innerHTML = "◾";
+									
 							}
-								
 						}
 					}
-				}
+				</c:if>
 			</c:forEach>
 			
 			<c:forEach var='irregular' items='${myCalendar.myJoinIrregularList}'>
-				var date = "<fmt:formatDate pattern='yyyy/MM/dd' value='${irregular.meetingDate}'/>";
-				var month = Number(date.slice(-5,-3));
-				var day = Number(date.slice(-2));
-				if(month == ${myCalendar.month}) {
-					document.getElementById("input" + String(day)).value += "<c:out value='${irregular.meetingTitle}'/><br>";
-					document.getElementById(String(day)).innerHTML = "◾";
-				}
+				<c:if test='${irregular.cancel ne 1}'>
+					var date = "<fmt:formatDate pattern='yyyy/MM/dd' value='${irregular.meetingDate}'/>";
+					var month = Number(date.slice(-5,-3));
+					var day = Number(date.slice(-2));
+					if(month == ${myCalendar.month}) {
+						document.getElementById("input" + String(day)).value += "<c:out value='${irregular.meetingTitle}'/><br>";
+						document.getElementById(String(day)).innerHTML = "◾";
+					}
+				</c:if>
 			</c:forEach>
 			
 			var meetingTitle = document.getElementById("input" + "<c:out value='${myCalendar.today}'/>").value;

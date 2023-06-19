@@ -112,52 +112,6 @@ input[type="submit"]:hover, input[type="button"]:hover {
 	background-color: rgb(174, 220, 175);
 }
 </style>
-
-<script>
-	function checkId() {
-		var memberId = document.querySelector('input[name="memberId"]').value;
-		if(memberId.length == 0 || memberId == "") {
-			alert("아이디를 입력해주세요.");
-			return false;
-		}
-		else if(memberId.length < 4 || memberId.length > 15) {
-			alert("아이디를 다시 입력해주세요.");
-			return false;
-		}
-		
-		$.ajax({
-			url : "/member/join/idCheck",
-			type : "post",
-			data : {"memberId" : memberId},
-			success : function(data){
-				if(data == 0) {
-					alert("사용가능한 아이디입니다.");
-					$("input[name='idCheck']").attr("disabled", true);
-					$("input[name='memberId']").attr("readonly", true);
-				} else {
-					alert("사용불가능한 아이디입니다.");
-				}
-			}
-		})
-	}
-		
-	function createMember(form) {
-		var pw = document.querySelector('input[name="pw"]').value;
-		var pwConfirm = document.querySelector('input[name="pwConfirm"]').value;
-		
-		if (form.idCheck.disabled == false) {
-			alert("아이디 중복체크를 해주세요.");
-			return false;
-		}
-		
-		if (pw != pwConfirm) {
-			alert("비밀번호를 다시 확인해주세요.");
-			return false;
-		}
-		
-		return true;
-	}
-</script>
 </head>
 
 <body>
@@ -238,10 +192,10 @@ input[type="submit"]:hover, input[type="button"]:hover {
 
 				<tr>
 					<th><label for="">생년월일 🎂</label></th>
-					<td colspan="5"><input type="date" name="birth"
-						value="${memberCommand.birth}" required></td>
-					<td><font color="red" size="2"><form:errors
-								path="birth" /></font></td>
+					<td colspan="5"><input type="date" name="birth" value="${memberCommand.birth}" required></td>
+					<td>
+						<font color="red" size="2"><form:errors path="birth" /></font>
+					</td>
 				</tr>
 
 				<tr>
@@ -254,5 +208,56 @@ input[type="submit"]:hover, input[type="button"]:hover {
 			</table>
 		</form:form>
 	</div>
+	
+	<script>
+		var now_utc = Date.now() - 1440*60000;// 지금 날짜를 밀리초로
+		var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
+		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+		document.querySelector('input[type="date"]').setAttribute("max", today);
+		
+		function checkId() {
+			var memberId = document.querySelector('input[name="memberId"]').value;
+			if(memberId.length == 0 || memberId == "") {
+				alert("아이디를 입력해주세요.");
+				return false;
+			}
+			else if(memberId.length < 4 || memberId.length > 15) {
+				alert("아이디를 다시 입력해주세요.");
+				return false;
+			}
+			
+			$.ajax({
+				url : "/member/join/idCheck",
+				type : "post",
+				data : {"memberId" : memberId},
+				success : function(data){
+					if(data == 0) {
+						alert("사용가능한 아이디입니다.");
+						$("input[name='idCheck']").attr("disabled", true);
+						$("input[name='memberId']").attr("readonly", true);
+					} else {
+						alert("사용불가능한 아이디입니다.");
+					}
+				}
+			})
+		}
+			
+		function createMember(form) {
+			var pw = document.querySelector('input[name="pw"]').value;
+			var pwConfirm = document.querySelector('input[name="pwConfirm"]').value;
+			
+			if (form.idCheck.disabled == false) {
+				alert("아이디 중복체크를 해주세요.");
+				return false;
+			}
+			
+			if (pw != pwConfirm) {
+				alert("비밀번호를 다시 확인해주세요.");
+				return false;
+			}
+			
+			return true;
+		}
+	</script>
 </body>
 </html>
