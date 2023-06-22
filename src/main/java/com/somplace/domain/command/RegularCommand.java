@@ -18,4 +18,20 @@ public class RegularCommand extends MeetingCommand {
 	private Date startDay;
 	@NotEmpty(message = "모임 시간을 선택해주세요.")
 	private String meetingTime;
+	
+	public RegularCommand() {
+		super();
+	}
+	
+	public RegularCommand(@Size(min = 1, max = 40, message = "10자 이내로 입력해주세요.") String meetingName,
+			@NotEmpty(message = "모임 날짜를 선택해주세요.") String regularMeetingDay, Date startDay,
+			@NotEmpty(message = "모임 시간을 선택해주세요.") String meetingTime) {
+		super();
+		this.meetingName = meetingName;
+		this.regularMeetingDay = regularMeetingDay;
+		this.startDay = startDay;
+		this.meetingTime = meetingTime;
+	}
+	
+	
 }

@@ -447,9 +447,7 @@ button {
             }
 	        
             var retVal = confirm("수정하시겠습니까?");
-            if (retVal == true) {
-            	alert("수정되었습니다.");
-            } else {
+            if (retVal == false) {
             	alert("수정취소되었습니다.");
             }
             return retVal;
