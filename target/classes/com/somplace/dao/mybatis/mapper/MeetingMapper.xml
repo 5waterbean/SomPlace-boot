@@ -165,4 +165,15 @@
 			#{item}
 		</foreach>
 	</select>
+	
+	<!-- 모임 아이디로 모임 인원수 수정 -->
+	<select id="minusNumOfPeople" parameterType="java.util.List">
+		UPDATE MEETING
+		SET NUMOFPEOPLE = NUMOFPEOPLE - 1
+		WHERE MEETINGID IN
+		<foreach collection="meetingIdList" item="item" separator=","
+			open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
 </mapper>

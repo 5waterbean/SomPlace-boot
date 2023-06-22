@@ -58,4 +58,7 @@ public interface MeetingDao {
 	
 	// 모임 아이디로 모임 목록 조회
 	public List<Meeting> getMyMeetingList(List<Integer> meetingIdList) throws DataAccessException;
+
+	// 모임 아이디로 모임 인원수 수정
+	public void minusNumOfPeople(List<Integer> meetingIdList) throws DataAccessException;
 }
