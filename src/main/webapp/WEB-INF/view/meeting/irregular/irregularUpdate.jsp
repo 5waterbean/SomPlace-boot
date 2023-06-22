@@ -395,8 +395,8 @@ button {
             }
             
             var r = confirm("수정하시겠습니까?");
-            if (r == true) {
-                alert("수정되었습니다.")
+            if (r == false) {
+                alert("수정취소되었습니다.")
             } 
             return r;
 		}
