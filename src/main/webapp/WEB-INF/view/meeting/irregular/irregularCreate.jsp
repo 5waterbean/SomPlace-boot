@@ -218,7 +218,7 @@ button {
 				<tr>
 					<th>모임 메모</th>
 					<td colspan="3"><textarea class="irregular_memo" id="memo"
-							name="memo" placeholder="모임 상세 정보 등을 60자 이내로 자유롭게 작성해주세요."></textarea></td>
+							name="memo" placeholder="모임 상세 정보 등을 60자 이내로 자유롭게 작성해주세요.">${meetingCommand.memo}</textarea></td>
 				</tr>
 				<tr>
 					<th>카테고리</th>
@@ -347,21 +347,18 @@ button {
         	mealEtcTextDetail.required = true;
         	if (mealEtc.value != "") {
         		mealEtc.value = mealEtcTextDetail.value;
-        		detailValue.value = mealEtcTextDetail.value;
         	}
         }
         if (studyEtc.checked) {
         	studyEtcTextDetail.required = true;
         	if (studyEtc.value != "") {
         		studyEtc.value = studyEtcTextDetail.value;
-        		detailValue.value = studyEtcTextDetail.value;
         	}
         }
         if (hobbyEtc.checked) {
         	hobbyEtcTextDetail.required = true;
         	if (hobbyEtc.value != "") {
         		hobbyEtc.value = hobbyEtcTextDetail.value;
-        		detailValue.value = hobbyEtcTextDetail.value;
         	}
         }
         
@@ -374,8 +371,8 @@ button {
         }
         
         var r = confirm("생성하시겠습니까?");
-        if (r == true) {
-            alert("생성되었습니다.")
+        if (r == false) {
+            alert("취소되었습니다.")
         } 
         return r;
     }
