@@ -205,7 +205,6 @@ button {
 						<div class="regular_dayTime">
 							<div>
 								<h4>- 매주</h4>
-								<font color="red" size="2"><form:errors path="regularMeetingDay" /></font>
 							</div>
 
 							<div>
@@ -237,8 +236,6 @@ button {
 
 							<div>
 								<h4>- 시간대</h4>
-								<font color="red" size="2"><form:errors
-										path="meetingTime" /></font>
 							</div>
 
 							<div>
@@ -294,10 +291,9 @@ button {
 
 				<tr>
 					<td></td>
-					<td><font color="red" size="2"><form:errors
-								path="meetingInfoDetail" /></font> <c:set var="detailList"
-							value="${detailList}" /> <c:choose>
-
+					<td>
+						<c:set var="detailList" value="${detailList}" /> 
+							<c:choose>
 							<c:when test="${regular.meetingInfo eq '식사'}">
 								<div class="meeting_info_detail_td" id="mealDetail">
 									<div>
