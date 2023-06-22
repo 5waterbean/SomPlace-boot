@@ -39,7 +39,7 @@ public class CreateRegualrController {
 	
 	// 정기적 모임 생성 폼 제출 (POST)
 	@PostMapping
-	public ModelAndView createRegular(@Valid @ModelAttribute("meetingCommand") RegularCommand meetingCommand, 
+	public ModelAndView createRegular(@Valid @ModelAttribute RegularCommand regularCommand, 
 			BindingResult result) {
 		ModelAndView mav = new ModelAndView("redirect:/meeting/sort/all");
 		
@@ -47,14 +47,14 @@ public class CreateRegualrController {
 			mav = new ModelAndView("meeting/regular/regularCreate");
 		} else {
 			// Meeting 생성
-			meetingService.createMeeting(meetingCommand);
+			meetingService.createMeeting(regularCommand);
 			
 			// meetingId 연결
-			int meetingId = meetingService.getMeetingId(meetingCommand);
-			meetingCommand.setMeetingId(meetingId);
+			int meetingId = meetingService.getMeetingId(regularCommand);
+			regularCommand.setMeetingId(meetingId);
 			
 			// regularMeeting 생성
-			regularService.createRegular(meetingCommand);			
+			regularService.createRegular(regularCommand);			
 		}					
 		
 		return mav;

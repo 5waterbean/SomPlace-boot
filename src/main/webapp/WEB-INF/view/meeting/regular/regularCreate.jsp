@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -152,8 +152,8 @@ button {
 	<jsp:include page="/WEB-INF/view/rightBar.jsp" />
 
 	<div class="container">
-		<form:form action="/meeting/regular/create" method="post"
-			modelAttribute="meetingCommand" onSubmit="return create(this)">
+		<form:form action="/meeting/regular/create"
+			modelAttribute="regularCommand" onSubmit="return create(this)">
 			<div>
 				<h2>정기적 모임 만들기</h2>
 			</div>
@@ -212,8 +212,7 @@ button {
 						<div class="regular_dayTime">
 							<div>
 								<h4>- 매주</h4>
-								<font color="red" size="2"><form:errors
-										path="regularMeetingDay" /></font>
+								<font color="red" size="2"><form:errors path="regularMeetingDay" /></font>
 							</div>
 
 							<div>
@@ -397,7 +396,7 @@ button {
 		var hobbyEtc = document.querySelector("#hobbyEtc");
 		var hobbyEtcTextDetail = document.querySelector('#hobbyEtcTextDetail');
 		
-	    function create() {
+	    function create(form) {
             if (mealEtc.checked) {
             	mealEtcTextDetail.required = true;
             	if (mealEtc.value != "") {
@@ -427,11 +426,8 @@ button {
             }
             
             var retVal = confirm("생성하시겠습니까?");
-            if (retVal == true) {
-            	alert("생성되었습니다.");
-            }
-            else {
-            	alert("생성취소되었습니다.");
+            if (retVal == false) {
+            	alert("취소되었습니다.");
             }
             return retVal;
         }
