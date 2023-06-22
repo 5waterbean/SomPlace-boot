@@ -60,4 +60,7 @@ public interface MeetingMapper {
 	
 	// 모임 아이디로 모임 목록 조회
 	List<Meeting> getMyMeetingList(List<Integer> meetingIdList);
+	
+	// 모임 아이디로 모임 인원수 수정
+	void minusNumOfPeople(List<Integer> meetingIdList);
 }

@@ -105,4 +105,9 @@ public class MybatisMeetingDao implements MeetingDao {
 	public List<Meeting> getMyMeetingList(List<Integer> meetingIdList) throws DataAccessException {
 		return meetingMapper.getMyMeetingList(meetingIdList);
 	}
+	
+	// 모임 아이디로 모임 인원수 수정
+	public void minusNumOfPeople(List<Integer> meetingIdList) throws DataAccessException {
+		meetingMapper.minusNumOfPeople(meetingIdList);
+	}
 }
