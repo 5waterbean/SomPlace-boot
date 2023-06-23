@@ -205,30 +205,29 @@ button {
 						<div class="regular_dayTime">
 							<div>
 								<h4>- 매주</h4>
-								<font><form:errors path="regularMeetingDay" /></font>
 							</div>
 
 							<div>
 								<c:set var="meetingdayList" value="${meetingdayList}" />
-								<input type="checkbox" id="regularDay" value="월"
+								<input type="checkbox" id="regularDay1" value="월"
 									name="regularMeetingDay"
 									<c:if test="${fn:contains(meetingdayList, '월')}" > checked</c:if>>월&nbsp;&nbsp;
-								<input type="checkbox" id="regularDay" value="화"
+								<input type="checkbox" id="regularDay2" value="화"
 									name="regularMeetingDay"
 									<c:if test="${fn:contains(meetingdayList, '화')}" > checked</c:if>>화&nbsp;&nbsp;
-								<input type="checkbox" id="regularDay" value="수"
+								<input type="checkbox" id="regularDay3" value="수"
 									name="regularMeetingDay"
 									<c:if test="${fn:contains(meetingdayList, '수')}" > checked</c:if>>수&nbsp;&nbsp;
-								<input type="checkbox" id="regularDay" value="목"
+								<input type="checkbox" id="regularDay4" value="목"
 									name="regularMeetingDay"
 									<c:if test="${fn:contains(meetingdayList, '목')}" > checked</c:if>>목&nbsp;&nbsp;
-								<input type="checkbox" id="regularDay" value="금"
+								<input type="checkbox" id="regularDay5" value="금"
 									name="regularMeetingDay"
 									<c:if test="${fn:contains(meetingdayList, '금')}" > checked</c:if>>금&nbsp;&nbsp;
-								<input type="checkbox" id="regularDay" value="토"
+								<input type="checkbox" id="regularDay6" value="토"
 									name="regularMeetingDay"
 									<c:if test="${fn:contains(meetingdayList, '토')}" > checked</c:if>>토&nbsp;&nbsp;
-								<input type="checkbox" id="regularDay" value="일"
+								<input type="checkbox" id="regularDay7" value="일"
 									name="regularMeetingDay"
 									<c:if test="${fn:contains(meetingdayList, '일')}" > checked</c:if>>일&nbsp;&nbsp;
 							</div>
@@ -237,22 +236,20 @@ button {
 
 							<div>
 								<h4>- 시간대</h4>
-								<font color="red" size="2"><form:errors
-										path="meetingTime" /></font>
 							</div>
 
 							<div>
 								<c:set var="meetingTimeList" value="${meetingTimeList}" />
-								<input id="regularTime" type="checkbox" value="06-12"
+								<input id="regularTime1" type="checkbox" value="06-12"
 									name="meetingTime"
 									<c:if test="${fn:contains(meetingTimeList, '06-12')}" > checked</c:if>>06-12&nbsp;&nbsp;
-								<input id="regularTime" type="checkbox" value="12-18"
+								<input id="regularTime2" type="checkbox" value="12-18"
 									name="meetingTime"
 									<c:if test="${fn:contains(meetingTimeList, '12-18')}" > checked</c:if>>12-18&nbsp;&nbsp;
-								<input id="regularTime" type="checkbox" value="18-24"
+								<input id="regularTime3" type="checkbox" value="18-24"
 									name="meetingTime"
 									<c:if test="${fn:contains(meetingTimeList, '18-24')}" > checked</c:if>>18-24&nbsp;&nbsp;
-								<input id="regularTime" type="checkbox" value="00-06"
+								<input id="regularTime4" type="checkbox" value="00-06"
 									name="meetingTime"
 									<c:if test="${fn:contains(meetingTimeList, '00-06')}" > checked</c:if>>00-06&nbsp;&nbsp;
 							</div>
@@ -294,10 +291,9 @@ button {
 
 				<tr>
 					<td></td>
-					<td><font color="red" size="2"><form:errors
-								path="meetingInfoDetail" /></font> <c:set var="detailList"
-							value="${detailList}" /> <c:choose>
-
+					<td>
+						<c:set var="detailList" value="${detailList}" /> 
+							<c:choose>
 							<c:when test="${regular.meetingInfo eq '식사'}">
 								<div class="meeting_info_detail_td" id="mealDetail">
 									<div>
@@ -437,6 +433,7 @@ button {
 			</table>
 		</form:form>
 	</div>
+	<script src="./jquery-3.4.1.min.js"></script>
 	<script>		
 		
 		function update() {			        
@@ -445,6 +442,36 @@ button {
             	alert("메모를 60자 이내로 입력해주세요");
             	return false;
             }
+	        
+	        var dayChecked = false;
+	        for (var i = 1; i <= 7; i++) {
+	        	var dayId = "regularDay" + i;
+	        	var day = document.getElementById(dayId);
+	  
+	        	if (day.checked == true) {
+	        		dayChecked = true;
+	        		break;
+	        	}
+	        }
+	        if (dayChecked == false) {
+	        	alert("요일을 선택해주세요");
+	        	return false;
+	        }
+	        
+	        var timeChecked = false;
+	        for (var i = 1; i <= 4; i++) {
+	        	var timeId = "regularTime" + i;
+	        	var time = document.getElementById(timeId);
+	  
+	        	if (time.checked == true) {
+	        		timeChecked = true;
+	        		break;
+	        	}
+	        }
+	        if (timeChecked == false) {
+	        	alert("시간대를 선택해주세요");
+	        	return false;
+	        }
 	        
             var retVal = confirm("수정하시겠습니까?");
             if (retVal == false) {

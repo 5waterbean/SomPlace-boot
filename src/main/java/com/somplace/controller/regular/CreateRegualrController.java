@@ -34,7 +34,7 @@ public class CreateRegualrController {
 	// 일시적 모임 생성 폼 -> 정기적 모임 생성 폼 이동 (GET)
 	@GetMapping("/form")
 	public String form() {
-		return "/meeting/regular/regularCreate";
+		return "meeting/regular/regularCreate";
 	}
 	
 	// 정기적 모임 생성 폼 제출 (POST)

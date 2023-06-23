@@ -186,23 +186,23 @@ button {
 					<th>제목</th>
 					<td colspan="3"><input type="text" id="title"
 						name="meetingTitle" title="15자 이내로 입력해주세요" pattern=".{1,15}"
-						size="120" required></td>
+						value="${regularCommand.meetingTitle}" size="120" required></td>
 				</tr>
 
 				<tr>
 					<th>모임 이름</th>
 					<td><input type="text" name="meetingName"
-						title="15자 이내로 입력해주세요" pattern=".{1,15}" required> <font
+						title="15자 이내로 입력해주세요" pattern=".{1,15}"  value="${regularCommand.meetingName}" required> <font
 						color="red" size="2"><form:errors path="meetingName" /></font></td>
 					<td style="text-align: right;"><strong>모집 인원</strong></td>
-					<td><input type="number" name="maxPeople" min="2" max="10"
+					<td><input type="number" name="maxPeople" min="2" max="10"  value="${regularCommand.maxPeople}"
 						value="" required> <strong>명</strong></td>
 				</tr>
 
 				<tr>
 					<th>모임 장소</th>
 					<td colspan="3"><input type="text" id="meetingPlace"
-						name="meetingPlace" title="15자 이내로 입력해주세요" pattern=".{1,15}"
+						name="meetingPlace" title="15자 이내로 입력해주세요" pattern=".{1,15}"  value="${regularCommand.meetingPlace}"
 						size="70" required></td>
 				</tr>
 
@@ -254,7 +254,7 @@ button {
 							</div>
 
 							<div class="start_day">
-								<input type="date" name="startDay" value="">
+								<input type="date" name="startDay"  value="${regularCommand.startDay}">
 							</div>
 
 							<br>
@@ -362,8 +362,8 @@ button {
 								</label>
 							</div>
 						</div></td>
-					<td colspan="2"><textarea class="regular_memo" name="memo"
-							id="memo" placeholder="모임 상세 정보 등을 자유롭게 작성해주세요."></textarea></td>
+					<td colspan="2"><textarea class="regular_memo" name="memo" 
+							id="memo" placeholder="모임 상세 정보 등을 자유롭게 작성해주세요.">${regularCommand.memo}</textarea></td>
 
 				</tr>
 
@@ -401,21 +401,18 @@ button {
             	mealEtcTextDetail.required = true;
             	if (mealEtc.value != "") {
             		mealEtc.value = mealEtcTextDetail.value;
-            		detailValue.value = mealEtcTextDetail.value;
             	}
             }
             if (studyEtc.checked) {
             	studyEtcTextDetail.required = true;
             	if (studyEtc.value != "") {
             		studyEtc.value = studyEtcTextDetail.value;
-            		detailValue.value = studyEtcTextDetail.value;
             	}
             }
             if (hobbyEtc.checked) {
             	hobbyEtcTextDetail.required = true;
             	if (hobbyEtc.value != "") {
             		hobbyEtc.value = hobbyEtcTextDetail.value;
-            		detailValue.value = hobbyEtcTextDetail.value;
             	}
             }
             
